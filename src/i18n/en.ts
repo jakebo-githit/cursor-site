@@ -10,6 +10,7 @@ const enTranslations = {
     technology: "POCS Technology",
     clinic: "Clinic Info",
     cases: "Case Studies",
+    blog: "Medical Blog",
     articles: "Articles",
     faq: "FAQ",
     contact: "Contact",

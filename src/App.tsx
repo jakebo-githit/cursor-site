@@ -17,6 +17,8 @@ import AssessmentPage from './pages/AssessmentPage';
 import CasesPage from './pages/CasesPage';
 import ArticlesPage from './pages/ArticlesPage';
 import ArticleDetailPage from './pages/ArticleDetailPage';
+import BlogPage from './pages/BlogPage';
+import BlogDetailPage from './pages/BlogDetailPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 
@@ -55,6 +57,8 @@ function App() {
             <Route path="/articles/dietary-guidance" element={<DietaryGuidance />} />
             <Route path="/articles/liver-health" element={<LiverHealth />} />
             <Route path="/articles/post-surgery-recovery" element={<PostSurgeryRecovery />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>

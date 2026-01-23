@@ -10,6 +10,7 @@ const zhTranslations = {
     technology: "POCS技术",
     clinic: "门诊信息",
     cases: "手术案例",
+    blog: "医学博客",
     articles: "医学科普",
     faq: "常见问题",
     contact: "联系方式",

@@ -35,6 +35,7 @@ const Header = () => {
     { name: t('common.technology'), path: '/technology' },
     { name: t('common.clinic'), path: '/clinic' },
     { name: t('common.cases'), path: '/cases' },
+    { name: t('common.blog'), path: '/blog' },
     { name: t('common.articles'), path: '/articles' },
     { name: t('common.faq'), path: '/faq' },
     { name: t('common.contact'), path: '/contact' },
