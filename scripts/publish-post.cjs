@@ -40,7 +40,7 @@ function parseMarkdownMetadata(content) {
 
   for (let i = 0; i < Math.min(lines.length, 20); i++) {
     const line = lines[i].trim();
-    if (line.startsWith('# ') {
+    if (line.startsWith('#')) {
       title = line.substring(1).trim();
       break;
     }
@@ -50,7 +50,7 @@ function parseMarkdownMetadata(content) {
   let excerptStart = false;
   for (let i = 0; i < lines.length && excerptStart === false; i++) {
     const line = lines[i].trim();
-    if (line.startsWith('# ' && line !== title) {
+    if (line.startsWith('#')) {
       continue;
     }
     if (line && !line.startsWith('#') && !line.startsWith('>') && !line.startsWith('-') && !line.startsWith('|')) {
@@ -164,7 +164,7 @@ function main() {
   metadata.categoryEn = categoryEn;
 
   // 移动草稿到发布目录
-  console.log(`移动草稿到发布目录: ${draftFilename} → published/`);
+  console.log(`移动草稿到发布目录: ${draftFilename} -> published/`);
   fs.writeFileSync(publishedFilePath, draftContent, 'utf8');
 
   // 更新 blog-posts.ts
@@ -177,7 +177,7 @@ function main() {
     console.log(`✗ 文章ID已存在，跳过添加元数据`);
   } else {
     // 找到 blogPosts 数组的最后一个元素的结束位置
-    const arrayEndMatch = blogPostsContent.lastIndexOf('];');
+    const arrayEndMatch = blogPostsContent.lastIndexOf(']');
     if (arrayEndMatch === -1) {
       arrayEndMatch = blogPostsContent.lastIndexOf(']');
     }
