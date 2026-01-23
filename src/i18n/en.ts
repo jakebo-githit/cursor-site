@@ -14,6 +14,7 @@ const enTranslations = {
     articles: "Articles",
     faq: "FAQ",
     contact: "Contact",
+    drafts: "Drafts",
     published_date: "Published: {{date}}",
     back_to_articles: "Back to Articles"
   },

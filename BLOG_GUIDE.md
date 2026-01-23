@@ -8,8 +8,68 @@
 
 - 博客列表页：`/blog`
 - 博客详情页：`/blog/:文章ID`
+- 草稿管理页：`/blog/drafts`
 
-## 如何添加新文章
+---
+
+## 一、自动生成博客草稿
+
+### 使用脚本快速生成草稿
+
+运行自动生成脚本：
+
+```bash
+node scripts/generate-blog-post.cjs
+```
+
+脚本会自动：
+1. 随机选择一个肝胆、胆囊、结石相关的主题
+2. 生成文章结构和内容
+3. 创建 Markdown 文件并保存到草稿目录
+4. 提供元数据配置代码
+
+### 生成的文件位置
+
+```
+public/blog-posts/drafts/文章ID.md
+```
+
+### 下一步操作
+
+脚本运行后会提示下一步操作：
+
+1. 查看并编辑生成的草稿文件
+2. 根据实际情况修改文章内容
+3. 将文件从 `drafts` 目录移动到 `blog-posts` 目录
+4. 在 `src/data/blog-posts.ts` 中添加元数据配置
+5. 测试：`npm run dev`
+6. 提交：`git add && git commit && git push`
+
+---
+
+## 二、草稿管理界面
+
+访问 `/blog/drafts` 可查看和管理所有草稿。
+
+### 功能说明
+
+#### 状态管理
+- **草稿**：新创建的文章
+- **审核中**：准备发布，需要最终审核
+- **已发布**：已正式发布的文章
+
+#### 快捷操作
+- 点击编辑图标（👁️）标记为审核中
+- 点击删除图标（🗑️）删除草稿
+- 点击编辑按钮进入编辑页面
+
+#### 筛选功能
+- 按状态筛选（全部/草稿/审核中/已发布）
+- 按标题搜索
+
+---
+
+## 三、手动添加文章
 
 ### 步骤 1：添加文章元数据
 
@@ -80,6 +140,8 @@ Markdown 文件格式示例：
 - 粗体：`**粗体**`
 - 斜体：`*斜体*`
 
+---
+
 ## 博客功能
 
 ### 博客列表页 (/blog)
@@ -97,13 +159,62 @@ Markdown 文件格式示例：
 - 阅读时间计算
 - 发布日期显示
 
+### 草稿管理页 (/blog/drafts)
+- 查看所有草稿
+- 按状态筛选
+- 搜索草稿
+- 管理草稿状态
+
+---
+
+## 文章主题参考
+
+自动生成脚本会从以下主题中随机选择：
+
+### 中文主题
+- 胆结石治疗
+- 胆囊疾病
+- 肝胆健康
+- 胆道疾病
+- 肝胆外科
+- 肝胆结石
+- 胆道微创手术
+- POCS技术
+- 胆道结石预防
+- 肝胆营养
+- 胆囊保胆手术
+
+### 英文主题
+- gallstone treatment
+- gallbladder disease
+- hepatobiliary health
+- bile duct disease
+- gallbladder surgery
+- liver gallstones
+- minimally invasive biliary surgery
+- POCS technology
+
+---
+
+## 常用分类
+
+- 胆结石预防 (Gallstone Prevention)
+- 肝胆健康 (Hepatobiliary Health)
+- 饮食指导 (Dietary Guidance)
+- 术后护理 (Post-operative Care)
+- 技术介绍 (Technology Introduction)
+- 病例分析 (Case Analysis)
+- 康复指导 (Rehabilitation Guide)
+
+---
+
 ## 已创建的示例文章
 
 已创建以下示例文章：
 
-1. `gallstone-prevention.md` - 胆结石形成的原因及预防措施
-2. `dietary-guidance.md` - POCS手术前后的饮食指导
-3. `pocs-vs-traditional.md` - POCS技术与传统手术的对比
+1. `pocs-vs-traditional.md` - POCS技术与传统手术的对比
+
+---
 
 ## 文章图片
 
@@ -113,34 +224,50 @@ Markdown 文件格式示例：
 imageUrl: '/images/your-image.jpg'
 ```
 
-## 常用分类
-
-- 胆结石预防
-- 饮食指导
-- 肝胆健康
-- 术后护理
-- 技术介绍
-- 病例分析
-- 康复指导
+---
 
 ## 测试博客
 
 本地测试：
+
 ```bash
 npm run dev
 ```
 
-访问：http://localhost:5173/blog
+访问：
+- http://localhost:5173/blog - 博客列表
+- http://localhost:5173/blog/drafts - 草稿管理
 
-## 构建和部署
+---
 
-```bash
-# 构建生产版本
-npm run build
+## 自动化工作流程
 
-# 部署到 GitHub Pages
-npm run deploy
-```
+### 每日文章更新流程
+
+1. **生成草稿**
+   ```bash
+   node scripts/generate-blog-post.cjs
+   ```
+
+2. **编辑内容**
+   - 打开生成的草稿文件
+   - 根据最新研究和热点调整内容
+   - 添加专业见解和案例
+
+3. **发布文章**
+   - 移动文件到 `public/blog-posts/`
+   - 添加元数据到 `src/data/blog-posts.ts`
+   - 测试预览
+
+4. **部署上线**
+   ```bash
+   git add .
+   git commit -m "Add new blog post"
+   git push origin master
+   ```
+   Vercel 会自动部署
+
+---
 
 ## 注意事项
 
@@ -149,6 +276,10 @@ npm run deploy
 3. **Markdown 文件名**：必须与文章 ID 完全一致
 4. **图片路径**：使用绝对路径 `/images/...`
 5. **中英文对应**：确保中英文内容都填写完整
+6. **草稿位置**：未审核的文章放在 `drafts` 目录
+7. **发布前检查**：确保内容准确、格式正确
+
+---
 
 ## 导航菜单
 

@@ -14,6 +14,7 @@ const zhTranslations = {
     articles: "医学科普",
     faq: "常见问题",
     contact: "联系方式",
+    drafts: "草稿管理",
     published_date: "发布日期：{{date}}",
     back_to_articles: "返回文章列表"
   },
