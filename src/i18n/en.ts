@@ -12,6 +12,7 @@ const enTranslations = {
     cases: "Case Studies",
     blog: "Medical Blog",
     articles: "Articles",
+    freeGuide: "Free Guide",
     faq: "FAQ",
     contact: "Contact",
     drafts: "Drafts",

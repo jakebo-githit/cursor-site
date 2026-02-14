@@ -12,6 +12,7 @@ const zhTranslations = {
     cases: "手术案例",
     blog: "医学博客",
     articles: "医学科普",
+    freeGuide: "免费指南",
     faq: "常见问题",
     contact: "联系方式",
     drafts: "草稿管理",
