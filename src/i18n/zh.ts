@@ -297,7 +297,7 @@ const zhTranslations = {
     title: "联系我们",
     subtitle: "欢迎通过以下方式联系刘波主任",
     email: "电子邮箱",
-    emailAddress: "asdrliu@outlook.com",
+    emailAddress: "askdrliu@askdrliu.com",
     wechat: "微信咨询",
     wechatPrompt: "扫描下方二维码添加医助微信",
     form: {

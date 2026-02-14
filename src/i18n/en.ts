@@ -297,7 +297,7 @@ const enTranslations = {
     title: "Contact Us",
     subtitle: "Welcome to contact Dr. Liu Bo through the following methods",
     email: "Email",
-    emailAddress: "asdrliu@outlook.com",
+    emailAddress: "askdrliu@askdrliu.com",
     wechat: "WeChat Consultation",
     wechatPrompt: "Scan the QR code below to add the medical assistant's WeChat",
     form: {

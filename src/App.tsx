@@ -22,6 +22,7 @@ import BlogDetailPage from './pages/BlogDetailPage';
 import BlogDraftsPage from './pages/BlogDraftsPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
+import FreeGuidePage from './pages/FreeGuidePage';
 
 // 具体文章页面
 import GallstonePrevention from './pages/articles/GallstonePrevention';
@@ -63,6 +64,7 @@ function App() {
             <Route path="/blog/drafts" element={<BlogDraftsPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/free-guide" element={<FreeGuidePage />} />
           </Routes>
         </main>
         <Footer />
