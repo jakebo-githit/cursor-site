@@ -23,7 +23,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[60vh] md:min-h-[68vh] flex items-center">
+    <section className="relative min-h-[46vh] md:min-h-[52vh] flex items-center">
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0" 
@@ -36,7 +36,7 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 pt-16 md:pt-20 z-10 relative">
+      <div className="container mx-auto px-4 pt-14 md:pt-16 z-10 relative">
         <motion.div 
           className="max-w-3xl text-white"
           variants={container}
@@ -45,21 +45,21 @@ const HeroSection = () => {
         >
           <motion.h1 
             variants={item}
-            className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold mb-3"
           >
             {t('home.hero.title')}
           </motion.h1>
 
           <motion.p 
             variants={item}
-            className="text-xl md:text-2xl mb-4 text-gray-200"
+            className="text-lg md:text-xl mb-3 text-gray-200"
           >
             {t('home.hero.subtitle')}
           </motion.p>
 
           <motion.p 
             variants={item}
-            className="text-2xl md:text-3xl mb-8 font-serif italic"
+            className="text-xl md:text-2xl mb-6 font-serif italic"
           >
             {t('home.hero.doctorName')}
           </motion.p>
@@ -75,21 +75,7 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div 
-        className="hidden md:block absolute bottom-6 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5 }}
-      >
-        <motion.div 
-          className="w-6 h-10 border-2 border-white rounded-full flex justify-center p-1"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          <div className="w-1 h-3 bg-white rounded-full"></div>
-        </motion.div>
-      </motion.div>
+      {/* Scroll indicator removed for tighter first screen */}
     </section>
   );
 };
