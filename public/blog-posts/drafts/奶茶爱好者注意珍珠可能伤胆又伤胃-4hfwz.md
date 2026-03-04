@@ -83,3 +83,10 @@ status: draft
 ***
 
 ⚠️ **免责声明：** 本文仅供医学科普参考，不构成个人诊疗建议。如您有相关症状或疑虑，请及时就诊于正规医疗机构，遵从医生的专业指导。
+
+## 相关阅读
+- [胆囊术后饮食指南](/blog/2026-03-04-cholecystectomy-diet)
+- [POCS技术与传统手术对比](/blog/pocs-vs-traditional)
+- [门诊信息与预约](/clinic)
+- [胆囊保留自我评估](/assessment)
+
