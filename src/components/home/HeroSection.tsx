@@ -23,7 +23,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[46vh] md:min-h-[52vh] flex items-center">
+    <section className="relative pt-24 pb-16 md:pt-28 md:pb-24 flex items-center">
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0" 
@@ -36,7 +36,7 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 pt-14 md:pt-16 z-10 relative">
+      <div className="container mx-auto px-4 z-10 relative">
         <motion.div 
           className="max-w-3xl text-white"
           variants={container}
