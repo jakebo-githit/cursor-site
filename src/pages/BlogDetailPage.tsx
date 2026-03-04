@@ -41,6 +41,11 @@ const BlogDetailPage = () => {
     return isEnglish ? `${minutes} min read` : `${minutes} 分钟阅读`;
   };
 
+  // 剥离 frontmatter（--- ... --- 块）
+  const stripFrontmatter = (content: string): string => {
+    return content.replace(/^---[\s\S]*?---\r?\n/, '');
+  };
+
   // 加载 Markdown 内容
   useEffect(() => {
     const loadMarkdownContent = async () => {
@@ -56,7 +61,7 @@ const BlogDetailPage = () => {
 
         if (response.ok) {
           const text = await response.text();
-          setMarkdownContent(text);
+          setMarkdownContent(stripFrontmatter(text));
         } else {
           // 如果 public 目录没有，显示默认内容
           setMarkdownContent(getDefaultMarkdownContent(article, isEnglish));
@@ -177,7 +182,7 @@ ${excerpt}
           >
             <div className="flex items-center gap-2">
               <User size={16} />
-              <span>{article.author || (isEnglish ? 'Dr. Liu Bo' : '刘波主任')}</span>
+              <span>{article.author || 'AskDrLiu.com'}</span>
             </div>
             {article.date && (
               <div className="flex items-center gap-2">

@@ -26,7 +26,7 @@ export const blogPosts: BlogPost[] = [
     category: '胆囊健康',
     categoryEn: 'Gallbladder Health',
     imageUrl: '/images/blog/blog-cholecystectomy-diet-cover.jpg',
-    author: '刘波主任'
+    author: 'AskDrLiu.com'
   },
   {
     id: 'pocs-vs-traditional',
