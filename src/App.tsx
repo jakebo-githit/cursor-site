@@ -12,7 +12,7 @@ import ScrollToTop from './components/common/ScrollToTop';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import TechnologyPage from './pages/TechnologyPage';
-import ClinicPage from './pages/ClinicPage';
+
 import AssessmentPage from './pages/AssessmentPage';
 import CasesPage from './pages/CasesPage';
 import ArticlesPage from './pages/ArticlesPage';
@@ -50,7 +50,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/technology" element={<TechnologyPage />} />
-            <Route path="/clinic" element={<ClinicPage />} />
+
             <Route path="/assessment" element={<AssessmentPage />} />
             <Route path="/cases" element={<CasesPage />} />
             <Route path="/articles" element={<ArticlesPage />} />

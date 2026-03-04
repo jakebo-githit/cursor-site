@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Clock, Send, Check } from 'lucide-react';
+import { Mail, Send, Check } from 'lucide-react';
 import SectionHeader from '../components/common/SectionHeader';
 
 const ContactPage = () => {
@@ -105,27 +105,10 @@ const ContactPage = () => {
                   </div>
                 </div>
 
-                {/* Address */}
-                <div className="flex items-start">
-                  <div className="p-3 rounded-full bg-primary-100 text-primary-700 mr-4">
-                    <MapPin size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-primary-900 mb-1">{t('contact.address')}</h3>
-                    <p className="text-xl font-semibold text-gray-800 mb-1">{t('contact.addressContent')}</p>
-                    <p className="text-gray-600">{t('contact.transportationContent')}</p>
-                  </div>
-                </div>
-
-                {/* Clinic Hours */}
-                <div className="flex items-start">
-                  <div className="p-3 rounded-full bg-primary-100 text-primary-700 mr-4">
-                    <Clock size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-primary-900 mb-1">{t('clinic.schedule')}</h3>
-                    <p className="text-xl font-semibold text-gray-800">{t('clinic.scheduleContent')}</p>
-                  </div>
+                <div className="rounded-lg bg-primary-50 border border-primary-100 p-4 text-primary-900">
+                  {t('common.home') === 'Home'
+                    ? 'This personal website focuses on POCS technology education and medical content sharing. No clinic scheduling information is provided here.'
+                    : '本网站为个人网站，聚焦 POCS 技术科普与内容分享，不提供门诊排班与挂号信息。'}
                 </div>
               </div>
             </motion.div>
@@ -238,30 +221,7 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-12 md:py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <SectionHeader
-            title={t('common.home') === 'Home' ? 'Find Us' : '找到我们'}
-            centered
-          />
-<iframe
-  src="https://api.map.baidu.com/lbsapi/cloudmap/demo.html?location=113.478634,23.176675&title=中山大学附属第三医院岭南医院&content=广州市黄埔区开创大道2693号"
-  width="100%"
-  height="100%"
-  style={{ border: 0 }}
-  allowFullScreen
-></iframe>
 
-          <div className="mt-8 text-center">
-            <p className="text-gray-700 max-w-2xl mx-auto">
-              {t('common.home') === 'Home' 
-                ? 'Located in central Guangzhou, our clinic is easily accessible by public transportation. We are committed to providing high-quality medical services to patients from all over China and abroad.' 
-                : '位于广州市中心，我们的诊所交通便利。我们致力于为来自中国各地和海外的患者提供高质量的医疗服务。'}
-            </p>
-          </div>
-        </div>
-      </section>
     </>
   );
 };

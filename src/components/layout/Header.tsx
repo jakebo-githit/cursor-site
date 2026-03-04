@@ -33,7 +33,6 @@ const Header = () => {
     { name: t('common.home'), path: '/' },
     { name: t('common.about'), path: '/about' },
     { name: t('common.technology'), path: '/technology' },
-    { name: t('common.clinic'), path: '/clinic' },
     { name: t('common.cases'), path: '/cases' },
     { name: t('common.blog'), path: '/blog' },
     { name: t('common.articles'), path: '/articles' },

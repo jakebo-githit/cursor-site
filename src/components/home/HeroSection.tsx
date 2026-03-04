@@ -53,8 +53,8 @@ const HeroSection = () => {
           </motion.p>
 
           <motion.div variants={item} className="flex flex-wrap gap-4">
-            <Button to="/clinic" variant="secondary" size="lg">
-              {t('home.hero.cta')}
+            <Button to="/contact" variant="secondary" size="lg">
+              {t('common.contactUs')}
             </Button>
             <Button to="/technology" variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
               {t('common.learnMore')}

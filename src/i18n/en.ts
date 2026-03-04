@@ -2,13 +2,13 @@ const enTranslations = {
   common: {
     readMore: "Read More",
     contactUs: "Contact Us",
-    appointment: "Make Appointment",
+    appointment: "Consultation",
     selfAssessment: "Self Assessment",
     learnMore: "Learn More",
     home: "Home",
     about: "About Us",
     technology: "POCS Technology",
-    clinic: "Clinic Info",
+    clinic: "Consultation",
     cases: "Case Studies",
     blog: "Medical Blog",
     articles: "Articles",
@@ -28,7 +28,7 @@ const enTranslations = {
     },
     intro: {
       title: "About Dr. Liu Bo",
-      content: "Dr. Liu Bo, MD, Professor, and Doctoral Supervisor, currently serves as the Director of Gallstone Center at the Third Affiliated Hospital of Sun Yat-sen University, and Director of Hepatobiliary, Pancreatic and Splenic Surgery and General Surgery at Lingnan Hospital. With over thirty years of clinical experience in hepatobiliary surgery, he specializes in minimally invasive treatments for gallstones, liver cancer, cirrhosis, and portal hypertension. He was a National-sponsored Visiting Scholar at Trier Municipal Hospital in Germany and conducted liver disease and stem cell research at Yale University, where he is also a Visiting Professor.",
+      content: "Dr. Liu Bo, MD, Professor, and Doctoral Supervisor, has over thirty years of clinical experience in hepatobiliary surgery and long-term focus on minimally invasive biliary treatment and POCS practice. He was a National-sponsored Visiting Scholar at Trier Municipal Hospital in Germany and conducted liver disease and stem cell research at Yale University, where he is also a Visiting Professor.",
       philosophy: "Dr. Liu's treatment philosophy emphasizes avoiding unnecessary gallbladder removal, reducing patient trauma, and shortening recovery time. His principles of minimally invasive procedures, gallbladder preservation, and precision are dedicated to providing safe, effective, and comfortable medical care for patients."
     },
     testimonial: {
@@ -50,7 +50,7 @@ const enTranslations = {
   about: {
     title: "About Dr. Liu Bo",
     experience: "Professional Experience",
-    experienceContent: "Dr. Liu Bo has over thirty years of clinical experience in hepatobiliary surgery. He currently serves as the Director of Gallstone Center at the Third Affiliated Hospital of Sun Yat-sen University, and Director of Hepatobiliary, Pancreatic and Splenic Surgery and General Surgery at Lingnan Hospital, specializing in minimally invasive treatments for gallstones, liver cancer, cirrhosis, and portal hypertension.",
+    experienceContent: "Dr. Liu Bo has over thirty years of clinical experience in hepatobiliary surgery, specializing in gallstone management, hepatobiliary disease care, and POCS-based minimally invasive strategies.",
     education: "Educational Background",
     educationItems: [
       "MD, Professor, Doctoral Supervisor",
@@ -85,24 +85,23 @@ const enTranslations = {
     suitablePatientsContent: "POCS technology is especially suitable for patients with complex biliary stones, bile duct strictures, unexplained biliary bleeding, and recurrent patients after previous biliary surgery."
   },
   clinic: {
-    title: "Clinic Hours & Visitation Guide",
-    schedule: "Clinic Hours",
-    scheduleContent: "Monday, Wednesday, Friday mornings, 8:30 AM - 12:00 PM",
-    location: "Location",
-    locationContent: "Hepatobiliary Surgery Clinic, XX Hospital, Haidian District, Beijing",
-    appointment: "Appointment Methods",
-    appointmentContent: "Please make appointments through the following methods:",
+    title: "Consultation Notes",
+    schedule: "Response Window",
+    scheduleContent: "Weekday responses",
+    location: "Notice",
+    locationContent: "This website does not provide clinic location details",
+    appointment: "Contact",
+    appointmentContent: "Please use the website contact form or email",
     appointmentMethods: [
-      "Online Appointment: Follow the official WeChat account of Sun Yat-sen University Third Hospital for online registration",
-      "WeChat Appointment: Scan the QR code below"
+      "Online message: Contact page",
+      "Email: askdrliu@askdrliu.com"
     ],
-    preparation: "Visit Preparation",
-    preparationContent: "Please bring with you:",
+    preparation: "Preparation",
+    preparationContent: "Please prepare:",
     preparationItems: [
-      "Valid identification documents",
-      "Previous medical records",
-      "Recent examination results (such as ultrasound, CT, MRI, etc.)",
-      "Previous surgical records if applicable"
+      "Previous examination records",
+      "Timeline of key symptoms",
+      "Past treatment and medication history"
     ]
   },
   assessment: {
@@ -140,7 +139,7 @@ const enTranslations = {
       }
     ],
     submit: "Submit Assessment",
-    contactPrompt: "After completing the assessment, it is recommended that you bring relevant examination materials to the clinic for a professional diagnosis."
+    contactPrompt: "After completing the assessment, it is recommended to consult a qualified specialist through official medical channels for professional diagnosis."
   },
   cases: {
     title: "Surgical Cases and Patient Stories",
@@ -259,7 +258,7 @@ const enTranslations = {
       },
       {
         question: "Are all gallstone patients suitable for POCS technology?",
-        answer: "Not all patients are suitable. Factors such as stone condition, patient age, and underlying diseases need to be comprehensively considered. It is recommended to visit a specialist clinic for detailed assessment to determine the most suitable treatment plan."
+        answer: "Not all patients are suitable. Factors such as stone condition, patient age, and underlying diseases need to be comprehensively considered. It is recommended to seek detailed specialist assessment through official medical channels to determine the most suitable treatment plan."
       }
     ]
   },
@@ -296,7 +295,7 @@ const enTranslations = {
   },
   contact: {
     title: "Contact Us",
-    subtitle: "Welcome to contact Dr. Liu Bo through the following methods",
+    subtitle: "Contact AskDrLiu.com medical content team",
     email: "Email",
     emailAddress: "askdrliu@askdrliu.com",
     wechat: "WeChat Consultation",
@@ -311,10 +310,10 @@ const enTranslations = {
       success: "Form Submitted Successfully!",
       successMessage: "This is a demo version. In the actual website deployment, a backend service needs to be added to send consultation content to the email."
     },
-    address: "Clinic Address",
-    addressContent: "Hepatobiliary Surgery Clinic, Sun Yat-sen University Third Hospital, Guangzhou",
-    transportation: "Transportation Guide",
-    transportationContent: "Guangzhou Metro Line 6, Suyuan Station, Exit B"
+    address: "Notice",
+    addressContent: "This website does not provide clinic address or registration details.",
+    transportation: "Note",
+    transportationContent: "For visit scheduling, please use official medical channels."
   }
 };
 

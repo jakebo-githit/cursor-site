@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Stethoscope, Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { Stethoscope, Mail } from 'lucide-react';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -69,30 +69,22 @@ const Footer = () => {
                 <Mail size={18} className="mr-2 mt-1 flex-shrink-0" />
                 <span>askdrliu@askdrliu.com</span>
               </li>
-              <li className="flex items-start">
-                <MapPin size={18} className="mr-2 mt-1 flex-shrink-0" />
-                <span>{t('contact.addressContent')}</span>
-              </li>
-              <li className="flex items-start">
-                <Clock size={18} className="mr-2 mt-1 flex-shrink-0" />
-                <span>{t('clinic.scheduleContent')}</span>
-              </li>
             </ul>
           </div>
 
-          {/* Appointment */}
+          {/* Brand Statement */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">{t('common.appointment')}</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('common.home') === 'Home' ? 'Website Positioning' : '网站定位'}</h3>
             <p className="text-gray-300 mb-4">
-              {t('common.home') === 'Home' 
-                ? 'Schedule a consultation with Dr. Liu Bo for professional diagnosis and treatment plan.' 
-                : '预约刘波主任进行专业诊断和治疗方案制定。'}
+              {t('common.home') === 'Home'
+                ? 'This is a personal website for POCS technology education and medical content sharing.'
+                : '本网站为个人网站，用于 POCS 技术科普与医学内容分享。'}
             </p>
-            <Link 
-              to="/clinic" 
+            <Link
+              to="/contact"
               className="inline-block bg-secondary hover:bg-secondary-600 text-white font-medium py-2 px-6 rounded-md transition-colors"
             >
-              {t('common.appointment')}
+              {t('common.contactUs')}
             </Link>
           </div>
         </div>
@@ -103,9 +95,9 @@ const Footer = () => {
               &copy; {currentYear} {t('common.home') === 'Home' ? 'Dr. Liu Bo. All rights reserved.' : '刘波主任. 版权所有.'}
             </p>
             <p className="text-gray-400 text-sm mt-2 md:mt-0">
-              {t('common.home') === 'Home' 
-                ? 'This website is for informational purposes only and does not constitute medical advice.' 
-                : '本网站仅供参考，不构成医疗建议。'}
+              {t('common.home') === 'Home'
+                ? 'Personal website only; does not represent or endorse any public hospital or institution. For education purposes only.'
+                : '仅为个人网站，不代表或背书任何公立医院/机构；内容仅用于科普参考。'}
             </p>
           </div>
         </div>

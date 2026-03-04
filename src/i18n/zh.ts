@@ -2,13 +2,13 @@ const zhTranslations = {
   common: {
     readMore: "查看更多",
     contactUs: "联系我们",
-    appointment: "预约挂号",
+    appointment: "咨询合作",
     selfAssessment: "自我评估",
     learnMore: "了解更多",
     home: "首页",
     about: "关于我们",
     technology: "POCS技术",
-    clinic: "门诊信息",
+    clinic: "技术咨询",
     cases: "手术案例",
     blog: "医学博客",
     articles: "医学科普",
@@ -28,7 +28,7 @@ const zhTranslations = {
     },
     intro: {
       title: "刘波主任简介",
-      content: "刘波主任，医学博士、教授、博士生导师，现任中山大学附属第三医院胆石症中心主任，岭南医院肝胆胰脾外科主任、普通外科主任。拥有超过三十年肝胆外科临床经验，专注于胆结石、肝癌、肝硬化与门静脉高压等疾病的微创治疗。曾作为国家公派访问学者赴德国特里尔市立医院交流，并在美国耶鲁大学从事肝病与干细胞研究工作，耶鲁大学客座教授。",
+      content: "刘波主任，医学博士、教授、博士生导师，拥有超过三十年肝胆外科临床经验，长期专注胆道疾病微创治疗与 POCS 技术实践。曾作为国家公派访问学者赴德国特里尔市立医院交流，并在美国耶鲁大学从事肝病与干细胞研究工作，耶鲁大学客座教授。",
       philosophy: "避免不必要的胆囊切除，减少患者创伤、缩短恢复时间。微创、保胆、精准是刘波主任的治疗理念，致力于为患者提供安全、有效、舒适的医疗服务。"
     },
     testimonial: {
@@ -50,7 +50,7 @@ const zhTranslations = {
   about: {
     title: "关于刘波主任",
     experience: "专业经验",
-    experienceContent: "刘波主任，医学博士、教授、博士生导师，拥有超过三十年肝胆外科临床经验。现任中山大学附属第三医院胆石症中心主任，岭南医院肝胆胰脾外科主任、普通外科主任，专注于胆结石、肝癌、肝硬化与门静脉高压等疾病的微创治疗。",
+    experienceContent: "刘波主任，医学博士、教授、博士生导师，拥有超过三十年肝胆外科临床经验，专注胆结石、肝胆疾病与 POCS 微创治疗策略。",
     education: "教育背景",
     educationItems: [
       "医学博士、教授、博士生导师",
@@ -85,24 +85,23 @@ const zhTranslations = {
     suitablePatientsContent: "POCS技术特别适用于：复杂胆道结石患者、胆管狭窄患者、不明原因胆道出血患者、既往胆道手术后复发患者等。"
   },
   clinic: {
-    title: "门诊时间与就诊指南",
-    schedule: "门诊时间",
-    scheduleContent: "每周一上午，周四下午",
-    location: "就诊地点",
-    locationContent: "广州市黄埔区开创大道2693号中山大学附属第三医院肝胆胰脾外科门诊",
-    appointment: "预约方式",
-    appointmentContent: "请通过以下方式预约：",
+    title: "咨询说明",
+    schedule: "服务时间",
+    scheduleContent: "工作日回复",
+    location: "说明",
+    locationContent: "本网站不提供门诊地址信息",
+    appointment: "联系方式",
+    appointmentContent: "请通过网站联系表单或邮箱沟通",
     appointmentMethods: [
-      "网上预约: 关注公众号：中山大学附属第三医院 进行网上挂号",
-      "微信预约: 扫描以下二维码"
+      "在线留言：Contact 页面",
+      "邮箱联系：askdrliu@askdrliu.com"
     ],
-    preparation: "就诊准备",
-    preparationContent: "请携带：",
+    preparation: "咨询建议",
+    preparationContent: "建议提前准备：",
     preparationItems: [
-      "有效身份证件",
-      "既往病历资料",
-      "近期检查结果(如B超、CT、MRI等)",
-      "如有既往手术记录请一并携带"
+      "既往检查资料",
+      "主要症状时间线",
+      "既往治疗与用药信息"
     ]
   },
   assessment: {
@@ -140,7 +139,7 @@ const zhTranslations = {
       }
     ],
     submit: "提交评估",
-    contactPrompt: "完成评估后，建议您携带相关检查资料，到门诊进行专业诊断。"
+    contactPrompt: "完成评估后，建议您通过官方医疗渠道咨询专科医生，进行专业诊断。"
   },
   cases: {
     title: "手术案例与患者故事",
@@ -259,7 +258,7 @@ const zhTranslations = {
       },
       {
         question: "是否所有胆结石患者都适合POCS技术？",
-        answer: "并非所有患者都适合。需要综合考虑结石情况、患者年龄、基础疾病等因素。建议到专科门诊进行详细评估，确定最适合的治疗方案。"
+        answer: "并非所有患者都适合。需要综合考虑结石情况、患者年龄、基础疾病等因素。建议通过官方医疗渠道进行专科评估，确定最适合的治疗方案。"
       }
     ]
   },
@@ -296,7 +295,7 @@ const zhTranslations = {
   },
   contact: {
     title: "联系我们",
-    subtitle: "欢迎通过以下方式联系刘波主任",
+    subtitle: "欢迎通过以下方式联系 AskDrLiu.com 医学团队",
     email: "电子邮箱",
     emailAddress: "askdrliu@askdrliu.com",
     wechat: "微信咨询",
@@ -311,10 +310,10 @@ const zhTranslations = {
       success: "表单提交成功！",
       successMessage: "提交成功，我们会尽快与您联系"
     },
-    address: "门诊地址",
-    addressContent: "广州市黄埔区开创大道2693号中山大学附属第三医院肝胆胰脾外科门诊",
-    transportation: "交通指南",
-    transportationContent: "广州地铁6号线苏元站，B出口"
+    address: "联系说明",
+    addressContent: "本网站不提供门诊地址与挂号信息",
+    transportation: "说明",
+    transportationContent: "如需就诊信息，请通过官方医疗渠道查询"
   }
 };
 
