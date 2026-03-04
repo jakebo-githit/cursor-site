@@ -1,0 +1,51 @@
+name: 每日发布博客文章
+
+on:
+  schedule:
+    # 每天北京时间 09:00（UTC 01:00）
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    inputs:
+      date_override:
+        description: '手动指定发布日期（YYYY-MM-DD，空=今天）'
+        required: false
+        default: ''
+
+jobs:
+  daily-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run daily publish
+        env:
+          DATE_OVERRIDE: ${{ github.event.inputs.date_override }}
+        run: python scripts/daily_publish.py
+
+      - name: Setup Node.js & build check
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: npm ci & build
+        run: npm ci && npm run build
+
+      - name: Commit published post
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'auto: daily publish [skip ci]'
+          commit_author: 'AskDrLiu Bot <bot@askdrliu.com>'
+          file_pattern: |
+            public/blog-posts/*.md
+            src/data/blog-posts.ts
+            scripts/queue.json

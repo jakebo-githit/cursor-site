@@ -1,9 +1,7 @@
 name: 每日医学博客自动生成
 
 on:
-  schedule:
-    # 每天北京时间 09:00（UTC 01:00）
-    - cron: '0 1 * * *'
+  # 已由 weekly-pipeline.yml + daily-publish.yml 替代，禁用自动触发
   workflow_dispatch:
     inputs:
       debug:

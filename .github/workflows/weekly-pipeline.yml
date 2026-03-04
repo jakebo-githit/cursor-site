@@ -1,0 +1,59 @@
+name: 每周博客话题收集与草稿生成
+
+on:
+  schedule:
+    # 每周日北京时间 08:00（UTC 00:00）
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '试运行（不提交，只看输出）'
+        required: false
+        default: 'false'
+
+jobs:
+  weekly-pipeline:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install zhipuai openai feedparser requests python-slugify
+
+      - name: Run weekly pipeline
+        env:
+          ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
+          ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/weekly_pipeline.py
+
+      - name: Setup Node.js & build check
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: npm ci & build
+        run: npm ci && npm run build
+
+      - name: Commit drafts & queue
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'auto: weekly pipeline - 7 drafts generated [skip ci]'
+          commit_author: 'AskDrLiu Bot <bot@askdrliu.com>'
+          file_pattern: |
+            public/blog-posts/drafts/*.md
+            public/images/blog/*.jpg
+            scripts/queue.json
