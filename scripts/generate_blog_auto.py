@@ -314,7 +314,7 @@ def update_blog_index(slug: str, data: dict, image_url: str):
     category: '{data['category']}',
     categoryEn: '{data['categoryEn']}',
     imageUrl: '{image_url}',
-    author: '刘波主任'
+    author: 'AskDrLiu.com'
   }},"""
 
     content = BLOG_INDEX_FILE.read_text(encoding="utf-8")

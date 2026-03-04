@@ -699,7 +699,7 @@ function main() {
     category: '${selectedTemplate.category}',
     categoryEn: '${getCategoryEn(selectedTemplate.category)}',
     imageUrl: '/images/pocs-surgery.jpg',
-    author: '刘波主任'
+    author: 'AskDrLiu.com'
   }`;
 
   console.log(`\n元数据配置（添加到 src/data/blog-posts.ts）:\n`);

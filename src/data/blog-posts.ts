@@ -50,7 +50,7 @@ export const blogPosts: BlogPost[] = [
     category: '技术介绍',
     categoryEn: 'Technology Introduction',
     imageUrl: '/images/pocs-surgery.jpg',
-    author: '刘波主任'
+    author: 'AskDrLiu.com'
   }
 ];
 

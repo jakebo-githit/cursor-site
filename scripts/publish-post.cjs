@@ -77,7 +77,7 @@ function generateMetadataLine(metadata, articleId) {
     category: '${metadata.category}',
     categoryEn: '${metadata.categoryEn}',
     imageUrl: '/images/pocs-surgery.jpg',
-    author: '刘波主任'
+    author: 'AskDrLiu.com'
   }`;
 }
 
