@@ -77,7 +77,7 @@ const BlogPage = () => {
   return (
     <>
       {/* Page Header */}
-      <div className="pt-24 pb-12 bg-gradient-to-br from-primary-800 via-primary-700 to-primary-600 text-white">
+      <div className="pt-24 pb-12 bg-primary-800 text-white">
         <div className="container mx-auto px-4">
           <motion.h1
             className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-center mb-4"
