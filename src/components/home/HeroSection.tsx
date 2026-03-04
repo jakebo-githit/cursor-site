@@ -23,41 +23,29 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative pt-24 pb-16 md:pt-28 md:pb-24 flex items-center">
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center z-0" 
-        style={{ 
-          backgroundImage: "url('https://images.pexels.com/photos/3846035/pexels-photo-3846035.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
-          backgroundPosition: "center 30%"
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-primary-800/70"></div>
-      </div>
-
-      {/* Content */}
-      <div className="container mx-auto px-4 z-10 relative">
-        <motion.div 
-          className="max-w-3xl text-white"
+    <section className="pt-24 pb-12 bg-primary-800 text-white">
+      <div className="container mx-auto px-4">
+        <motion.div
+          className="max-w-3xl"
           variants={container}
           initial="hidden"
           animate="show"
         >
-          <motion.h1 
+          <motion.h1
             variants={item}
             className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold mb-3"
           >
             {t('home.hero.title')}
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             variants={item}
             className="text-lg md:text-xl mb-3 text-gray-200"
           >
             {t('home.hero.subtitle')}
           </motion.p>
 
-          <motion.p 
+          <motion.p
             variants={item}
             className="text-xl md:text-2xl mb-6 font-serif italic"
           >
@@ -74,8 +62,6 @@ const HeroSection = () => {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Scroll indicator removed for tighter first screen */}
     </section>
   );
 };

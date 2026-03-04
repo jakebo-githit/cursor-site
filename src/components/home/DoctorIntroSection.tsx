@@ -11,10 +11,10 @@ const DoctorIntroSection = () => {
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
           {/* Doctor Image */}
           <motion.div 
-            className="relative"
+            className="relative lg:col-span-2 max-w-md lg:max-w-none mx-auto w-full"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -34,6 +34,7 @@ const DoctorIntroSection = () => {
 
           {/* Introduction Text */}
           <motion.div
+            className="lg:col-span-3"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
