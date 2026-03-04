@@ -17,6 +17,18 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '2026-03-04-cholecystectomy-diet',
+    title: '切了胆囊，为什么吃点油还是难受？',
+    titleEn: 'Why Does Eating Fat Still Hurt After Gallbladder Removal?',
+    excerpt: '胆囊切除后仍然对油腻食物不耐受？肝胆外科医生从医学角度解析原因，并提供有文献依据的饮食建议。',
+    excerptEn: 'Still struggling with fatty foods after cholecystectomy? A hepatobiliary surgeon explains the mechanism and offers evidence-based dietary advice.',
+    date: '2026-03-04',
+    category: '胆囊健康',
+    categoryEn: 'Gallbladder Health',
+    imageUrl: '/images/blog/blog-cholecystectomy-diet-cover.jpg',
+    author: '刘波主任'
+  },
+  {
     id: 'pocs-vs-traditional',
     title: 'POCS技术与传统手术的对比',
     titleEn: 'Comparison between POCS Technology and Traditional Surgery',
