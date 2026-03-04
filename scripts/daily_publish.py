@@ -47,16 +47,25 @@ def register_in_index(entry: dict):
         print(f"  [SKIP] Already registered: {entry['slug']}")
         return
 
+    esc = lambda s: (s or '').replace("'", "\\\\'")
+    title = esc(entry.get('title', ''))
+    title_en = esc(entry.get('titleEn', ''))
+    excerpt = esc(entry.get('excerpt', ''))
+    excerpt_en = esc(entry.get('excerptEn', ''))
+    category = esc(entry.get('category', ''))
+    category_en = esc(entry.get('categoryEn', ''))
+    image_url = esc(entry.get('imageUrl', ''))
+
     new_entry = f"""  {{
     id: '{entry['slug']}',
-    title: '{entry['title'].replace("'", "\\'")}',
-    titleEn: '{entry.get('titleEn','').replace("'", "\\'")}',
-    excerpt: '{entry.get('excerpt','').replace("'", "\\'")}',
-    excerptEn: '{entry.get('excerptEn','').replace("'", "\\'")}',
+    title: '{title}',
+    titleEn: '{title_en}',
+    excerpt: '{excerpt}',
+    excerptEn: '{excerpt_en}',
     date: '{entry['publish_date']}',
-    category: '{entry.get('category','')}',
-    categoryEn: '{entry.get('categoryEn','')}',
-    imageUrl: '{entry.get('imageUrl','')}',
+    category: '{category}',
+    categoryEn: '{category_en}',
+    imageUrl: '{image_url}',
     author: 'AskDrLiu.com'
   }},"""
 
