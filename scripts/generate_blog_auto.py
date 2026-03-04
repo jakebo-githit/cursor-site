@@ -4,7 +4,7 @@
 Medical Blog Auto-Generator for AskDrLiu / cursor-site
 -------------------------------------------------------
 - Fetches latest medical news (gallbladder, longevity, diet)
-- Generates bilingual (zh/en) blog post via Claude API
+- Generates bilingual (zh/en) blog post via Zhipu GLM-4-Plus API
 - Fetches a relevant cover image from Pexels
 - Saves markdown to public/blog-posts/
 - Auto-registers the post in src/data/blog-posts.ts
@@ -23,7 +23,7 @@ import feedparser
 from datetime import datetime, timezone
 from pathlib import Path
 
-from anthropic import Anthropic
+from zhipuai import ZhipuAI
 
 # ─────────────────────────── Config ───────────────────────────
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -34,10 +34,12 @@ IMAGES_DIR = REPO_ROOT / "public" / "images" / "blog"
 BLOG_MD_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "").strip()
-PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "").strip()
+ZHIPU_API_KEY = os.getenv("ZHIPU_API_KEY", "").strip()
+ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
 
-MODEL = "claude-3-5-sonnet-20241022"
+MODEL = "glm-4-plus"              # 智谱清言文本模型
+ARK_IMAGE_MODEL = "doubao-seedream-3-0-t2i-250415"  # 火山方舟 AIGC 生图模型
+ARK_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
 
 # RSS sources: gallbladder health, liver, longevity, nutrition
 FEED_URLS = [
@@ -154,9 +156,9 @@ Return valid JSON only."""
 
 
 def generate_post(headline: str, url: str, summary: str) -> dict:
-    if not ANTHROPIC_API_KEY:
-        raise RuntimeError("Missing ANTHROPIC_API_KEY")
-    client = Anthropic(api_key=ANTHROPIC_API_KEY)
+    if not ZHIPU_API_KEY:
+        raise RuntimeError("Missing ZHIPU_API_KEY")
+    client = ZhipuAI(api_key=ZHIPU_API_KEY)
 
     prompt = USER_PROMPT.format(
         headline=headline,
@@ -165,15 +167,16 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
         focus=", ".join(FOCUS_KEYWORDS[:8]),
     )
 
-    resp = client.messages.create(
+    resp = client.chat.completions.create(
         model=MODEL,
-        max_tokens=3500,
         temperature=0.4,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": prompt}],
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt},
+        ],
     )
 
-    text = "".join(b.text for b in resp.content if hasattr(b, "text")).strip()
+    text = resp.choices[0].message.content.strip()
 
     # Parse JSON
     try:
@@ -191,48 +194,75 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
     return data
 
 
-# ─────────────────────────── Image Fetch ───────────────────────────
-def fetch_pexels_image(topic_type: str, slug: str) -> str:
-    """Download a Pexels image and return the local path (relative to public/)."""
-    if not PEXELS_API_KEY:
-        # Return a default existing image
-        defaults = {
-            "gallbladder": "/images/gallstone-prevention.jpg",
-            "liver": "/images/liver-health.jpg",
-            "longevity": "/images/dietary-guidance.jpg",
-            "nutrition": "/images/dietary-guidance.jpg",
-            "default": "/images/recovery-guide.jpg",
-        }
-        return defaults.get(topic_type, "/images/pocs-surgery.jpg")
+# ─────────────────────────── AIGC Image Generation (火山方舟) ───────────────────────────
 
-    keywords = IMAGE_KEYWORDS.get(topic_type, IMAGE_KEYWORDS["default"])
-    query = random.choice(keywords)
+# 各话题的中文生图提示词
+IMAGE_PROMPTS = {
+    "gallbladder": (
+        "医学科普插图，胆囊健康主题，清新明亮的医学风格，"
+        "蓝绿色调，专业感，无文字，写实风格，高清"
+    ),
+    "liver": (
+        "医学科普插图，肝脏健康主题，清新明亮，绿色自然色调，"
+        "温暖阳光感，无文字，专业医学风格，高清"
+    ),
+    "longevity": (
+        "长寿健康生活方式，老年人健康活跃，阳光户外，"
+        "温暖色调，积极正能量，无文字，写实摄影风格，高清"
+    ),
+    "nutrition": (
+        "健康饮食营养，新鲜蔬菜水果沙拉，地中海饮食风格，"
+        "明亮自然光，无文字，美食摄影风格，高清"
+    ),
+    "default": (
+        "医学健康主题，专业温暖，蓝白色调，"
+        "干净现代，无文字，高清写实风格"
+    ),
+}
+
+def generate_ark_image(topic_type: str, slug: str) -> str:
+    """使用火山方舟 AIGC 生成配图，保存到本地并返回相对路径。"""
+    fallback_map = {
+        "gallbladder": "/images/gallstone-prevention.jpg",
+        "liver": "/images/liver-health.jpg",
+        "longevity": "/images/dietary-guidance.jpg",
+        "nutrition": "/images/dietary-guidance.jpg",
+        "default": "/images/recovery-guide.jpg",
+    }
+
+    if not ARK_API_KEY:
+        print("[WARN] ARK_API_KEY not set, using fallback image.")
+        return fallback_map.get(topic_type, "/images/pocs-surgery.jpg")
+
+    prompt = IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"])
 
     try:
-        resp = requests.get(
-            "https://api.pexels.com/v1/search",
-            headers={"Authorization": PEXELS_API_KEY},
-            params={"query": query, "per_page": 10, "orientation": "landscape"},
-            timeout=15,
+        from openai import OpenAI
+        client = OpenAI(api_key=ARK_API_KEY, base_url=ARK_BASE_URL)
+
+        resp = client.images.generate(
+            model=ARK_IMAGE_MODEL,
+            prompt=prompt,
+            n=1,
+            size="1280x720",   # 16:9 横版，适合博客封面
+            response_format="url",
         )
-        photos = resp.json().get("photos", [])
-        if not photos:
-            return "/images/pocs-surgery.jpg"
 
-        photo = random.choice(photos[:5])
-        img_url = photo["src"]["large"]
-        photographer = photo.get("photographer", "Pexels")
+        img_url = resp.data[0].url
+        # 下载图片
+        img_resp = requests.get(img_url, timeout=60)
+        img_resp.raise_for_status()
 
-        # Download
-        img_resp = requests.get(img_url, timeout=30)
         img_filename = f"blog-{slug[:40]}.jpg"
         img_path = IMAGES_DIR / img_filename
         img_path.write_bytes(img_resp.content)
 
+        print(f"[OK] AIGC image saved: {img_filename}")
         return f"/images/blog/{img_filename}"
+
     except Exception as ex:
-        print(f"[WARN] Pexels fetch failed: {ex}")
-        return "/images/pocs-surgery.jpg"
+        print(f"[WARN] ARK image generation failed: {ex}")
+        return fallback_map.get(topic_type, "/images/pocs-surgery.jpg")
 
 
 # ─────────────────────────── Save Markdown ───────────────────────────
@@ -343,10 +373,10 @@ def main():
     data = generate_post(topic["title"], topic["link"], topic["summary"])
     print(f"[OK] Generated: {data['title']} / {data['titleEn']}")
 
-    # 5. Fetch image
+    # 5. AIGC 生成封面图
     slug = make_slug(data["title"])
-    print("[IMG] Fetching cover image...")
-    image_url = fetch_pexels_image(topic_type, slug)
+    print("[IMG] Generating AIGC cover image via 火山方舟...")
+    image_url = generate_ark_image(topic_type, slug)
     print(f"[OK] Image: {image_url}")
 
     # 6. Save markdown files
