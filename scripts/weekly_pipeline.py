@@ -12,7 +12,7 @@ Weekly Blog Pipeline for AskDrLiu / cursor-site
   5. 通过 Telegram 推送话题清单供用户审核
 """
 
-import os, re, json, random, string, requests, feedparser, warnings
+import os, re, json, random, string, requests, feedparser, warnings, hashlib
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -189,8 +189,10 @@ def select_topics(all_entries):
 ARTICLE_SYSTEM = """你是 AskDrLiu.com 医学团队的科普撰稿人。
 写作规则：
 - 基于提供来源，不捏造研究结论
+- 每篇聚焦1个核心搜索意图，标题与首段必须围绕该意图
 - 字数1200-1800中文
-- 结构：引子 → 机制/背景 → 研究证据 → 实用建议(3-5条) → 就医指征 → 参考文献 → 免责声明
+- 结构：引子(H1后首段含核心关键词) → 机制/背景(H2) → 研究证据(H2) → 实用建议(3-5条，H2) → 就医指征(H2) → 常见问题FAQ(2-3问，H2) → 参考文献 → 免责声明
+- 正文中至少包含2-3个站内相对链接（如 /blog /clinic /assessment）
 - 文末必须包含：
   ⚠️ 免责声明：本文仅供医学科普参考，不构成个人诊疗建议。如您有相关症状或疑虑，请及时就诊于正规医疗机构，遵从医生的专业指导。
 只输出 Markdown 正文，不要JSON，不要代码块。"""
@@ -270,18 +272,35 @@ def generate_image(category, slug):
 # ─── 5. 保存草稿 ─────────────────────────────────────────
 def make_slug(title):
     clean = re.sub(r"[^\w\s-]", "", title, flags=re.UNICODE)
-    clean = re.sub(r"\s+", "-", clean.strip()).lower()[:40]
-    suffix = "".join(random.choices(string.ascii_lowercase + string.digits, k=5))
-    return f"{clean}-{suffix}" if clean else f"post-{suffix}"
+    clean = re.sub(r"\s+", "-", clean.strip()).lower().strip("-")[:60]
+    if not clean:
+        clean = "post"
+    # 去掉随机后缀，改为可读 slug；若重复再加短哈希
+    base = clean
+    path = DRAFTS_DIR / f"{base}.md"
+    if path.exists():
+        tail = hashlib.md5(title.encode("utf-8")).hexdigest()[:6]
+        base = f"{base}-{tail}"
+    return base
+
+
+def build_seo_fields(data: dict):
+    title = (data.get("title") or "").strip()
+    excerpt = re.sub(r"\s+", " ", (data.get("excerpt") or "").strip())
+    seo_title = title[:38] if len(title) > 38 else title
+    seo_desc = excerpt[:145] if len(excerpt) > 145 else excerpt
+    return seo_title, seo_desc
 
 
 def save_draft(slug, data, image_url, source_url, publish_date):
-    today = datetime.now().strftime("%Y-%m-%d")
+    seo_title, seo_desc = build_seo_fields(data)
     header = f"""---
 title: {data['title']}
 titleEn: {data['titleEn']}
 excerpt: {data['excerpt']}
 excerptEn: {data['excerptEn']}
+seoTitle: {seo_title}
+seoDescription: {seo_desc}
 date: {publish_date}
 category: {data['category']}
 categoryEn: {data['categoryEn']}
@@ -365,6 +384,7 @@ def main():
             path = save_draft(slug, data, image_url, topic["source_url"], publish_date)
             print(f"  [Draft] {path}")
             
+            seo_title, seo_desc = build_seo_fields(data)
             queue_entries.append({
                 "publish_date": publish_date,
                 "slug": slug,
@@ -375,6 +395,8 @@ def main():
                 "excerptEn": data["excerptEn"],
                 "titleEn": data["titleEn"],
                 "categoryEn": data["categoryEn"],
+                "seoTitle": seo_title,
+                "seoDescription": seo_desc,
                 "status": "draft"
             })
         except Exception as ex:

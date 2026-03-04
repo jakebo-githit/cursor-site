@@ -21,6 +21,8 @@ const BlogDetailPage = () => {
   // 获取文章标题
   const title = isEnglish ? article?.titleEn : article?.title;
   const excerpt = isEnglish ? article?.excerptEn : article?.excerpt;
+  const seoTitle = article?.seoTitle || title;
+  const seoDescription = article?.seoDescription || excerpt;
   const category = isEnglish ? article?.categoryEn : article?.category;
 
   // 格式化日期
@@ -45,6 +47,73 @@ const BlogDetailPage = () => {
   const stripFrontmatter = (content: string): string => {
     return content.replace(/^---[\s\S]*?---\r?\n/, '');
   };
+
+  // SEO: 动态 title / meta / canonical / Article 结构化数据
+  useEffect(() => {
+    if (!article) return;
+
+    const setMeta = (name: string, content: string, property = false) => {
+      const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+      let el = document.head.querySelector(selector) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement('meta');
+        if (property) el.setAttribute('property', name);
+        else el.setAttribute('name', name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content || '');
+    };
+
+    const canonicalHref = `${window.location.origin}/blog/${article.id}`;
+    document.title = `${seoTitle || ''} | AskDrLiu.com`;
+    setMeta('description', seoDescription || '');
+    setMeta('og:title', seoTitle || '', true);
+    setMeta('og:description', seoDescription || '', true);
+    setMeta('og:type', 'article', true);
+    setMeta('og:url', canonicalHref, true);
+    if (article.imageUrl) setMeta('og:image', `${window.location.origin}${article.imageUrl}`, true);
+
+    let canonical = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', canonicalHref);
+
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: seoTitle || title || '',
+      description: seoDescription || excerpt || '',
+      datePublished: article.date,
+      dateModified: article.date,
+      author: {
+        '@type': 'Organization',
+        name: 'AskDrLiu.com'
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'AskDrLiu.com'
+      },
+      image: article.imageUrl ? [`${window.location.origin}${article.imageUrl}`] : undefined,
+      mainEntityOfPage: canonicalHref
+    };
+
+    const scriptId = 'blog-article-jsonld';
+    const old = document.getElementById(scriptId);
+    if (old) old.remove();
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(schema);
+    document.head.appendChild(script);
+
+    return () => {
+      const toRemove = document.getElementById(scriptId);
+      if (toRemove) toRemove.remove();
+    };
+  }, [article, seoTitle, seoDescription, excerpt, title]);
 
   // 加载 Markdown 内容
   useEffect(() => {
@@ -100,7 +169,7 @@ ${excerpt}
 
 ## 关于作者
 
-**刘波主任**，医学博士、教授、博士生导师，现任中山大学附属第三医院胆石症中心主任，岭南医院肝胆胰脾外科主任、普通外科主任。拥有超过三十年肝胆外科临床经验，专注于胆结石、肝癌、肝硬化与门静脉高压等疾病的微创治疗。
+**AskDrLiu.com 医学团队**：专注胆囊、肝胆健康与微创外科科普，内容经临床团队审校发布。
 
 ## 阅读更多
 

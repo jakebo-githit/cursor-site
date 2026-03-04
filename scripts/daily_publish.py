@@ -55,6 +55,8 @@ def register_in_index(entry: dict):
     category = esc(entry.get('category', ''))
     category_en = esc(entry.get('categoryEn', ''))
     image_url = esc(entry.get('imageUrl', ''))
+    seo_title = esc(entry.get('seoTitle', title))
+    seo_desc = esc(entry.get('seoDescription', excerpt))
 
     new_entry = f"""  {{
     id: '{entry['slug']}',
@@ -62,6 +64,8 @@ def register_in_index(entry: dict):
     titleEn: '{title_en}',
     excerpt: '{excerpt}',
     excerptEn: '{excerpt_en}',
+    seoTitle: '{seo_title}',
+    seoDescription: '{seo_desc}',
     date: '{entry['publish_date']}',
     category: '{category}',
     categoryEn: '{category_en}',
