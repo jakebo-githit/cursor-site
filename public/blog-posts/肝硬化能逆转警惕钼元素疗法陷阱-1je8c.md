@@ -1,17 +1,3 @@
----
-title: 肝硬化能逆转？警惕“钼元素”疗法陷阱
-titleEn: 肝硬化能逆转？警惕“钼元素”疗法陷阱
-excerpt: 肝硬化真的能逆转？刘波主任带你看清“钼元素”疗法的真相 文/肝胆外科专家 刘波主任 在我的门诊里，经常能遇到一脸焦虑的肝硬化患者。他们手里拿着厚厚的检查单，眼神中透着同一个疑问：“刘主任，肝硬化真的治不好吗？我在网上看到
-excerptEn: 肝硬化真的能逆转？刘波主任带你看清“钼元素”疗法的真相 文/肝胆外科专家 刘波主任 在我的门诊里，经常能遇到一脸焦虑的肝硬化患者。他们手里拿着厚厚的检查单，眼神中透着同一个疑问：“刘主任，肝硬化真的治不好吗？我在网上看到
-date: 2026-03-09
-category: 肝脏健康
-categoryEn: Liver Health
-imageUrl: /images/blog/blog-肝硬化能逆转警惕钼元素疗法陷阱-1je8c.jpg
-author: AskDrLiu.com
-source: https://reddit.com/r/liver/comments/i06end/reversing_cirrhosis_molybdenum_8/
-status: draft
----
-
 # 肝硬化真的能逆转？刘波主任带你看清“钼元素”疗法的真相
 
 **文/肝胆外科专家 刘波主任**
