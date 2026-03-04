@@ -1,0 +1,61 @@
+name: 每日医学博客自动生成
+
+on:
+  schedule:
+    # 每天北京时间 09:00（UTC 01:00）
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: '调试模式（不提交）'
+        required: false
+        default: 'false'
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install anthropic feedparser requests python-slugify
+
+      - name: Generate blog post
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: python scripts/generate_blog_auto.py
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install npm deps & build check
+        run: |
+          npm ci
+          npm run build
+        continue-on-error: false
+
+      - name: Commit & Push
+        if: ${{ github.event.inputs.debug != 'true' }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'auto: daily medical blog post [skip ci]'
+          commit_author: 'AskDrLiu Bot <bot@askdrliu.com>'
+          file_pattern: |
+            public/blog-posts/*.md
+            public/images/blog/*.jpg
+            src/data/blog-posts.ts

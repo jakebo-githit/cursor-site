@@ -1,4 +1,4 @@
-anthropic
-feedparser
-python-slugify
-requests
+anthropic>=0.25.0
+feedparser>=6.0.11
+requests>=2.31.0
+python-slugify>=8.0.4
