@@ -25,9 +25,14 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
+      - name: Install system deps (OCR)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim
+
       - name: Install dependencies
         run: |
-          pip install anthropic feedparser requests python-slugify
+          pip install anthropic feedparser requests python-slugify pillow pytesseract openai zhipuai
 
       - name: Generate blog post
         env:
