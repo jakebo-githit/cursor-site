@@ -98,20 +98,23 @@ def main():
     slug  = entry["slug"]
     print(f"[PUB] Publishing: {slug} — {entry.get('title','')}")
 
-    # 3. 找草稿文件
+    # 3. 找草稿文件（若已迁移到发布目录，走补偿路径）
     draft_path = DRAFTS_DIR / f"{slug}.md"
-    if not draft_path.exists():
-        print(f"[ERROR] Draft not found: {draft_path}")
-        return
-
-    # 4. 读取草稿，剥离 frontmatter
-    raw         = draft_path.read_text(encoding="utf-8")
-    meta, body  = strip_frontmatter(raw)
-
-    # 5. 写入正式发布目录（只保留正文，frontmatter 已通过 blog-posts.ts 管理）
     publish_path = PUBLISH_DIR / f"{slug}.md"
-    publish_path.write_text(body.strip() + "\n", encoding="utf-8")
-    print(f"  [File] → {publish_path.name}")
+
+    if draft_path.exists():
+        # 4. 读取草稿，剥离 frontmatter
+        raw = draft_path.read_text(encoding="utf-8")
+        _meta, body = strip_frontmatter(raw)
+
+        # 5. 写入正式发布目录（只保留正文，frontmatter 已通过 blog-posts.ts 管理）
+        publish_path.write_text(body.strip() + "\n", encoding="utf-8")
+        print(f"  [File] → {publish_path.name}")
+    elif publish_path.exists():
+        print(f"  [Compensate] Draft missing, but published file exists: {publish_path.name}")
+    else:
+        print(f"[ERROR] Neither draft nor published file found for slug: {slug}")
+        return
 
     # 6. 注册到 blog-posts.ts
     register_in_index(entry)
@@ -128,9 +131,10 @@ def main():
     )
     print(f"  [Queue] Marked as published")
 
-    # 8. 删除草稿文件
-    draft_path.unlink()
-    print(f"  [Draft] Removed draft file")
+    # 8. 删除草稿文件（若存在）
+    if draft_path.exists():
+        draft_path.unlink()
+        print(f"  [Draft] Removed draft file")
 
     print(f"\n✅ Published: {entry.get('title','')}")
 

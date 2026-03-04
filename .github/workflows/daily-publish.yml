@@ -41,11 +41,13 @@ jobs:
         run: npm ci && npm run build
 
       - name: Commit published post
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'auto: daily publish [skip ci]'
-          commit_author: 'AskDrLiu Bot <bot@askdrliu.com>'
-          file_pattern: |
-            public/blog-posts/*.md
-            src/data/blog-posts.ts
-            scripts/queue.json
+        run: |
+          git config user.name "AskDrLiu Bot"
+          git config user.email "bot@askdrliu.com"
+          git add public/blog-posts/*.md src/data/blog-posts.ts scripts/queue.json || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "auto: daily publish [skip ci]"
+          git push
