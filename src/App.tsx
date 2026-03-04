@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './i18n/i18n';
 
@@ -15,8 +15,7 @@ import TechnologyPage from './pages/TechnologyPage';
 
 import AssessmentPage from './pages/AssessmentPage';
 import CasesPage from './pages/CasesPage';
-import ArticlesPage from './pages/ArticlesPage';
-import ArticleDetailPage from './pages/ArticleDetailPage';
+
 import BlogPage from './pages/BlogPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import BlogDraftsPage from './pages/BlogDraftsPage';
@@ -24,11 +23,6 @@ import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import FreeGuidePage from './pages/FreeGuidePage';
 
-// 具体文章页面
-import GallstonePrevention from './pages/articles/GallstonePrevention';
-import DietaryGuidance from './pages/articles/DietaryGuidance';
-import LiverHealth from './pages/articles/LiverHealth';
-import PostSurgeryRecovery from './pages/articles/PostSurgeryRecovery';
 
 function App() {
   const { i18n } = useTranslation();
@@ -53,12 +47,7 @@ function App() {
 
             <Route path="/assessment" element={<AssessmentPage />} />
             <Route path="/cases" element={<CasesPage />} />
-            <Route path="/articles" element={<ArticlesPage />} />
-            <Route path="/articles/:articleId" element={<ArticleDetailPage />} />
-            <Route path="/articles/gallstone-prevention" element={<GallstonePrevention />} />
-            <Route path="/articles/dietary-guidance" element={<DietaryGuidance />} />
-            <Route path="/articles/liver-health" element={<LiverHealth />} />
-            <Route path="/articles/post-surgery-recovery" element={<PostSurgeryRecovery />} />
+            <Route path="/articles/*" element={<Navigate to="/blog" replace />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/blog/drafts" element={<BlogDraftsPage />} />

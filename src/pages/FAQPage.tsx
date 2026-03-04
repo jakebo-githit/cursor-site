@@ -117,8 +117,8 @@ const FAQPage = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button to="/articles" variant="outline">
-                {t('common.articles')}
+              <Button to="/blog" variant="outline">
+                {t('common.blog')}
               </Button>
               <Button to="/assessment" variant="secondary">
                 {t('common.selfAssessment')}
