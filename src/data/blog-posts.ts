@@ -31,19 +31,6 @@ export const blogPosts: BlogPost[] = [
     author: 'AskDrLiu.com'
   },
   {
-    id: '20260305-蔬果农药与健康-qhu92m',
-    title: '蔬果农药与健康',
-    titleEn: 'Pesticides in Fruits and Vegetables: What It Means for Health',
-    excerpt: '最新研究提示高农药残留蔬果会增加体内暴露水平。本文解读其对肝胆系统的潜在影响，并给出5条可执行饮食建议。',
-    excerptEn: 'A new study links high-pesticide produce to increased internal exposure. This article explains what it may mean for hepatobiliary health and gives 5 practical steps.',
-    date: '2026-03-05',
-    category: '胆囊健康',
-    categoryEn: 'Gallbladder Health',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  },
-
-  {
     id: '肝硬化能逆转警惕钼元素疗法陷阱-1je8c',
     title: '肝硬化能逆转？警惕“钼元素”疗法陷阱',
     titleEn: '肝硬化能逆转？警惕“钼元素”疗法陷阱',
