@@ -54,7 +54,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-09',
     category: '肝脏健康',
     categoryEn: 'Liver Health',
-    imageUrl: '/images/blog/blog-肝硬化能逆转警惕钼元素疗法陷阱-1je8c.jpg',
+    imageUrl: '/images/liver-health.jpg',
     author: 'AskDrLiu.com'
   },
   {
