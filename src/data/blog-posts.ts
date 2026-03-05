@@ -39,7 +39,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-05',
     category: '胆囊健康',
     categoryEn: 'Gallbladder Health',
-    imageUrl: '/images/blog/blog-20260305-蔬果农药与健康-qhu92m.jpg',
+    imageUrl: '/images/gallstone-prevention.jpg',
     author: 'AskDrLiu.com'
   },
 

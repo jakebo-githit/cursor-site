@@ -22,6 +22,20 @@ DRAFTS_DIR  = REPO_ROOT / "public" / "blog-posts" / "drafts"
 PUBLISH_DIR = REPO_ROOT / "public" / "blog-posts"
 QUEUE_FILE  = REPO_ROOT / "scripts" / "queue.json"
 INDEX_FILE  = REPO_ROOT / "src" / "data" / "blog-posts.ts"
+PUBLIC_DIR  = REPO_ROOT / "public"
+
+FALLBACK_IMAGE_MAP = {
+    "胆囊健康": "/images/gallstone-prevention.jpg",
+    "Gallbladder Health": "/images/gallstone-prevention.jpg",
+    "肝脏健康": "/images/liver-health.jpg",
+    "Liver Health": "/images/liver-health.jpg",
+    "长寿饮食": "/images/dietary-guidance.jpg",
+    "Longevity & Diet": "/images/dietary-guidance.jpg",
+    "术后康复": "/images/recovery-guide.jpg",
+    "Post-Surgery Recovery": "/images/recovery-guide.jpg",
+    "微创技术": "/images/pocs-surgery.jpg",
+    "Minimally Invasive Tech": "/images/pocs-surgery.jpg",
+}
 
 
 def strip_frontmatter(content: str) -> tuple[dict, str]:
@@ -36,6 +50,24 @@ def strip_frontmatter(content: str) -> tuple[dict, str]:
                 meta[k.strip()] = v.strip()
         body = content[m.end():]
     return meta, body
+
+
+def resolve_image_url(entry: dict) -> str:
+    """确保 imageUrl 对应文件存在；不存在则回退到分类默认图。"""
+    image_url = (entry.get("imageUrl") or "").strip()
+
+    if image_url.startswith("/"):
+        image_path = PUBLIC_DIR / image_url.lstrip("/")
+        if image_path.exists():
+            return image_url
+
+    fallback = FALLBACK_IMAGE_MAP.get(entry.get("category")) \
+        or FALLBACK_IMAGE_MAP.get(entry.get("categoryEn")) \
+        or "/images/pocs-surgery.jpg"
+
+    print(f"  [WARN] Missing image file for {entry.get('slug')}: {image_url or '(empty)'}")
+    print(f"  [WARN] Fallback image applied: {fallback}")
+    return fallback
 
 
 def register_in_index(entry: dict):
@@ -54,7 +86,7 @@ def register_in_index(entry: dict):
     excerpt_en = esc(entry.get('excerptEn', ''))
     category = esc(entry.get('category', ''))
     category_en = esc(entry.get('categoryEn', ''))
-    image_url = esc(entry.get('imageUrl', ''))
+    image_url = esc(resolve_image_url(entry))
     seo_title = esc(entry.get('seoTitle', title))
     seo_desc = esc(entry.get('seoDescription', excerpt))
 
