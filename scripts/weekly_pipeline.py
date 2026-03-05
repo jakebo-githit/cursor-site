@@ -53,27 +53,38 @@ TEXT_PATTERN = re.compile(r"[A-Za-z\u4e00-\u9fff]")
 
 # ─── RSS 来源 ─────────────────────────────────────────────
 FEED_URLS = [
-    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=gallbladder&format=rss&limit=20",
-    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=cholecystectomy+diet&format=rss&limit=20",
-    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=longevity+nutrition&format=rss&limit=15",
-    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=liver+health+diet&format=rss&limit=15",
+    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=gallbladder+stone+cholecystitis&format=rss&limit=30",
+    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=cholecystectomy+postoperative+nutrition&format=rss&limit=30",
+    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=gallbladder+preservation+cholelithiasis&format=rss&limit=25",
+    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=liver+health+longevity&format=rss&limit=20",
     "https://www.sciencedaily.com/rss/health_medicine/gallbladder_disease.xml",
-    "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+    "https://www.sciencedaily.com/rss/health_medicine/liver_disease.xml",
 ]
 
-REDDIT_SUBS = ["gallbladders", "liver", "nutrition", "longevity"]
+REDDIT_SUBS = ["gallbladders", "liver"]
+
+FOCUS_TERMS = [
+    "gallbladder", "gallstone", "cholelithiasis", "cholecystitis", "cholecystectomy",
+    "post-cholecystectomy", "bile", "biliary", "liver", "hepatic", "pocs",
+]
 
 IMAGE_PROMPTS = {
-    "胆囊健康": "医学科普插图，胆囊健康主题，蓝绿色调，专业简洁，无文字，高清写实风",
+    "胆囊结石": "医学科普插图，胆囊结石与胆道系统主题，真实解剖感，专业干净医疗场景，无文字，高清",
+    "胆囊炎": "医学科普插图，胆囊炎症与右上腹不适主题，临床风格，蓝绿色调，无文字，高清",
+    "保胆": "医学科普插图，保胆理念与微创胆道镜操作场景，专业明亮，无文字，高清",
+    "胆囊切除术后营养": "术后饮食康复主题，低脂健康餐盘与康复场景，医学科普风格，无文字，高清",
+    "胆囊与长寿": "胆囊代谢健康与健康老龄化主题，积极生活方式，医学感，无文字，高清",
     "肝脏健康": "医学健康主题，肝脏保健，绿色自然色调，温暖阳光，无文字，高清",
-    "长寿饮食": "长寿健康生活方式，新鲜蔬果，地中海饮食风格，明亮自然光，无文字，高清",
-    "营养科学": "健康营养饮食，丰富蔬菜水果，明亮色彩，俯拍平铺，无文字，高清",
-    "术后康复": "术后康复健康主题，温暖医疗环境，积极正能量色调，无文字，高清",
-    "default":  "医学健康科普，专业温暖，蓝白色调，现代简约，无文字，高清",
+    "default":  "肝胆健康科普插图，医学专业风，干净简洁，无文字，高清",
 }
 
 
 # ─── 1. 抓取话题 ──────────────────────────────────────────
+def is_focus_entry(title: str, summary: str) -> bool:
+    text = f"{title} {summary}".lower()
+    return any(k in text for k in FOCUS_TERMS)
+
+
 def fetch_rss_entries():
     entries = []
     for url in FEED_URLS:
@@ -83,7 +94,7 @@ def fetch_rss_entries():
                 title   = (e.get("title") or "").strip()
                 link    = (e.get("link") or "").strip()
                 summary = re.sub(r"\s+", " ", (e.get("summary") or "").strip())[:500]
-                if title and link:
+                if title and link and is_focus_entry(title, summary):
                     entries.append({"title": title, "link": link, "summary": summary, "source": "pubmed"})
         except Exception as ex:
             print(f"[WARN] RSS {url}: {ex}")
@@ -102,7 +113,7 @@ def fetch_reddit_entries():
                 d = p.get("data", {})
                 title = d.get("title", "").strip()
                 score = d.get("score", 0)
-                if title and score > 50:
+                if title and score > 50 and is_focus_entry(title, d.get("selftext", "")):
                     entries.append({
                         "title":   title,
                         "link":    f"https://reddit.com{d.get('permalink','')}",
@@ -121,11 +132,11 @@ TOPIC_SELECT_PROMPT = """你是 AskDrLiu.com（肝胆外科医生刘波主任的
 
 以下是本周抓取的医学资讯和患者热点讨论（共{total}条），请从中挑选**最适合科普写作的7个话题**。
 
-选题标准：
-1. 与胆囊健康、肝脏健康、长寿饮食、营养科学、术后康复相关
-2. 有医学文献支撑或患者真实痛点
-3. 话题多样，不重复同一主题
-4. 优先选择有争议性或实用价值高的话题
+选题标准（严格）：
+1. 仅限肝脏及胆囊健康，优先以下方向：保胆、胆囊炎、胆囊结石、胆囊切除术后营养、胆囊与健康长寿关联
+2. 与上述方向无关的内容（泛营养、泛养生、非肝胆系统）一律剔除
+3. 有医学文献支撑或患者真实痛点
+4. 话题多样，不重复同一主题
 
 输入数据（JSON 数组）：
 {entries_json}
@@ -139,7 +150,7 @@ TOPIC_SELECT_PROMPT = """你是 AskDrLiu.com（肝胆外科医生刘波主任的
     "source_title": "原始标题",
     "source_url": "来源URL",
     "source_type": "pubmed|reddit|news",
-    "category": "胆囊健康|肝脏健康|长寿饮食|营养科学|术后康复"
+    "category": "保胆|胆囊炎|胆囊结石|胆囊切除术后营养|胆囊与长寿|肝脏健康"
   }},
   ...
 ]
@@ -197,6 +208,7 @@ def select_topics(all_entries):
 # ─── 3. 生成单篇草稿 ─────────────────────────────────────
 ARTICLE_SYSTEM = """你是 AskDrLiu.com 医学团队的科普撰稿人。
 写作规则：
+- 选题边界严格限定在肝脏/胆囊健康（保胆、胆囊炎、胆囊结石、胆囊切除术后营养、胆囊与长寿关联）
 - 基于提供来源，不捏造研究结论
 - 每篇聚焦1个核心搜索意图，标题与首段必须围绕该意图
 - 字数1200-1800中文
@@ -214,11 +226,12 @@ ARTICLE_USER = """话题：{title_zh}
 请写一篇可直接发布的中文医学博客文章。"""
 
 CATEGORY_EN_MAP = {
-    "胆囊健康": "Gallbladder Health",
+    "保胆": "Gallbladder Preservation",
+    "胆囊炎": "Cholecystitis",
+    "胆囊结石": "Gallstones",
+    "胆囊切除术后营养": "Post-Cholecystectomy Nutrition",
+    "胆囊与长寿": "Gallbladder & Longevity",
     "肝脏健康": "Liver Health",
-    "长寿饮食": "Longevity & Diet",
-    "营养科学": "Nutrition Science",
-    "术后康复": "Post-Surgery Recovery",
 }
 
 
@@ -243,8 +256,8 @@ def generate_article(topic):
         "titleEn": title,
         "excerpt": excerpt,
         "excerptEn": excerpt[:150],
-        "category": topic.get("category", "营养科学"),
-        "categoryEn": CATEGORY_EN_MAP.get(topic.get("category", "营养科学"), "Nutrition Science"),
+        "category": topic.get("category", "胆囊结石"),
+        "categoryEn": CATEGORY_EN_MAP.get(topic.get("category", "胆囊结石"), "Gallstones"),
         "markdown": markdown,
         "model_used": model_used,
     }
@@ -275,11 +288,12 @@ def detect_unwanted_text(img_path: Path) -> bool:
 
 def generate_image(category, slug):
     fallback = {
-        "胆囊健康": "/images/gallstone-prevention.jpg",
+        "保胆": "/images/pocs-surgery.jpg",
+        "胆囊炎": "/images/gallstone-prevention.jpg",
+        "胆囊结石": "/images/gallstone-prevention.jpg",
+        "胆囊切除术后营养": "/images/recovery-guide.jpg",
+        "胆囊与长寿": "/images/dietary-guidance.jpg",
         "肝脏健康": "/images/liver-health.jpg",
-        "长寿饮食": "/images/dietary-guidance.jpg",
-        "营养科学": "/images/dietary-guidance.jpg",
-        "术后康复": "/images/recovery-guide.jpg",
     }
     if not SILICONFLOW_KEY:
         return fallback.get(category, "/images/pocs-surgery.jpg")
