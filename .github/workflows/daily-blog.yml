@@ -32,12 +32,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install anthropic feedparser requests python-slugify pillow pytesseract openai zhipuai
+          pip install anthropic feedparser requests python-slugify pillow pytesseract zhipuai
 
       - name: Generate blog post
         env:
           ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
-          ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
+          SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
         run: python scripts/generate_blog_auto.py
 
       - name: Setup Node.js
