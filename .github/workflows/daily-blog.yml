@@ -54,11 +54,13 @@ jobs:
 
       - name: Commit & Push
         if: ${{ github.event.inputs.debug != 'true' }}
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'auto: daily medical blog post [skip ci]'
-          commit_author: 'AskDrLiu Bot <bot@askdrliu.com>'
-          file_pattern: |
-            public/blog-posts/*.md
-            public/images/blog/*.jpg
-            src/data/blog-posts.ts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/blog-posts/*.md public/images/blog/*.jpg src/data/blog-posts.ts || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "auto: daily medical blog post [skip ci]"
+          git push
