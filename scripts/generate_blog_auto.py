@@ -356,15 +356,23 @@ def update_blog_index(slug: str, data: dict, image_url: str):
     """Insert new post entry into src/data/blog-posts.ts"""
     today = datetime.now().strftime("%Y-%m-%d")
 
+    esc = lambda s: (s or "").replace("'", "\\'")
+    title = esc(data.get("title", ""))
+    title_en = esc(data.get("titleEn", ""))
+    excerpt = esc(data.get("excerpt", ""))
+    excerpt_en = esc(data.get("excerptEn", ""))
+    category = esc(data.get("category", ""))
+    category_en = esc(data.get("categoryEn", ""))
+
     new_entry = f"""  {{
     id: '{slug}',
-    title: '{data['title'].replace("'", "\\'")}',
-    titleEn: '{data['titleEn'].replace("'", "\\'")}',
-    excerpt: '{data['excerpt'].replace("'", "\\'")}',
-    excerptEn: '{data['excerptEn'].replace("'", "\\'")}',
+    title: '{title}',
+    titleEn: '{title_en}',
+    excerpt: '{excerpt}',
+    excerptEn: '{excerpt_en}',
     date: '{today}',
-    category: '{data['category']}',
-    categoryEn: '{data['categoryEn']}',
+    category: '{category}',
+    categoryEn: '{category_en}',
     imageUrl: '{image_url}',
     author: 'AskDrLiu.com'
   }},"""
