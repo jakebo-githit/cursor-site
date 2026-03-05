@@ -19,6 +19,18 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260305-蔬果农药与胆囊健康-olrmws',
+    title: '蔬果农药与胆囊健康',
+    titleEn: 'Pesticides in Produce and Gallbladder Health',
+    excerpt: '研究显示常吃高农药残留蔬果可能影响胆道健康，如何平衡营养与安全。',
+    excerptEn: 'Research links high-pesticide produce to potential gallbladder issues, balancing nutrition with safety.',
+    date: '2026-03-05',
+    category: '胆囊健康',
+    categoryEn: 'Gallbladder Health',
+    imageUrl: '/images/blog/blog-20260305-蔬果农药与胆囊健康-olrmws.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260305-蔬果农药与健康-qhu92m',
     title: '蔬果农药与健康',
     titleEn: 'Pesticides in Fruits and Vegetables: What It Means for Health',
