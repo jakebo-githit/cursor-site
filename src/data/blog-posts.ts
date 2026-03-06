@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-05',
     category: '胆囊健康',
     categoryEn: 'Gallbladder Health',
-    imageUrl: '/images/blog/blog-20260305-蔬果农药与胆囊健康-olrmws.jpg',
+    imageUrl: '/images/pocs-surgery.jpg',
     author: 'AskDrLiu.com'
   },
   {
@@ -41,7 +41,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-09',
     category: '肝脏健康',
     categoryEn: 'Liver Health',
-    imageUrl: '/images/liver-health.jpg',
+    imageUrl: '/images/blog/blog-肝硬化能逆转警惕钼元素疗法陷阱-1je8c.jpg',
     author: 'AskDrLiu.com'
   },
   {
