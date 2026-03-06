@@ -25,16 +25,20 @@ INDEX_FILE  = REPO_ROOT / "src" / "data" / "blog-posts.ts"
 PUBLIC_DIR  = REPO_ROOT / "public"
 
 FALLBACK_IMAGE_MAP = {
-    "胆囊健康": "/images/gallstone-prevention.jpg",
-    "Gallbladder Health": "/images/gallstone-prevention.jpg",
-    "肝脏健康": "/images/liver-health.jpg",
-    "Liver Health": "/images/liver-health.jpg",
-    "长寿饮食": "/images/dietary-guidance.jpg",
-    "Longevity & Diet": "/images/dietary-guidance.jpg",
-    "术后康复": "/images/recovery-guide.jpg",
-    "Post-Surgery Recovery": "/images/recovery-guide.jpg",
-    "微创技术": "/images/pocs-surgery.jpg",
-    "Minimally Invasive Tech": "/images/pocs-surgery.jpg",
+    "保胆": ["/images/pocs-surgery.jpg", "/images/gallstone-prevention.jpg"],
+    "Gallbladder Preservation": ["/images/pocs-surgery.jpg", "/images/gallstone-prevention.jpg"],
+    "胆囊炎": ["/images/gallstone-prevention.jpg", "/images/recovery-guide.jpg"],
+    "Cholecystitis": ["/images/gallstone-prevention.jpg", "/images/recovery-guide.jpg"],
+    "胆囊结石": ["/images/gallstone-prevention.jpg", "/images/pocs-surgery.jpg"],
+    "Gallstones": ["/images/gallstone-prevention.jpg", "/images/pocs-surgery.jpg"],
+    "胆囊切除术后营养": ["/images/recovery-guide.jpg", "/images/dietary-guidance.jpg"],
+    "Post-Cholecystectomy Nutrition": ["/images/recovery-guide.jpg", "/images/dietary-guidance.jpg"],
+    "胆囊与长寿": ["/images/dietary-guidance.jpg", "/images/liver-health.jpg"],
+    "Gallbladder & Longevity": ["/images/dietary-guidance.jpg", "/images/liver-health.jpg"],
+    "肝脏健康": ["/images/liver-health.jpg", "/images/pocs-surgery.jpg"],
+    "Liver Health": ["/images/liver-health.jpg", "/images/pocs-surgery.jpg"],
+    "胆囊健康": ["/images/gallstone-prevention.jpg", "/images/pocs-surgery.jpg"],
+    "Gallbladder Health": ["/images/gallstone-prevention.jpg", "/images/pocs-surgery.jpg"],
 }
 
 
@@ -52,8 +56,18 @@ def strip_frontmatter(content: str) -> tuple[dict, str]:
     return meta, body
 
 
+def recent_image_urls(limit: int = 4) -> list[str]:
+    """读取已发布列表前N篇 imageUrl，用于避免新文与头部文章重复。"""
+    try:
+        content = INDEX_FILE.read_text(encoding="utf-8")
+        urls = re.findall(r"imageUrl:\s*'([^']+)'", content)
+        return urls[:limit]
+    except Exception:
+        return []
+
+
 def resolve_image_url(entry: dict) -> str:
-    """确保 imageUrl 对应文件存在；不存在则回退到分类默认图。"""
+    """确保 imageUrl 可用；缺失时回退到相关且尽量不重复的图片。"""
     image_url = (entry.get("imageUrl") or "").strip()
 
     if image_url.startswith("/"):
@@ -61,9 +75,12 @@ def resolve_image_url(entry: dict) -> str:
         if image_path.exists():
             return image_url
 
-    fallback = FALLBACK_IMAGE_MAP.get(entry.get("category")) \
+    candidates = FALLBACK_IMAGE_MAP.get(entry.get("category")) \
         or FALLBACK_IMAGE_MAP.get(entry.get("categoryEn")) \
-        or "/images/pocs-surgery.jpg"
+        or ["/images/pocs-surgery.jpg", "/images/gallstone-prevention.jpg"]
+
+    recent = set(recent_image_urls(limit=4))
+    fallback = next((u for u in candidates if u not in recent), candidates[0])
 
     print(f"  [WARN] Missing image file for {entry.get('slug')}: {image_url or '(empty)'}")
     print(f"  [WARN] Fallback image applied: {fallback}")

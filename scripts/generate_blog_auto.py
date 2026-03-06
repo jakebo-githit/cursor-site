@@ -132,8 +132,8 @@ JSON structure:
   "category": "中文分类 (one of: 保胆 | 胆囊炎 | 胆囊结石 | 胆囊切除术后营养 | 胆囊与长寿 | 肝脏健康)",
   "categoryEn": "English category (one of: Gallbladder Preservation | Cholecystitis | Gallstones | Post-Cholecystectomy Nutrition | Gallbladder & Longevity | Liver Health)",
   "tags": ["tag1", "tag2", "tag3"],
-  "markdownZh": "中文正文 markdown (~900-1200字)",
-  "markdownEn": "English body markdown (~600-900 words)"
+  "markdownZh": "中文正文 markdown (1200-1800字，含“参考文献”段)",
+  "markdownEn": "English body markdown (800-1200 words, include 'References')"
 }"""
 
 USER_PROMPT = """Generate a bilingual medical blog post based on this news cue.
@@ -146,15 +146,18 @@ Key focus areas: {focus}
 
 Chinese article requirements:
 - Topic must stay strictly within hepatobiliary scope, prioritizing: gallbladder preservation, cholecystitis, gallstones, post-cholecystectomy nutrition, gallbladder-related longevity, liver health
+- Length must be 1200-1800 Chinese characters (do not write short posts)
 - Hook (1-2 lines that make readers curious)
 - What this research means for patients
 - 3-5 practical takeaways (bullet points)
 - When to seek medical care (bullets)
+- Add section `## 参考文献` with 3-6 real sources, each as markdown list item with title/journal/year/URL
 - One-line disclaimer
 
 English article requirements:
 - Same structure but natural English tone
-- More concise than Chinese version
+- Length 800-1200 words
+- Add section `## References` with 3-6 real sources
 
 Return valid JSON only."""
 
