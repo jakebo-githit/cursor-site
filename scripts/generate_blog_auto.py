@@ -177,6 +177,42 @@ English article requirements:
 Return valid JSON only."""
 
 
+def _extract_reference_urls(markdown_text: str) -> list[str]:
+    return re.findall(r"https?://[^\s)]+", markdown_text)
+
+
+def _url_reachable(u: str) -> bool:
+    try:
+        r = requests.head(u, timeout=12, allow_redirects=True)
+        if r.status_code < 400:
+            return True
+    except Exception:
+        pass
+    try:
+        r = requests.get(u, timeout=15, allow_redirects=True)
+        return r.status_code < 400
+    except Exception:
+        return False
+
+
+def _validate_references(data: dict):
+    zh = data.get("markdownZh", "")
+    en = data.get("markdownEn", "")
+
+    if "参考文献" not in zh:
+        raise ValueError("Missing `参考文献` section in Chinese article")
+    if "References" not in en:
+        raise ValueError("Missing `References` section in English article")
+
+    urls = list(dict.fromkeys(_extract_reference_urls(zh) + _extract_reference_urls(en)))
+    if len(urls) < 3:
+        raise ValueError(f"Not enough reference URLs (found {len(urls)}, require >=3)")
+
+    unreachable = [u for u in urls[:8] if not _url_reachable(u)]
+    if unreachable:
+        raise ValueError("Unreachable reference URLs: " + ", ".join(unreachable[:3]))
+
+
 def generate_post(headline: str, url: str, summary: str) -> dict:
     if not ZHIPU_API_KEY:
         raise RuntimeError("Missing ZHIPU_API_KEY")
@@ -213,6 +249,8 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
     for k in required:
         if k not in data:
             raise ValueError(f"Missing key: {k}")
+
+    _validate_references(data)
     return data
 
 
@@ -258,24 +296,23 @@ def detect_unwanted_text(img_path: Path) -> bool:
 # 各话题的中文生图提示词
 IMAGE_PROMPTS = {
     "gallbladder": (
-        "医学科普插图，聚焦保胆、胆囊炎或胆囊结石主题，"
-        "肝胆系统相关视觉元素，临床专业风格，无文字，写实高清"
+        "Realistic modern medical illustration of gallbladder health, gallstones/cholecystitis topic, "
+        "clear hepatobiliary anatomy (gallbladder + bile ducts), clinical hospital style, bright clean lighting"
     ),
     "liver": (
-        "医学科普插图，肝脏健康主题，清新明亮，绿色自然色调，"
-        "温暖阳光感，无文字，专业医学风格，高清"
+        "Realistic modern medical illustration of liver and hepatobiliary health, clinical style, "
+        "clean composition, bright natural lighting"
     ),
     "longevity": (
-        "胆囊与代谢健康相关的长寿主题，健康老龄化场景，"
-        "强调肝胆健康关联，温暖医学风，无文字，高清"
+        "Health longevity scene explicitly linked to hepatobiliary metabolic health, "
+        "modern preventive medicine style, realistic photography-like rendering"
     ),
     "nutrition": (
-        "胆囊切除术后营养康复主题，低脂易消化饮食，"
-        "医学科普风格，明亮自然光，无文字，高清"
+        "Post-cholecystectomy nutrition medical illustration, low-fat recovery meal and patient education context, "
+        "modern clinical health style, realistic rendering"
     ),
     "default": (
-        "医学健康主题，专业温暖，蓝白色调，"
-        "干净现代，无文字，高清写实风格"
+        "Modern hepatobiliary medical education illustration, realistic, clean, professional"
     ),
 }
 
@@ -293,7 +330,7 @@ def generate_siliconflow_image(topic_type: str, slug: str) -> str:
         print("[WARN] SILICONFLOW_API_KEY not set, using fallback image.")
         return fallback_map.get(topic_type, "/images/pocs-surgery.jpg")
 
-    prompt = IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"]) + "。严格要求：no text, no letters, no characters, no words, no logo, no watermark, no signature."
+    prompt = IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"]) + "; strict constraints: no text, no letters, no Chinese characters, no symbols, no logo, no watermark, no signature, no calligraphy, no ancient style, no traditional Chinese painting, no fantasy scene, no moon palace aesthetics."
 
     for model_name in SILICONFLOW_IMAGE_MODELS:
         for attempt in range(1, 3):
