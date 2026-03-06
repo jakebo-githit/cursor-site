@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-06',
     category: '胆囊结石',
     categoryEn: 'Gallstones',
-    imageUrl: '/images/blog/blog-20260306-胆囊结石与胆囊炎-lfba2y.jpg',
+    imageUrl: '/images/gallstone-prevention.jpg',
     author: 'AskDrLiu.com'
   },
   {
