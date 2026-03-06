@@ -206,6 +206,13 @@ const BlogPage = () => {
                           <img
                             src={post.imageUrl || '/images/pocs-surgery.jpg'}
                             alt={title}
+                            loading="lazy"
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              if (!target.src.includes('/images/pocs-surgery.jpg')) {
+                                target.src = '/images/pocs-surgery.jpg';
+                              }
+                            }}
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
