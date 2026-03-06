@@ -19,6 +19,18 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260306-胆囊结石与胆囊炎-lfba2y',
+    title: '胆囊结石与胆囊炎',
+    titleEn: 'Gallstones and Cholecystitis: Gallbladder Preservation and Post-op Nutrition',
+    excerpt: '聚焦保胆、胆囊炎、胆囊结石与术后营养管理，结合适应证、随访与实用建议，帮助患者做出更稳妥的诊疗决策。',
+    excerptEn: 'A practical guide to gallstones and cholecystitis, covering gallbladder-preserving options, post-cholecystectomy nutrition, follow-up, and warning signs.',
+    date: '2026-03-06',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260306-胆囊结石与胆囊炎-lfba2y.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260305-蔬果农药与胆囊健康-olrmws',
     title: '蔬果农药与胆囊健康',
     titleEn: 'Pesticides in Produce and Gallbladder Health',

@@ -67,7 +67,12 @@ IMAGE_KEYWORDS = {
 FOCUS_KEYWORDS = [
     "gallbladder", "gallstone", "cholelithiasis", "cholecystitis", "cholecystectomy",
     "post-cholecystectomy", "gallbladder preservation", "biliary", "bile", "pocs",
-    "liver", "hepatic", "fatty liver", "longevity",
+    "diet after cholecystectomy", "gallbladder inflammation",
+]
+
+BLOCK_KEYWORDS = [
+    "organ transplant", "transplantation", "kidney transplant", "heart transplant",
+    "lung transplant", "donor", "allograft", "immunosuppression",
 ]
 
 
@@ -91,13 +96,23 @@ def fetch_entries(feed_url: str, timeout=20):
 def pick_topic(all_entries):
     if not all_entries:
         raise RuntimeError("No RSS entries. Check feeds or network.")
+
     focus = [k.lower() for k in FOCUS_KEYWORDS]
-    # Prefer entries matching focus keywords
+    block = [k.lower() for k in BLOCK_KEYWORDS]
+
+    # 仅保留肝胆目标话题，并剔除器官移植类
+    filtered = []
     for e in all_entries:
-        t = e["title"].lower() + " " + e["summary"].lower()
+        t = (e["title"] + " " + e["summary"]).lower()
+        if any(k in t for k in block):
+            continue
         if any(k in t for k in focus):
-            return e
-    return random.choice(all_entries[:10])
+            filtered.append(e)
+
+    if filtered:
+        return filtered[0]
+
+    raise RuntimeError("No eligible hepatobiliary topics found (after transplant exclusion).")
 
 
 def detect_topic_type(title: str, summary: str) -> str:
