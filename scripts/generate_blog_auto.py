@@ -164,20 +164,26 @@ Summary: {summary}
 
 Key focus areas: {focus}
 
-Chinese article requirements:
+Chinese article requirements (AskDrLiu GEO template):
 - Topic must stay strictly within hepatobiliary scope, prioritizing: gallbladder preservation, cholecystitis, gallstones, post-cholecystectomy nutrition, gallbladder-related longevity, liver health
 - Length must be 1200-1800 Chinese characters (do not write short posts)
-- Hook (1-2 lines that make readers curious)
-- What this research means for patients
-- 3-5 practical takeaways (bullet points)
-- When to seek medical care (bullets)
-- Add section `## 参考文献` with 3-6 real sources, each as markdown list item with title/journal/year/URL
-- One-line disclaimer
+- Must start with section `## 先说结论（30秒读完）` and give clear conclusion first
+- Then use at least 4 FAQ-style subheadings (question format), e.g. “胆囊结石一定要切吗？”
+- Each FAQ section must include: one-line conclusion + 2-4 actionable bullets + one common misconception line
+- Include section `## 风险边界与就医信号` with clear emergency signals (bullets)
+- Include section `## 参考文献` with 3-6 real sources, each as markdown list item with title/journal/year/URL
+- End with one-line medical disclaimer
+- Tone rule: flagship stance allowed but medically safe — "能保尽保，前提是安全可保；不具备条件时，规范切除 + 术后营养管理"
 
 English article requirements:
 - Same structure but natural English tone
 - Length 800-1200 words
+- Start with a clear "Key takeaway" block before details
+- Use at least 4 question-style subheadings (FAQ style)
 - Add section `## References` with 3-6 real sources
+
+SEO/GEO requirement:
+- Write for citation-readability: short paragraphs, explicit conclusions, practical bullets, no vague claims
 
 Return valid JSON only."""
 
