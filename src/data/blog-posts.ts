@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260307-保胆术后管理指南-3jocq5',
+    title: '保胆术后管理指南',
+    titleEn: 'Post-Gallbladder Preservation Surgery Management Guide',
+    excerpt: '保胆手术后定期复查与长期管理是预防复发和确保手术效果的关键。',
+    excerptEn: 'Regular follow-up and long-term management after gallbladder preservation surgery are crucial for preventing recurrence and ensuring successful outcomes.',
+    seoTitle: '保胆手术后复查与长期管理全攻略',
+    seoDescription: '了解保胆手术后的复查时间、饮食调整、药物使用及长期管理要点，预防结石复发，确保手术效果。',
+    date: '2026-03-07',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/blog/blog-20260307-保胆术后管理指南-3jocq5.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260306-胆囊结石与胆囊炎-r2v9kq',
     title: '胆囊结石与胆囊炎：保胆决策与术后营养',
     titleEn: 'Gallstones and Cholecystitis: Gallbladder Preservation and Post-op Nutrition',

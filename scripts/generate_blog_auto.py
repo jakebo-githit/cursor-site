@@ -297,10 +297,24 @@ def detect_unwanted_text(img_path: Path) -> bool:
 
 
 # 各话题的中文生图提示词
+def load_gallbladder_prompts():
+    prompts_path = Path(__file__).parent.parent.parent.parent / ".prompts/gallery/gallbladder-health-cover-prompts-v1.md"
+    if prompts_path.exists():
+        text = prompts_path.read_text(encoding="utf-8")
+        blocks = re.findall(r"## 提示词 (\d+) – (.+?)\n```json\n(\{.+?\})\n```", text, re.DOTALL)
+        if blocks:
+            return blocks  # list of (num, title, json)
+    return None
+
+
+GALLBLADDER_PROMPTS_REGISTRY = load_gallbladder_prompts()
+
 IMAGE_PROMPTS = {
     "gallbladder": (
-        "Realistic modern medical illustration of gallbladder health, gallstones/cholecystitis topic, "
-        "clear hepatobiliary anatomy (gallbladder + bile ducts), clinical hospital style, bright clean lighting"
+        "Modern medical education scene for gallbladder health; clean calm reassuring tone, "
+        "soft natural lighting with subtle volumetric effects; "
+        "no blood, no gore, no wounds, no frightening scene, no pain-expression close-up; "
+        "keep hyper photorealistic, professional, trustworthy"
     ),
     "liver": (
         "Realistic modern medical illustration of liver and hepatobiliary health, clinical style, "
@@ -333,7 +347,7 @@ def generate_siliconflow_image(topic_type: str, slug: str) -> str:
         print("[WARN] SILICONFLOW_API_KEY not set, using fallback image.")
         return fallback_map.get(topic_type, "/images/pocs-surgery.jpg")
 
-    prompt = IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"]) + "; strict constraints: no text, no letters, no Chinese characters, no symbols, no logo, no watermark, no signature, no calligraphy, no ancient style, no traditional Chinese painting, no fantasy scene, no moon palace aesthetics."
+    prompt = IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"]) + "; strict constraints: no text, no letters, no Chinese characters, no symbols, no logo, no watermark, no signature, no calligraphy, no ancient style, no traditional Chinese painting, no fantasy scene, no moon palace aesthetics, no blood, no gore, no wounds, no frightening scene, no pain-expression close-up, no graphic surgery close-up; keep calm, clean, reassuring medical education tone."
 
     for model_name in SILICONFLOW_IMAGE_MODELS:
         for attempt in range(1, 3):

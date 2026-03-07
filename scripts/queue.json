@@ -1,6 +1,21 @@
 {
-  "updated": "2026-03-04",
+  "updated": "2026-03-07",
   "posts": [
+    {
+      "publish_date": "2026-03-07",
+      "slug": "20260307-保胆术后管理指南-3jocq5",
+      "title": "保胆术后管理指南",
+      "titleEn": "Post-Gallbladder Preservation Surgery Management Guide",
+      "category": "保胆",
+      "categoryEn": "Gallbladder Preservation",
+      "imageUrl": "/images/blog/blog-20260307-保胆术后管理指南-3jocq5.jpg",
+      "excerpt": "保胆手术后定期复查与长期管理是预防复发和确保手术效果的关键。",
+      "excerptEn": "Regular follow-up and long-term management after gallbladder preservation surgery are crucial for preventing recurrence and ensuring successful outcomes.",
+      "seoTitle": "保胆手术后复查与长期管理全攻略",
+      "seoDescription": "了解保胆手术后的复查时间、饮食调整、药物使用及长期管理要点，预防结石复发，确保手术效果。",
+      "status": "published",
+      "published_at": "2026-03-07"
+    },
     {
       "publish_date": "2026-03-09",
       "slug": "肝硬化能逆转警惕钼元素疗法陷阱-1je8c",
