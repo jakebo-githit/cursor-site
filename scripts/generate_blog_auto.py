@@ -41,6 +41,8 @@ SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY", "").strip()
 MODEL = "glm-4-plus"              # 智谱清言文本模型
 # 统一切换到 SiliconFlow（避免 Seedream 平台水印）
 SILICONFLOW_IMAGE_MODELS = [
+    "Doubao-Seedream-5.0-lite",
+    "Doubao-Seedream-4.5",
     "black-forest-labs/FLUX.1-dev",
     "black-forest-labs/FLUX.1-schnell",
 ]
