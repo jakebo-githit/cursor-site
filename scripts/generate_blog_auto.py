@@ -530,6 +530,9 @@ def main():
     # 7. Update blog-posts.ts
     update_blog_index(slug, data, image_url)
 
+    # 8. Update sitemap.xml
+    update_sitemap()
+
     print(f"\n✅ Done! Slug: {slug}")
     print("   Next: commit & push → Vercel will auto-deploy.")
 
