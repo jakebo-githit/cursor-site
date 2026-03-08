@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260308-胆囊切除后腹泻应对-l357rf',
+    title: '胆囊切除后腹泻应对',
+    titleEn: 'Managing Diarrhea After Gallbladder Removal',
+    excerpt: '胆囊切除术后常见腹泻问题，科学饮食助您恢复健康。',
+    excerptEn: 'Learn practical strategies to manage diarrhea and indigestion after gallbladder surgery with evidence-based dietary approaches.',
+    seoTitle: '胆囊切除后腹泻怎么办？科学饮食指南',
+    seoDescription: '胆囊切除术后腹泻与消化不良的应对策略，包括饮食调整、生活习惯改变及何时就医的专业建议。',
+    date: '2026-03-08',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/recovery-guide.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260307-保胆术后管理指南-3jocq5',
     title: '保胆术后管理指南',
     titleEn: 'Post-Gallbladder Preservation Surgery Management Guide',
