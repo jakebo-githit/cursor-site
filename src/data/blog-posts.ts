@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260309-保胆手术后恢复指南-abugyi',
+    title: '保胆手术后恢复指南',
+    titleEn: 'Gallbladder Preservation Surgery Recovery Guide',
+    excerpt: '保胆手术后多久能重返工作岗位？了解恢复时间表和注意事项，助您安全回归正常生活。',
+    excerptEn: 'How soon can you return to work after gallbladder preservation surgery? Learn about recovery timelines and important considerations for a safe return to normal activities.',
+    seoTitle: '保胆手术后多久能上班？恢复时间全解析',
+    seoDescription: '保胆手术后恢复时间表、重返工作岗位注意事项、术后护理要点，帮助患者安全顺利回归正常生活和工作。',
+    date: '2026-03-09',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/blog/blog-20260309-保胆手术后恢复指南-abugyi.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260308-胆囊切除后腹泻应对-l357rf',
     title: '胆囊切除后腹泻应对',
     titleEn: 'Managing Diarrhea After Gallbladder Removal',
