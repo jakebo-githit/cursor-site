@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260310-饮食防胆结石-vc22gd',
+    title: '饮食防胆结石',
+    titleEn: 'Preventing Gallstones Through Diet',
+    excerpt: '科学饮食可有效预防胆囊结石形成，了解关键营养素和饮食习惯。',
+    excerptEn: 'Learn how dietary choices can help prevent gallstone formation with practical nutrition strategies.',
+    seoTitle: '科学饮食预防胆囊结石形成的实用指南',
+    seoDescription: '了解如何通过调整饮食预防胆囊结石，包括关键营养素、食物选择和饮食习惯建议。',
+    date: '2026-03-10',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260310-饮食防胆结石-vc22gd.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260309-保胆手术后恢复指南-abugyi',
     title: '保胆手术后恢复指南',
     titleEn: 'Gallbladder Preservation Surgery Recovery Guide',
