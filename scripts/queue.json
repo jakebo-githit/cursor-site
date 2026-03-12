@@ -1,6 +1,21 @@
 {
-  "updated": "2026-03-10",
+  "updated": "2026-03-12",
   "posts": [
+    {
+      "publish_date": "2026-03-12",
+      "slug": "20260312-胆囊炎抗生素使用指南-0q8jgm",
+      "title": "胆囊炎抗生素使用指南",
+      "titleEn": "Guide to Antibiotic Use for Gallbladder Inflammation",
+      "category": "胆囊炎",
+      "categoryEn": "Cholecystitis",
+      "imageUrl": "/images/blog/blog-20260312-胆囊炎抗生素使用指南-0q8jgm.jpg",
+      "excerpt": "合理使用抗生素是治疗胆囊炎的关键，了解何时用药、如何用药至关重要。",
+      "excerptEn": "Understanding the proper use of antibiotics for gallbladder inflammation is crucial for effective treatment.",
+      "seoTitle": "胆囊炎抗生素治疗指南：合理用药与注意事项",
+      "seoDescription": "了解胆囊炎抗生素治疗的合理使用方法，包括用药时机、药物选择及注意事项，帮助患者科学应对胆囊炎。",
+      "status": "published",
+      "published_at": "2026-03-12"
+    },
     {
       "publish_date": "2026-03-10",
       "slug": "20260310-饮食防胆结石-vc22gd",
