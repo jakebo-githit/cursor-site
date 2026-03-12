@@ -146,6 +146,7 @@ Core Principles:
 - Practical takeaways and actionable advice
 - Include "When to see a doctor" section
 - One-line disclaimer at the end
+- Cite extensive medical literature (5-8 references minimum)
 
 Output MUST be valid JSON only (no markdown fences).
 
@@ -160,8 +161,8 @@ JSON Structure:
   "tags": ["tag1", "tag2", "tag3"],
   "seoTitle": "SEO-optimized Chinese title (40-60 chars)",
   "seoDescription": "SEO description (120-160 chars, includes main keywords)",
-  "markdownZh": "Chinese article body (1200-1800 chars, include ## 参考文献 section with 3-6 real sources with URLs)",
-  "markdownEn": "English article body (800-1200 words, include ## References section with 3-6 real sources with URLs)"
+  "markdownZh": "Chinese article body (1500-2500 chars, include ## 参考文献 section with 5-8 real sources with URLs, cite throughout the article)",
+  "markdownEn": "English article body (1200-1800 words, include ## References section with 5-8 real sources with URLs, cite throughout the article)"
 }"""
 
 USER_PROMPT_TEMPLATE = """Generate a bilingual medical blog post on this topic:
@@ -169,26 +170,32 @@ USER_PROMPT_TEMPLATE = """Generate a bilingual medical blog post on this topic:
 Category: {category}
 Subtopic: {subtopic}
 
-Chinese Article Requirements (1200-1800 characters):
+Chinese Article Requirements (1500-2500 characters, MUST be at least 1500 characters):
 - Engaging hook (1-2 lines that grab attention)
-- Clear explanation of the medical condition or topic
-- 3-5 practical takeaways (bullet points with explanations)
-- "何时需要就医" (When to see a doctor) section with 3-5 specific situations
-- ## 参考文献 section with 3-6 real medical sources (PubMed, reputable journals, guidelines) with URLs
+- Comprehensive explanation of the medical condition or topic (detailed but accessible)
+- 4-6 practical takeaways (bullet points with detailed explanations)
+- "何时需要就医" (When to see a doctor) section with 4-6 specific situations
+- ## 参考文献 section with 5-8 real medical sources (PubMed, reputable journals, clinical guidelines) with URLs
+- Citations should be integrated throughout the article body, not just at the end
 - One-line disclaimer: 本内容仅供科普参考，不替代专业医疗建议
 
-English Article Requirements (800-1200 words):
+English Article Requirements (1200-1800 words, MUST be at least 1200 words):
 - Same structure but natural English tone
-- Practical takeaways (3-5 bullet points)
-- "When to see a doctor" section (3-5 situations)
-- ## References section with 3-6 real sources with URLs
+- More detailed and comprehensive content
+- Practical takeaways (4-6 bullet points with detailed explanations)
+- "When to see a doctor" section (4-6 situations)
+- ## References section with 5-8 real sources with URLs
+- Citations should be integrated throughout the article body
 - One-line disclaimer: This content is for educational purposes only and does not replace professional medical advice
 
 IMPORTANT:
+- Article MUST be comprehensive and detailed (minimum length requirements above)
+- Include MORE references throughout the text (cite sources when mentioning statistics, studies, or clinical data)
 - All reference URLs MUST be real and accessible (PubMed, clinical guidelines, reputable medical sites)
 - Do NOT fabricate studies or make up URLs
 - If uncertain about a reference, use general authoritative sources like PubMed, UpToDate, or medical society guidelines
 - Keep citations realistic and relevant to the topic
+- For Chinese articles, 参考文献 should include both Chinese and English sources when possible
 
 Return valid JSON only."""
 
@@ -330,16 +337,16 @@ def generate_image(category: str, slug: str) -> str:
         print("[WARN] SILICONFLOW_API_KEY not set, using fallback image")
         return fallback_map.get(category, "/images/pocs-surgery.jpg")
 
-    # Topic-specific prompts
+    # Topic-specific prompts - Black and white comic/manga style
     prompt_map = {
-        "保胆": "Modern medical illustration of gallbladder preservation and minimally invasive POCS surgery, clean clinical style, soft natural lighting, professional medical education tone, no text, no letters, no symbols, no watermark, no blood, no gore, no frightening scenes",
-        "胆囊炎": "Medical illustration of gallbladder inflammation and biliary system, clinical style, calm blue-green tones, professional medical education, no text, no watermark, no frightening scenes",
-        "胆囊结石": "Medical illustration of gallstones in gallbladder, anatomical style, clean professional medical visualization, no text, no watermark",
-        "胆囊切除术后营养": "Post-cholecystectomy nutrition and recovery meal scene, medical education style, healthy food composition, warm reassuring tones, no text, no watermark",
+        "保胆": "Black and white manga comic style illustration of gallbladder preservation concept, friendly cartoon characters, medical education comic, clean line art, monochrome, professional yet approachable, no scary medical imagery, no text, no letters, no symbols, no watermark",
+        "胆囊炎": "Black and white manga comic style illustration of gallbladder health and inflammation prevention, educational comic art, friendly character design, clean line work, monochrome palette, professional medical education tone, no frightening scenes, no text, no watermark",
+        "胆囊结石": "Black and white manga comic style illustration showing gallstone prevention concept, educational cartoon style, friendly visual metaphor, clean line art, monochrome, professional medical comic, no scary imagery, no text, no watermark",
+        "胆囊切除术后营养": "Black and white manga comic style illustration of post-surgery recovery and nutrition, food and wellness comic art, friendly character eating healthy meals, clean line work, monochrome, warm educational tone, no text, no watermark",
     }
 
     prompt = (prompt_map.get(category, prompt_map["保胆"]) +
-               "; strict constraints: no text overlay, no Chinese characters, no English letters, no numbers, no logo, no watermark, no signature, no calligraphy, no blood, no gore, no wounds, no surgery close-up, keep clean professional medical education style")
+               "; strict constraints: black and white only, manga comic style, clean line art, no color, no text overlay, no Chinese characters, no English letters, no numbers, no logo, no watermark, no signature, no blood, no gore, no frightening medical imagery, friendly educational comic style")
 
     for model_name in SILICONFLOW_IMAGE_MODELS:
         for attempt in range(1, 3):
