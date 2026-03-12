@@ -337,16 +337,16 @@ def generate_image(category: str, slug: str) -> str:
         print("[WARN] SILICONFLOW_API_KEY not set, using fallback image")
         return fallback_map.get(category, "/images/pocs-surgery.jpg")
 
-    # Topic-specific prompts - Black and white comic/manga style
+    # Topic-specific prompts - Black and white comic/manga style, NO TEXT
     prompt_map = {
-        "保胆": "Black and white manga comic style illustration of gallbladder preservation concept, friendly cartoon characters, medical education comic, clean line art, monochrome, professional yet approachable, no scary medical imagery, no text, no letters, no symbols, no watermark",
-        "胆囊炎": "Black and white manga comic style illustration of gallbladder health and inflammation prevention, educational comic art, friendly character design, clean line work, monochrome palette, professional medical education tone, no frightening scenes, no text, no watermark",
-        "胆囊结石": "Black and white manga comic style illustration showing gallstone prevention concept, educational cartoon style, friendly visual metaphor, clean line art, monochrome, professional medical comic, no scary imagery, no text, no watermark",
-        "胆囊切除术后营养": "Black and white manga comic style illustration of post-surgery recovery and nutrition, food and wellness comic art, friendly character eating healthy meals, clean line work, monochrome, warm educational tone, no text, no watermark",
+        "保胆": "Black and white manga comic style illustration showing a happy cartoon character with a healthy gallbladder, medical checkup scene, doctor and patient interaction, clean line art, monochrome, friendly and reassuring, purely visual storytelling without any text",
+        "胆囊炎": "Black and white manga comic style illustration of a person living a healthy lifestyle, jogging or doing yoga, feeling energetic and pain-free, clean line work, monochrome, positive and uplifting mood, purely visual without any text",
+        "胆囊结石": "Black and white manga comic style illustration of a balanced healthy meal spread, fruits and vegetables composition, person enjoying nutritious food, clean line art, monochrome, appetizing and wholesome, purely visual without any text or labels",
+        "胆囊切除术后营养": "Black and white manga comic style illustration of post-surgery recovery, person doing gentle rehabilitation exercises or walking in nature, feeling strong and healthy, clean line work, monochrome, hopeful and positive atmosphere, purely visual without any text",
     }
 
     prompt = (prompt_map.get(category, prompt_map["保胆"]) +
-               "; strict constraints: black and white only, manga comic style, clean line art, no color, no text overlay, no Chinese characters, no English letters, no numbers, no logo, no watermark, no signature, no blood, no gore, no frightening medical imagery, friendly educational comic style")
+               "; CRITICAL: absolutely no text, no letters, no numbers, no Chinese characters, no English words, no labels, no captions, no signs, no logos, no watermarks, no signatures, no calligraphy, no typography of any kind; black and white only, manga comic style, clean line art, no color, no blood, no gore, no frightening medical imagery, friendly educational comic style, purely visual illustration")
 
     for model_name in SILICONFLOW_IMAGE_MODELS:
         for attempt in range(1, 3):
