@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260313-保胆取石适合人群与注意事项-9atae9',
+    title: '保胆取石：适合人群与注意事项',
+    titleEn: 'Gallbladder Preservation Surgery: Who Are Suitable Candidates',
+    excerpt: '保胆取石手术并非人人适合，了解适应症是成功治疗的关键。',
+    excerptEn: 'Gallbladder preservation surgery isn\'t suitable for everyone. Understanding eligibility criteria is crucial for successful treatment.',
+    seoTitle: '保胆取石手术适合人群与禁忌症详解',
+    seoDescription: '了解保胆取石手术的适应症、禁忌症及术后注意事项，帮助患者做出明智的治疗选择。',
+    date: '2026-03-13',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/blog/blog-20260313-保胆取石适合人群与注意事项-9atae9.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260312-胆囊炎抗生素使用指南-0q8jgm',
     title: '胆囊炎抗生素使用指南',
     titleEn: 'Guide to Antibiotic Use for Gallbladder Inflammation',
