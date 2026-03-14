@@ -58,6 +58,16 @@ const Footer = () => {
                   {t('common.selfAssessment')}
                 </Link>
               </li>
+              <li>
+                <a
+                  href="https://gallbladdercare.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-secondary transition-colors"
+                >
+                  {t('common.postSurgeryResources')}
+                </a>
+              </li>
             </ul>
           </div>
 

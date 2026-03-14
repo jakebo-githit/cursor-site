@@ -76,6 +76,16 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            <a
+              href="https://gallbladdercare.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${
+                isScrolled ? 'text-primary-800' : 'md:text-white'
+              } hover:text-secondary transition-colors text-base-plus font-medium`}
+            >
+              {t('common.postSurgeryResources')}
+            </a>
             
             {/* Language Switch */}
             <button 
@@ -124,6 +134,14 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
+              <a
+                href="https://gallbladdercare.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-800 hover:text-secondary transition-colors py-2 px-4"
+              >
+                {t('common.postSurgeryResources')}
+              </a>
               
               {/* Language Switch */}
               <button 

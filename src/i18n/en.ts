@@ -15,6 +15,7 @@ const enTranslations = {
     freeGuide: "Free Guide",
     faq: "FAQ",
     contact: "Contact",
+    postSurgeryResources: "Post-Surgery Patient Resources",
     drafts: "Drafts",
     published_date: "Published: {{date}}",
     back_to_articles: "Back to Articles"

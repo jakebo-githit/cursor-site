@@ -153,7 +153,7 @@ const AboutPage = () => {
               </motion.div>
 
               {/* Medical Philosophy */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
@@ -174,6 +174,21 @@ const AboutPage = () => {
                     {t('about.philosophyContent')}
                   </p>
                 </div>
+              </motion.div>
+
+              {/* Patient Resources */}
+              <motion.div
+                className="mt-12"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <p className="text-gray-700 text-base-plus leading-relaxed">
+                  {t('common.home') === 'Home'
+                    ? <>For patients navigating life after gallbladder surgery — including post-surgical body changes and nutritional support — I have compiled a set of patient education resources available at: <a href="https://gallbladdercare.com" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:text-primary underline">gallbladdercare.com</a></>
+                    : <>如果你或家人正在经历胆囊手术后的身体变化，我整理了一套患者教育资源与术后康复参考，包括科普书籍及术后营养管理建议，可在此查阅：<a href="https://gallbladdercare.com" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:text-primary underline">gallbladdercare.com</a></>
+                  }
+                </p>
               </motion.div>
             </div>
           </div>

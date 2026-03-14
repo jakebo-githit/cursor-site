@@ -15,6 +15,7 @@ const zhTranslations = {
     freeGuide: "免费指南",
     faq: "常见问题",
     contact: "联系方式",
+    postSurgeryResources: "胆囊术后康复资源",
     drafts: "草稿管理",
     published_date: "发布日期：{{date}}",
     back_to_articles: "返回文章列表"
