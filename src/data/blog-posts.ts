@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260314-保胆取石术后恢复指南-9q1ynf',
+    title: '保胆取石术后恢复指南',
+    titleEn: 'Post-Gallbladder Preservation Stone Removal Recovery Guide',
+    excerpt: '保胆取石术后一周恢复时间表，助您科学康复，避免常见误区。',
+    excerptEn: 'A comprehensive one-week recovery timeline after gallbladder preservation stone removal, helping patients navigate the healing process with practical advice.',
+    seoTitle: '保胆取石术后一周恢复时间表与注意事项',
+    seoDescription: '详细解析保胆取石术后一周恢复过程，包括饮食、活动、疼痛管理等关键要点，帮助患者科学康复。',
+    date: '2026-03-14',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/blog/blog-20260314-保胆取石术后恢复指南-9q1ynf.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260313-保胆取石适合人群与注意事项-9atae9',
     title: '保胆取石：适合人群与注意事项',
     titleEn: 'Gallbladder Preservation Surgery: Who Are Suitable Candidates',
