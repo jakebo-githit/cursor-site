@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260315-保胆标准与切胆后营养修复-kx9p3m',
+    title: '保胆还是切胆？——术前筛选标准与切除后营养修复完全指南',
+    titleEn: 'Preserve or Remove? Gallbladder Criteria & Post-Op Nutrition Guide',
+    excerpt: '保胆取石并非人人适合，切胆后营养修复也大有学问。一文读懂术前筛选五大标准与术后三大营养问题。',
+    excerptEn: 'Not everyone qualifies for gallbladder preservation. Learn the 5 key criteria for POCS candidates and the 3 major nutritional challenges after cholecystectomy.',
+    seoTitle: '保胆取石适应症与胆囊切除后营养修复指南 | 刘波医生',
+    seoDescription: '刘波医生详解保胆取石五大筛选标准（胆囊壁、结石大小、胆囊功能、MRCP评估），以及切除胆囊后腹泻、脂肪吸收障碍、菌群失调三大营养修复策略，含电子书推荐。',
+    date: '2026-03-15',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/recovery-guide.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260314-保胆取石术后恢复指南-9q1ynf',
     title: '保胆取石术后恢复指南',
     titleEn: 'Post-Gallbladder Preservation Stone Removal Recovery Guide',
