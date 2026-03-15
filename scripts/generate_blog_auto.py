@@ -257,102 +257,47 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
         focus=", ".join(FOCUS_KEYWORDS[:8]),
     )
 
-    resp = client.chat.completions.create(
-        model=MODEL,
-        temperature=0.4,
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": prompt},
-        ],
-    )
+    last_error = None
+    for attempt in range(1, 4):
+        resp = client.chat.completions.create(
+            model=MODEL,
+            temperature=0.4,
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": prompt},
+            ],
+        )
 
-    text = resp.choices[0].message.content.strip()
+        text = resp.choices[0].message.content.strip()
 
-    # Parse JSON
-    try:
-        data = json.loads(text)
-    except Exception:
-        m = re.search(r"\{.*\}", text, re.DOTALL)
-        if not m:
-            raise ValueError(f"Model did not return JSON:\n{text[:300]}")
-        data = json.loads(m.group(0))
+        try:
+            try:
+                data = json.loads(text)
+            except Exception:
+                m = re.search(r"\{.*\}", text, re.DOTALL)
+                if not m:
+                    raise ValueError(f"Model did not return JSON: {text[:300]}")
+                data = json.loads(m.group(0))
 
-    required = ["title", "titleEn", "excerpt", "excerptEn", "category", "categoryEn", "tags", "markdownZh", "markdownEn"]
-    for k in required:
-        if k not in data:
-            raise ValueError(f"Missing key: {k}")
+            required = ["title", "titleEn", "excerpt", "excerptEn", "category", "categoryEn", "tags", "markdownZh", "markdownEn"]
+            for k in required:
+                if k not in data:
+                    raise ValueError(f"Missing required key: {k}")
 
-    try:
-        _validate_references(data)
-    except Exception as ex:
-        print(f"[WARN] Reference validation skipped: {ex}")
-    return data
+            try:
+                _validate_references(data)
+            except Exception as ex:
+                print(f"[WARN] Reference validation skipped: {ex}")
+            return data
+        except Exception as ex:
+            last_error = ex
+            print(f"[WARN] JSON parse/validation failed on attempt {attempt}: {ex}")
+            time.sleep(2)
 
-
-# ─────────────────────────── AIGC Image Generation (火山方舟) ───────────────────────────
-
-try:
-    from PIL import Image
-    import pytesseract
-except Exception:
-    Image = None
-    pytesseract = None
+    raise RuntimeError(f"Failed to generate valid post JSON after retries: {last_error}")
 
 
-def generate_siliconflow_image(topic_type: str, slug: str) -> str:
-    """使用火山 Ark 生成黑白漫画博客封面。"""
-    fallback_map = {
-        "gallbladder": "/images/gallstone-prevention.jpg",
-        "liver": "/images/liver-health.jpg",
-        "longevity": "/images/dietary-guidance.jpg",
-        "nutrition": "/images/dietary-guidance.jpg",
-        "default": "/images/recovery-guide.jpg",
-    }
 
-    return generate_cover_image(
-        slug=slug,
-        images_dir=IMAGES_DIR,
-        fallback_path=fallback_map.get(topic_type, "/images/pocs-surgery.jpg"),
-        base_prompt=IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"]),
-        api_key=ARK_API_KEY,
-    )
-
-
-# ─────────────────────────── Save Markdown ───────────────────────────
-def save_markdown(slug: str, data: dict, image_url: str, source_url: str):
-    today = datetime.now().strftime("%Y-%m-%d")
-
-    # Chinese markdown file
-    zh_path = BLOG_MD_DIR / f"{slug}.md"
-    zh_header = f"""---
-title: {data['title']}
-date: {today}
-category: {data['category']}
-image: {image_url}
-source: {source_url}
----
-
-"""
-    zh_path.write_text(zh_header + data["markdownZh"].strip() + "\n", encoding="utf-8")
-
-    # English markdown file
-    en_path = BLOG_MD_DIR / f"{slug}-en.md"
-    en_header = f"""---
-title: {data['titleEn']}
-date: {today}
-category: {data['categoryEn']}
-image: {image_url}
-source: {source_url}
----
-
-"""
-    en_path.write_text(en_header + data["markdownEn"].strip() + "\n", encoding="utf-8")
-
-    print(f"[OK] Saved: {zh_path.name} + {en_path.name}")
-    return str(zh_path), str(en_path)
-
-
-# ─────────────────────────── Update blog-posts.ts ───────────────────────────
 def update_blog_index(slug: str, data: dict, image_url: str):
     """Insert new post entry into src/data/blog-posts.ts"""
     today = datetime.now().strftime("%Y-%m-%d")
