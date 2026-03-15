@@ -5,7 +5,7 @@ AskDrLiu Blog Daily Auto-Generator (No RSS dependency)
 -------------------------------------------------------
 - Generates bilingual blog post via GLM-4-Plus API
 - Topics restricted to: 保胆, 胆囊炎, 胆囊结石, 胆囊切除术后营养
-- AIGC cover image via SiliconFlow (FLUX)
+- AIGC cover image via Volcengine Ark / Doubao Seedream
 - Validates references are real and reachable
 - Saves markdown and updates blog-posts.ts
 - Auto commits and pushes to trigger Vercel deploy
@@ -21,6 +21,7 @@ import requests
 from datetime import datetime
 from pathlib import Path
 from zhipuai import ZhipuAI
+from ark_image_helper import generate_cover_image
 
 # ─────────────────────────── Config ───────────────────────────
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -33,16 +34,9 @@ BLOG_MD_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
 ZHIPU_API_KEY = os.getenv("ZHIPU_API_KEY", "").strip()
-SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY", "").strip()
+ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
 
 MODEL = "glm-4-plus"
-SILICONFLOW_IMAGE_MODELS = [
-    "Doubao-Seedream-5.0-lite",
-    "Doubao-Seedream-4.5",
-    "black-forest-labs/FLUX.1-dev",
-    "black-forest-labs/FLUX.1-schnell",
-]
-SILICONFLOW_BASE_URL = "https://api.siliconflow.cn/v1/images/generations"
 
 # Allowed topics (from requirements)
 ALLOWED_CATEGORIES_ZH = ["保胆", "胆囊炎", "胆囊结石", "胆囊切除术后营养"]
@@ -325,7 +319,7 @@ def generate_post(category: str, subtopic: str, max_retries=3) -> dict:
 
 # ─────────────────────────── Image Generation ───────────────────────────
 def generate_image(category: str, slug: str) -> str:
-    """Generate cover image via SiliconFlow."""
+    """Generate black-and-white manga cover image via Volcengine Ark."""
     fallback_map = {
         "保胆": "/images/pocs-surgery.jpg",
         "胆囊炎": "/images/gallstone-prevention.jpg",
@@ -333,66 +327,21 @@ def generate_image(category: str, slug: str) -> str:
         "胆囊切除术后营养": "/images/recovery-guide.jpg",
     }
 
-    if not SILICONFLOW_API_KEY:
-        print("[WARN] SILICONFLOW_API_KEY not set, using fallback image")
-        return fallback_map.get(category, "/images/pocs-surgery.jpg")
-
-    # Topic-specific prompts - Black and white comic/manga style, NO TEXT
     prompt_map = {
-        "保胆": "Black and white manga comic style illustration showing a happy cartoon character with a healthy gallbladder, medical checkup scene, doctor and patient interaction, clean line art, monochrome, friendly and reassuring, purely visual storytelling without any text",
-        "胆囊炎": "Black and white manga comic style illustration of a person living a healthy lifestyle, jogging or doing yoga, feeling energetic and pain-free, clean line work, monochrome, positive and uplifting mood, purely visual without any text",
-        "胆囊结石": "Black and white manga comic style illustration of a balanced healthy meal spread, fruits and vegetables composition, person enjoying nutritious food, clean line art, monochrome, appetizing and wholesome, purely visual without any text or labels",
-        "胆囊切除术后营养": "Black and white manga comic style illustration of post-surgery recovery, person doing gentle rehabilitation exercises or walking in nature, feeling strong and healthy, clean line work, monochrome, hopeful and positive atmosphere, purely visual without any text",
+        "保胆": "黑白漫画风格医学科普封面，主题为术前保胆评估与医生门诊沟通，画面干净明亮、专业可信，可出现医生与患者交流、检查资料说明、安心决策场景",
+        "胆囊炎": "黑白漫画风格医学科普封面，主题为胆囊炎恢复期饮食与日常护理，画面干净明亮、温和安心，可出现清淡家常饮食、休息恢复、轻松生活场景",
+        "胆囊结石": "黑白漫画风格医学科普封面，主题为胆囊结石患者的日常饮食管理与门诊咨询，画面干净明亮、安心专业，可出现医生沟通、健康饮食、轻松生活方式",
+        "胆囊切除术后营养": "黑白漫画风格医学科普封面，主题为胆囊切除术后饮食恢复与营养管理，画面干净明亮、安心专业，可出现均衡清淡饮食、家中恢复、散步等日常生活方式",
     }
 
-    prompt = (prompt_map.get(category, prompt_map["保胆"]) +
-               "; CRITICAL: absolutely no text, no letters, no numbers, no Chinese characters, no English words, no labels, no captions, no signs, no logos, no watermarks, no signatures, no calligraphy, no typography of any kind; black and white only, manga comic style, clean line art, no color, no blood, no gore, no frightening medical imagery, friendly educational comic style, purely visual illustration")
+    return generate_cover_image(
+        slug=slug,
+        images_dir=IMAGES_DIR,
+        fallback_path=fallback_map.get(category, "/images/pocs-surgery.jpg"),
+        base_prompt=prompt_map.get(category, prompt_map["保胆"]),
+        api_key=ARK_API_KEY,
+    )
 
-    for model_name in SILICONFLOW_IMAGE_MODELS:
-        for attempt in range(1, 3):
-            try:
-                payload = {
-                    "model": model_name,
-                    "prompt": prompt,
-                    "image_size": "1280x720",
-                }
-                resp = requests.post(
-                    SILICONFLOW_BASE_URL,
-                    headers={
-                        "Authorization": f"Bearer {SILICONFLOW_API_KEY}",
-                        "Content-Type": "application/json",
-                    },
-                    json=payload,
-                    timeout=120,
-                )
-                resp.raise_for_status()
-                data = resp.json().get("data", [])
-                if not data:
-                    raise RuntimeError("No image data from SiliconFlow")
-
-                if data[0].get("url"):
-                    img_resp = requests.get(data[0]["url"], timeout=60)
-                    img_resp.raise_for_status()
-                    img_bytes = img_resp.content
-                elif data[0].get("b64_json"):
-                    import base64
-                    img_bytes = base64.b64decode(data[0]["b64_json"])
-                else:
-                    raise RuntimeError("No image URL/base64 from SiliconFlow")
-
-                img_filename = f"blog-{slug[:40]}.jpg"
-                img_path = IMAGES_DIR / img_filename
-                img_path.write_bytes(img_bytes)
-
-                print(f"[OK] Image saved: {img_filename} via {model_name}")
-                return f"/images/blog/{img_filename}"
-
-            except Exception as e:
-                print(f"[WARN] Image generation failed ({model_name}, attempt {attempt}): {e}")
-                continue
-
-    print(f"[WARN] Using fallback image for {category}")
-    return fallback_map.get(category, "/images/pocs-surgery.jpg")
 
 # ─────────────────────────── File Operations ───────────────────────────
 def make_slug(title: str) -> str:

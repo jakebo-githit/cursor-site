@@ -33,12 +33,12 @@ jobs:
           sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim
 
       - name: Install dependencies
-        run: pip install zhipuai feedparser requests python-slugify pillow pytesseract
+        run: pip install -r scripts/requirements.txt
 
       - name: Run weekly pipeline
         env:
           ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
-          SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
+          ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scripts/weekly_pipeline.py
@@ -60,5 +60,5 @@ jobs:
           commit_author: 'AskDrLiu Bot <bot@askdrliu.com>'
           file_pattern: |
             public/blog-posts/drafts/*.md
-            public/images/blog/*.jpg
+            public/images/blog/*
             scripts/queue.json

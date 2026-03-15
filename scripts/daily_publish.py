@@ -141,7 +141,11 @@ def main():
     posts = queue.get("posts", [])
 
     # 2. 找今天的条目
-    todays = [p for p in posts if p["publish_date"] == today and p["status"] == "draft"]
+    publishable_statuses = {"draft", "pending"}
+    todays = [
+        p for p in posts
+        if p.get("publish_date") == today and p.get("status") in publishable_statuses
+    ]
 
     if not todays:
         print(f"[INFO] No post scheduled for {today}.")
