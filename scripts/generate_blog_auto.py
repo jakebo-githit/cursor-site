@@ -327,6 +327,25 @@ def generate_siliconflow_image(topic_type: str, slug: str) -> str:
 
 
 
+
+BOOK_LINK_BLOCK_ZH = """
+
+## 延伸阅读
+
+如果你希望更系统地了解胆囊切除术后饮食、腹泻、腹胀、脂肪消化与营养修复，可以进一步查看刘波医生整理的相关患者教育资料与电子书页面：
+
+**《手術成功了，為什麼我的身體變了？——膽囊切除後的飲食與營養修復》**
+
+👉 [在 gallbladdercare.com 查看这本书](https://gallbladdercare.com)
+"""
+
+
+def ensure_book_link(markdown_text: str) -> str:
+    if "gallbladdercare.com" in markdown_text:
+        return markdown_text
+    return markdown_text.rstrip() + BOOK_LINK_BLOCK_ZH + "\n"
+
+
 def save_markdown(slug: str, data: dict, image_url: str, source_url: str):
     today = datetime.now().strftime("%Y-%m-%d")
 
@@ -340,7 +359,8 @@ source: {source_url}
 ---
 
 """
-    zh_path.write_text(zh_header + data["markdownZh"].strip() + "\n", encoding="utf-8")
+    zh_body = ensure_book_link(data["markdownZh"])
+    zh_path.write_text(zh_header + zh_body.strip() + "\n", encoding="utf-8")
 
     en_path = BLOG_MD_DIR / f"{slug}-en.md"
     en_header = f"""---

@@ -275,6 +275,25 @@ def generate_image(category, slug):
     )
 
 
+
+BOOK_LINK_BLOCK_ZH = """
+
+## 延伸阅读
+
+如果你希望更系统地了解胆囊切除术后饮食、腹泻、腹胀、脂肪消化与营养修复，可以进一步查看刘波医生整理的相关患者教育资料与电子书页面：
+
+**《手術成功了，為什麼我的身體變了？——膽囊切除後的飲食與營養修復》**
+
+👉 [在 gallbladdercare.com 查看这本书](https://gallbladdercare.com)
+"""
+
+
+def ensure_book_link(markdown_text: str) -> str:
+    if "gallbladdercare.com" in markdown_text:
+        return markdown_text
+    return markdown_text.rstrip() + BOOK_LINK_BLOCK_ZH + "\n"
+
+
 # ─── 5. 保存草稿 ─────────────────────────────────────────
 def make_slug(title):
     clean = re.sub(r"[^\w\s-]", "", title, flags=re.UNICODE)
@@ -318,7 +337,8 @@ status: draft
 
 """
     path = DRAFTS_DIR / f"{slug}.md"
-    path.write_text(header + data["markdown"].strip() + "\n", encoding="utf-8")
+    body = ensure_book_link(data["markdown"])
+    path.write_text(header + body.strip() + "\n", encoding="utf-8")
     return str(path)
 
 
