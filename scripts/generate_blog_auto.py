@@ -325,6 +325,37 @@ def generate_siliconflow_image(topic_type: str, slug: str) -> str:
     )
 
 
+
+
+def save_markdown(slug: str, data: dict, image_url: str, source_url: str):
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    zh_path = BLOG_MD_DIR / f"{slug}.md"
+    zh_header = f"""---
+title: {data['title']}
+date: {today}
+category: {data['category']}
+image: {image_url}
+source: {source_url}
+---
+
+"""
+    zh_path.write_text(zh_header + data["markdownZh"].strip() + "\n", encoding="utf-8")
+
+    en_path = BLOG_MD_DIR / f"{slug}-en.md"
+    en_header = f"""---
+title: {data['titleEn']}
+date: {today}
+category: {data['categoryEn']}
+image: {image_url}
+source: {source_url}
+---
+
+"""
+    en_path.write_text(en_header + data["markdownEn"].strip() + "\n", encoding="utf-8")
+
+    print(f"[OK] Saved: {zh_path.name} + {en_path.name}")
+
 def update_blog_index(slug: str, data: dict, image_url: str):
     """Insert new post entry into src/data/blog-posts.ts"""
     today = datetime.now().strftime("%Y-%m-%d")
