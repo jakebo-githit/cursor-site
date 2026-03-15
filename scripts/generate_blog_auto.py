@@ -50,6 +50,24 @@ FEED_URLS = [
     "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=liver+health+longevity&format=rss&limit=20",
 ]
 
+FALLBACK_TOPICS = [
+    {
+        "title": "Dietary Considerations in Cholecystectomy: Investigating the Impact of Various Dietary Factors on Symptoms and Outcomes",
+        "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11200314/",
+        "summary": "Review of dietary considerations after cholecystectomy, including symptom management, meal timing, fat tolerance, and patient-centered recovery strategies.",
+    },
+    {
+        "title": "A High-Fat, High-Cholesterol Diet Promotes Intestinal Inflammation by Exacerbating Gut Microbiome Dysbiosis and Bile Acid Disorders in Cholecystectomy",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/37686860/",
+        "summary": "Experimental evidence that high-fat and high-cholesterol diets can worsen bile acid disorders, gut dysbiosis, and intestinal inflammation after cholecystectomy.",
+    },
+    {
+        "title": "Bile acid diarrhea: current status and future directions",
+        "link": "https://pubmed.ncbi.nlm.nih.gov/40110492/",
+        "summary": "Updated review covering bile acid diarrhea mechanisms, diagnosis, and treatment directions relevant to persistent diarrhea after gallbladder removal.",
+    },
+]
+
 # Image search keywords mapped to topics
 IMAGE_KEYWORDS = {
     "gallbladder": ["healthy food", "digestive health", "nutrition", "medical"],
@@ -107,7 +125,8 @@ def pick_topic(all_entries):
     if filtered:
         return filtered[0]
 
-    raise RuntimeError("No eligible hepatobiliary topics found (after transplant exclusion).")
+    print("[WARN] No eligible RSS topic found, falling back to curated hepatobiliary topic.")
+    return random.choice(FALLBACK_TOPICS)
 
 
 def detect_topic_type(title: str, summary: str) -> str:
