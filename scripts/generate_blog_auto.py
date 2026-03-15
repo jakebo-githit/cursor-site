@@ -394,6 +394,22 @@ def update_blog_index(slug: str, data: dict, image_url: str):
     print(f"[OK] Registered in blog-posts.ts: {slug}")
 
 
+def update_sitemap():
+    sitemap_path = REPO_ROOT / "public" / "sitemap.xml"
+    ids = re.findall(r"id:\s*'([^']+)'", BLOG_INDEX_FILE.read_text(encoding="utf-8"))
+    urls = ["https://www.askdrliu.com/", "https://www.askdrliu.com/blog"]
+    urls.extend([f"https://www.askdrliu.com/blog/{slug}" for slug in ids])
+    unique_urls = list(dict.fromkeys(urls))
+    body = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for url in unique_urls:
+        body.append("  <url>")
+        body.append(f"    <loc>{url}</loc>")
+        body.append("  </url>")
+    body.append("</urlset>")
+    sitemap_path.write_text("\n".join(body) + "\n", encoding="utf-8")
+    print(f"[OK] Updated sitemap.xml with {len(unique_urls)} URLs")
+
+
 # ─────────────────────────── Main ───────────────────────────
 def make_slug(title: str) -> str:
     """Generate a URL-friendly slug from Chinese or English title."""
