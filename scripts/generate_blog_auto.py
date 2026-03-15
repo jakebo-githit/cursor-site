@@ -298,6 +298,33 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
 
 
 
+
+IMAGE_PROMPTS = {
+    "gallbladder": "黑白漫画风格医学科普封面，主题为胆囊健康、门诊沟通与日常健康管理，画面干净明亮、温和安心、适合个人医生网站文章封面",
+    "liver": "黑白漫画风格医学科普封面，主题为肝胆健康与日常保养，画面干净明亮、专业可信，可出现健康饮食与生活方式场景",
+    "longevity": "黑白漫画风格医学科普封面，主题为健康长寿与代谢管理，画面干净明亮、轻松自然，可出现步行、轻运动、规律生活",
+    "nutrition": "黑白漫画风格医学科普封面，主题为胆囊切除术后饮食恢复与营养管理，画面干净明亮、安心专业，可出现均衡清淡饮食、家中恢复与散步场景",
+    "default": "黑白漫画风格肝胆健康医学科普封面，画面干净明亮、专业可信，可出现医生沟通、健康饮食、恢复生活方式等安全场景",
+}
+
+
+def generate_siliconflow_image(topic_type: str, slug: str) -> str:
+    fallback_map = {
+        "gallbladder": "/images/gallstone-prevention.jpg",
+        "liver": "/images/liver-health.jpg",
+        "longevity": "/images/dietary-guidance.jpg",
+        "nutrition": "/images/dietary-guidance.jpg",
+        "default": "/images/recovery-guide.jpg",
+    }
+    return generate_cover_image(
+        slug=slug,
+        images_dir=IMAGES_DIR,
+        fallback_path=fallback_map.get(topic_type, "/images/pocs-surgery.jpg"),
+        base_prompt=IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"]),
+        api_key=ARK_API_KEY,
+    )
+
+
 def update_blog_index(slug: str, data: dict, image_url: str):
     """Insert new post entry into src/data/blog-posts.ts"""
     today = datetime.now().strftime("%Y-%m-%d")
