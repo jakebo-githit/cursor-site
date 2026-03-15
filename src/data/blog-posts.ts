@@ -19,6 +19,18 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260315-胆汁酸腹泻胆囊切除后新解-y792un',
+    title: '胆汁酸腹泻：胆囊切除后新解',
+    titleEn: 'Bile Acid Diarrhea: Understanding Post-Cholecystectomy Issues',
+    excerpt: '胆囊切除后持续性腹泻？最新研究揭示胆汁酸腹泻机制与应对策略。',
+    excerptEn: 'Persistent diarrhea after gallbladder removal? Latest insights on bile acid diarrhea mechanisms and management approaches.',
+    date: '2026-03-15',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260315-胆汁酸腹泻胆囊切除后新解-y792un.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260315-保胆标准与切胆后营养修复-kx9p3m',
     title: '保胆还是切胆？——术前筛选标准与切除后营养修复完全指南',
     titleEn: 'Preserve or Remove? Gallbladder Criteria & Post-Op Nutrition Guide',
