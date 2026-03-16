@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260316-胆囊结石能自己排出吗-65pvyl',
+    title: '胆囊结石能自己排出吗',
+    titleEn: 'Can Gallstones Pass on Their Own?',
+    excerpt: '胆囊结石能否自行排出？了解风险与科学应对策略，避免盲目尝试排石疗法。',
+    excerptEn: 'Can gallstones pass on their own? Learn about the risks and evidence-based approaches to avoid dangerous self-treatment attempts.',
+    seoTitle: '胆囊结石能自己排出吗？风险与科学应对指南',
+    seoDescription: '了解胆囊结石自然排出的真实风险，直径小于6mm结石的理论可能性与实际并发症率，科学监测与就医时机判断。',
+    date: '2026-03-16',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260316-胆囊结石能自己排出吗-65pvyl.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260315-胆汁酸腹泻胆囊切除后新解-y792un',
     title: '胆汁酸腹泻：胆囊切除后新解',
     titleEn: 'Bile Acid Diarrhea: Understanding Post-Cholecystectomy Issues',
