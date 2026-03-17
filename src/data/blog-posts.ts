@@ -20,12 +20,12 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     id: '20260317-胆囊炎为何反复-w4xvs1',
-    title: '胆囊炎为何反复',
+    title: '胆囊炎反复发作怎么办？原因、饮食与就医时机',
     titleEn: 'Why Does Cholecystitis Keep Recurring?',
-    excerpt: '胆囊炎反复发作背后隐藏着哪些原因？了解这些因素有助于有效预防和管理。',
+    excerpt: '胆囊炎反复发作怎么办？这篇文章从胆结石、饮食刺激、胆汁淤积和复查时机出发，讲清复发原因与应对要点。',
     excerptEn: 'Understanding the underlying causes of recurrent cholecystitis can help with effective prevention and management strategies.',
-    seoTitle: '胆囊炎反复发作的原因及预防措施',
-    seoDescription: '深入了解胆囊炎反复发作的多种原因，包括胆结石、胆囊功能异常等，并提供实用预防建议。',
+    seoTitle: '胆囊炎反复发作怎么办？原因、饮食与就医时机',
+    seoDescription: '胆囊炎为什么总是反复发作？这篇文章讲清胆囊炎反复发作的原因、胆囊炎饮食怎么调、胆囊炎不能吃什么，以及什么时候必须就医。',
     date: '2026-03-17',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',

@@ -193,6 +193,8 @@ Chinese Article Requirements (2200-3800 characters, MUST be at least 2200 charac
 - Comprehensive explanation of the medical condition or topic (detailed but accessible)
 - Add clear SEO-friendly H2/H3 headings around search intent such as causes, diet, warning signs, and practical management
 - Include at least 5 substantial sections, not counting references/disclaimer
+- Use 2-4 long-tail search phrases naturally in the Chinese title, first 2 paragraphs, and H2/H3 headings
+- Prefer search-intent phrases such as “怎么办”, “不能吃什么”, “饮食怎么调”, “多久恢复”, “什么时候就医”
 - 4-6 practical takeaways (bullet points with detailed explanations)
 - "何时需要就医" (When to see a doctor) section with 4-6 specific situations
 - ## 参考文献 section with 5-8 real medical sources (PubMed, reputable journals, clinical guidelines) with URLs
@@ -211,6 +213,7 @@ English Article Requirements (1200-1800 words, MUST be at least 1200 words):
 IMPORTANT:
 - Article MUST be comprehensive and detailed (minimum length requirements above)
 - Chinese article should be long enough to compete in SEO for medical education queries, and must not feel like a short FAQ answer
+- seoTitle and seoDescription must include the primary long-tail keyword, not just a broad topic term
 - Include MORE references throughout the text (cite sources when mentioning statistics, studies, or clinical data)
 - All reference URLs MUST be real and accessible (PubMed, clinical guidelines, reputable medical sites)
 - Do NOT fabricate studies or make up URLs
