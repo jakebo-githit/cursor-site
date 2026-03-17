@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260317-胆囊炎为何反复-w4xvs1',
+    title: '胆囊炎为何反复',
+    titleEn: 'Why Does Cholecystitis Keep Recurring?',
+    excerpt: '胆囊炎反复发作背后隐藏着哪些原因？了解这些因素有助于有效预防和管理。',
+    excerptEn: 'Understanding the underlying causes of recurrent cholecystitis can help with effective prevention and management strategies.',
+    seoTitle: '胆囊炎反复发作的原因及预防措施',
+    seoDescription: '深入了解胆囊炎反复发作的多种原因，包括胆结石、胆囊功能异常等，并提供实用预防建议。',
+    date: '2026-03-17',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/gallstone-prevention.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260316-胆囊结石能自己排出吗-65pvyl',
     title: '胆囊结石能自己排出吗',
     titleEn: 'Can Gallstones Pass on Their Own?',
