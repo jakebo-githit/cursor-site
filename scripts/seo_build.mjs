@@ -318,25 +318,87 @@ function renderBlogIndex(posts) {
       <a class="cta" href="${SITE_URL}/blog/${post.id}">阅读文章</a>
     </section>`).join('\n');
 
+  const topicClusters = [
+    {
+      title: '胆囊炎专题',
+      description: '围绕胆囊炎反复发作、抗生素使用、饮食刺激和就医时机，帮助读者更快判断当前问题属于哪一类。',
+      posts: posts.filter((post) => post.category === '胆囊炎').slice(0, 2)
+    },
+    {
+      title: '胆囊结石专题',
+      description: '重点解释胆囊结石能否自己排出、如何通过饮食降低风险，以及哪些情况不适合继续拖延观察。',
+      posts: posts.filter((post) => post.category === '胆囊结石').slice(0, 2)
+    },
+    {
+      title: '保胆评估专题',
+      description: '聚焦保胆取石适合哪些人、术前评估看什么、术后恢复怎么安排，帮助读者理解治疗决策的关键点。',
+      posts: posts.filter((post) => post.category === '保胆').slice(0, 2)
+    },
+    {
+      title: '术后营养专题',
+      description: '重点回答切除胆囊后吃什么、腹泻怎么办、油腻不耐受怎么调，以及术后营养恢复的节奏。',
+      posts: posts.filter((post) => post.category === '胆囊切除术后营养').slice(0, 2)
+    }
+  ];
+
+  const clusterCards = topicClusters.map((cluster) => `
+    <section class="list-card">
+      <div class="badge">主题导航</div>
+      <h2>${escapeHtml(cluster.title)}</h2>
+      <p>${escapeHtml(cluster.description)}</p>
+      <div class="grid">${cluster.posts.map((post) => `
+        <a class="cta" href="${SITE_URL}/blog/${post.id}">${escapeHtml(post.title)}</a>`).join('')}
+      </div>
+    </section>`).join('\n');
+
   const body = `
     <section class="hero">
       <div class="badge">刘波主任医学博客</div>
       <h1>胆囊健康、保胆评估与术后营养医学博客</h1>
       <p>围绕胆囊炎、胆囊结石、保胆评估、胆囊切除术后营养与肝胆健康，持续发布更适合中文搜索与患者阅读的医学科普文章。</p>
     </section>
+    <section class="hero">
+      <h2>这个博客页解决什么问题</h2>
+      <p>这个页面不只是文章列表，而是围绕胆囊炎、胆囊结石、保胆评估和胆囊切除术后营养恢复，建立一个更容易被读者理解、也更容易被搜索引擎识别的专题内容入口。</p>
+      <p>如果你正在关心胆囊炎反复发作怎么办、胆囊结石能不能继续观察、保胆取石适不适合自己，或者切除胆囊后腹泻、吃油不适、营养恢复慢，这个页面会比单篇文章更适合作为起点。</p>
+      <p>从 SEO 和用户体验的角度，我们把内容按问题路径组织起来，让读者能更快进入“症状判断、治疗决策、术后恢复”这些真正有搜索需求的主题，而不是随机翻找文章。</p>
+    </section>
+    <section class="hero">
+      <div class="badge">按主题进入阅读</div>
+      <h2>优先阅读的 4 个专题</h2>
+      <p>通过主题聚合和内链结构，把读者直接带到更适合自己的下一篇文章。</p>
+      <div class="grid">${clusterCards}</div>
+    </section>
     <div class="grid">${cards}</div>`;
 
   return renderShell({
     title: '胆囊健康医学博客 | 刘波主任',
-    description: '围绕胆囊炎、胆囊结石、保胆评估和术后营养恢复的医学博客，持续更新中文长尾搜索型患者教育内容。',
+    description: '围绕胆囊炎、胆囊结石、保胆评估和胆囊切除术后营养恢复，持续更新中文长尾搜索型患者教育内容。',
     canonicalPath: '/blog',
     body,
-    schema: [{
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      name: '胆囊健康医学博客',
-      url: `${SITE_URL}/blog`
-    }]
+    schema: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: '胆囊健康医学博客',
+        url: `${SITE_URL}/blog`,
+        description: '围绕胆囊炎、胆囊结石、保胆评估和胆囊切除术后营养恢复，持续更新中文长尾搜索型患者教育内容。'
+      },
+      breadcrumbSchema([
+        { name: '首页', path: '/' },
+        { name: '博客', path: '/blog' }
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        itemListElement: posts.slice(0, 10).map((post, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          url: absoluteUrl(`/blog/${post.id}`),
+          name: post.title
+        }))
+      }
+    ]
   });
 }
 
