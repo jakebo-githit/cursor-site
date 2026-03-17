@@ -172,7 +172,7 @@ JSON Structure:
   "tags": ["tag1", "tag2", "tag3"],
   "seoTitle": "SEO-optimized Chinese title (40-60 chars)",
   "seoDescription": "SEO description (120-160 chars, includes main keywords)",
-  "markdownZh": "Chinese article body (1500-2500 chars, include ## 参考文献 section with 5-8 real sources with URLs, cite throughout the article)",
+  "markdownZh": "Chinese article body (2200-3800 chars, include multiple SEO-friendly H2/H3 sections, ## 参考文献 section with 5-8 real sources with URLs, cite throughout the article)",
   "markdownEn": "English article body (1200-1800 words, include ## References section with 5-8 real sources with URLs, cite throughout the article)"
 }"""
 
@@ -181,9 +181,11 @@ USER_PROMPT_TEMPLATE = """Generate a bilingual medical blog post on this topic:
 Category: {category}
 Subtopic: {subtopic}
 
-Chinese Article Requirements (1500-2500 characters, MUST be at least 1500 characters):
+Chinese Article Requirements (2200-3800 characters, MUST be at least 2200 characters):
 - Engaging hook (1-2 lines that grab attention)
 - Comprehensive explanation of the medical condition or topic (detailed but accessible)
+- Add clear SEO-friendly H2/H3 headings around search intent such as causes, diet, warning signs, and practical management
+- Include at least 5 substantial sections, not counting references/disclaimer
 - 4-6 practical takeaways (bullet points with detailed explanations)
 - "何时需要就医" (When to see a doctor) section with 4-6 specific situations
 - ## 参考文献 section with 5-8 real medical sources (PubMed, reputable journals, clinical guidelines) with URLs
@@ -201,6 +203,7 @@ English Article Requirements (1200-1800 words, MUST be at least 1200 words):
 
 IMPORTANT:
 - Article MUST be comprehensive and detailed (minimum length requirements above)
+- Chinese article should be long enough to compete in SEO for medical education queries, and must not feel like a short FAQ answer
 - Include MORE references throughout the text (cite sources when mentioning statistics, studies, or clinical data)
 - All reference URLs MUST be real and accessible (PubMed, clinical guidelines, reputable medical sites)
 - Do NOT fabricate studies or make up URLs
