@@ -309,11 +309,17 @@ ${excerpt}
                       {children}
                     </h1>
                   ),
-                  h2: ({ children }) => (
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mt-8 mb-4">
-                      {children}
-                    </h2>
-                  ),
+                  h2: ({ children }) => {
+                    const text = Array.isArray(children) ? children.join('') : String(children ?? '');
+                    const isPromoHeading = text.includes('延伸阅读');
+                    return (
+                      <h2 className={isPromoHeading
+                        ? "text-2xl md:text-3xl font-bold text-amber-900 mt-10 mb-4 rounded-2xl bg-amber-100 border border-amber-200 px-5 py-4"
+                        : "text-2xl md:text-3xl font-bold text-gray-900 mt-8 mb-4"}>
+                        {children}
+                      </h2>
+                    );
+                  },
                   h3: ({ children }) => (
                     <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mt-6 mb-3">
                       {children}
@@ -327,7 +333,7 @@ ${excerpt}
                   a: ({ children, href }) => (
                     <a
                       href={href}
-                      className="text-primary-600 hover:text-primary-700 underline"
+                      className="font-bold text-primary-700 decoration-2 underline underline-offset-2 hover:text-primary-800"
                       target={href?.startsWith('http') ? '_blank' : undefined}
                       rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
                     >
@@ -344,11 +350,17 @@ ${excerpt}
                       {children}
                     </ol>
                   ),
-                  blockquote: ({ children }) => (
-                    <blockquote className="border-l-4 border-primary-500 pl-4 py-2 my-6 bg-primary-50 text-gray-700 italic">
-                      {children}
-                    </blockquote>
-                  ),
+                  blockquote: ({ children }) => {
+                    const text = Array.isArray(children) ? children.map((child) => String((child as any)?.props?.children ?? child)).join(' ') : String(children ?? '');
+                    const isPromoBlock = text.includes('gallbladdercare.com') || text.includes('手術成功了');
+                    return (
+                      <blockquote className={isPromoBlock
+                        ? "my-6 rounded-2xl border border-amber-300 bg-gradient-to-r from-amber-50 to-orange-50 px-6 py-5 text-[1.05rem] not-italic text-amber-950 shadow-sm"
+                        : "border-l-4 border-primary-500 pl-4 py-2 my-6 bg-primary-50 text-gray-700 italic"}>
+                        {children}
+                      </blockquote>
+                    );
+                  },
                   code: ({ children }) => (
                     <code className="bg-gray-100 px-2 py-1 rounded text-sm text-gray-800">
                       {children}

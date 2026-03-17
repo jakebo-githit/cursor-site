@@ -40,13 +40,13 @@ MODEL = "glm-4-plus"
 
 BOOK_LINK_BLOCK_ZH = """
 
-## 延伸阅读
+## 延伸阅读：推荐电子书
 
-如果你希望更系统地了解胆囊切除术后饮食、腹泻、腹胀、脂肪消化与营养修复，可以进一步查看刘波医生整理的相关患者教育资料与电子书页面：
-
-**《手術成功了，為什麼我的身體變了？——膽囊切除後的飲食與營養修復》**
-
-👉 [在 gallbladdercare.com 查看这本书](https://gallbladdercare.com)
+> **如果你希望更系统地了解胆囊切除术后饮食、腹泻、腹胀、脂肪消化与营养修复，可以进一步查看刘波医生整理的相关患者教育资料与电子书页面。**
+>
+> **《手術成功了，為什麼我的身體變了？——膽囊切除後的飲食與營養修復》**
+>
+> **👉 [在 gallbladdercare.com 查看这本书](https://gallbladdercare.com)**
 """
 
 # Allowed topics (from requirements)
@@ -64,7 +64,14 @@ CATEGORY_MAP = {
 def ensure_book_link(markdown_text: str) -> str:
     if "gallbladdercare.com" in markdown_text:
         return markdown_text
-    return markdown_text.rstrip() + BOOK_LINK_BLOCK_ZH + "\n"
+    marker = "## 参考文献"
+    if marker in markdown_text:
+        return markdown_text.replace(marker, BOOK_LINK_BLOCK_ZH + "
+" + marker, 1)
+    return markdown_text.rstrip() + "
+
+" + BOOK_LINK_BLOCK_ZH + "
+"
 
 # Subtopics for each category (for content variety)
 # SEO Strategy: 30%-40% 长尾关键词 (Long-tail) + 60%-70% 普通关键词 (Medium competition)
