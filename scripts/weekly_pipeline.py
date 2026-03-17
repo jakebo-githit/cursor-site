@@ -19,6 +19,7 @@ from pathlib import Path
 warnings.filterwarnings("ignore")
 from zhipuai import ZhipuAI
 from ark_image_helper import generate_cover_image
+from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload
 
 # ─── 路径 ───────────────────────────────────────────────
 REPO_ROOT   = Path(__file__).resolve().parents[1]
@@ -201,12 +202,14 @@ ARTICLE_SYSTEM = """你是 AskDrLiu.com 医学团队的科普撰稿人。
 - 选题边界严格限定在肝脏/胆囊健康（保胆、胆囊炎、胆囊结石、胆囊切除术后营养、胆囊与长寿关联）
 - 基于提供来源，不捏造研究结论
 - 每篇聚焦1个核心搜索意图，标题与首段必须围绕该意图
-- 字数1200-1800中文
+- 字数2200-3600中文，不能像短 FAQ
 - 必须符合 SEO 写作：标题直指核心搜索意图，首段 80-120 字内出现主关键词，H2 小标题尽量采用搜索式问题句
+- 正文至少自然包含 2-4 个长尾搜索表达，如“怎么办”“不能吃什么”“饮食怎么调”“多久恢复”“什么时候就医”
 - 不得出现具体医院名称、具体科室名称、机构宣传口吻
 - 不得插入联盟产品、导购清单或强销售内容
 - 允许文末以“延伸阅读”方式推荐 Kindle 电子书，但语气必须克制
 - 结构：引子(H1后首段含核心关键词) → 机制/背景(H2) → 研究证据(H2) → 实用建议(3-5条，H2) → 就医指征(H2) → 常见问题FAQ(2-3问，H2) → 参考文献 → 免责声明
+- 至少包含 2 个站内相对链接，如 /blog /faq /assessment /contact
 - 正文中至少包含2-3个站内相对链接（如 /blog /clinic /assessment）
 - 文末必须包含：
   ⚠️ 免责声明：本文仅供医学科普参考，不构成个人诊疗建议。如您有相关症状或疑虑，请及时就诊于正规医疗机构，遵从医生的专业指导。
@@ -252,6 +255,8 @@ def generate_article(topic):
         "excerptEn": excerpt[:150],
         "category": topic.get("category", "胆囊结石"),
         "categoryEn": CATEGORY_EN_MAP.get(topic.get("category", "胆囊结石"), "Gallstones"),
+        "focusKeyword": title,
+        "longTailKeywords": [],
         "markdown": markdown,
         "model_used": model_used,
     }
@@ -277,30 +282,6 @@ def generate_image(category, slug):
 
 
 
-BOOK_LINK_BLOCK_ZH = """
-
-## 延伸阅读：推荐电子书
-
-> **如果你希望更系统地了解胆囊切除术后饮食、腹泻、腹胀、脂肪消化与营养修复，可以进一步查看刘波医生整理的相关患者教育资料与电子书页面。**
->
-> **《手術成功了，為什麼我的身體變了？——膽囊切除後的飲食與營養修復》**
->
-> **👉 [在 gallbladdercare.com 查看这本书](https://gallbladdercare.com)**
-"""
-
-
-def ensure_book_link(markdown_text: str) -> str:
-    if "gallbladdercare.com" in markdown_text:
-        return markdown_text
-    marker = "## 参考文献"
-    if marker in markdown_text:
-        return markdown_text.replace(marker, BOOK_LINK_BLOCK_ZH + "
-" + marker, 1)
-    return markdown_text.rstrip() + "
-
-" + BOOK_LINK_BLOCK_ZH + "
-"
-
 
 # ─── 5. 保存草稿 ─────────────────────────────────────────
 def make_slug(title):
@@ -308,7 +289,6 @@ def make_slug(title):
     clean = re.sub(r"\s+", "-", clean.strip()).lower().strip("-")[:60]
     if not clean:
         clean = "post"
-    # 去掉随机后缀，改为可读 slug；若重复再加短哈希
     base = clean
     path = DRAFTS_DIR / f"{base}.md"
     if path.exists():
@@ -317,16 +297,8 @@ def make_slug(title):
     return base
 
 
-def build_seo_fields(data: dict):
-    title = (data.get("title") or "").strip()
-    excerpt = re.sub(r"\s+", " ", (data.get("excerpt") or "").strip())
-    seo_title = title[:38] if len(title) > 38 else title
-    seo_desc = excerpt[:145] if len(excerpt) > 145 else excerpt
-    return seo_title, seo_desc
-
-
 def save_draft(slug, data, image_url, source_url, publish_date):
-    seo_title, seo_desc = build_seo_fields(data)
+    seo_title, seo_desc = shared_build_seo_fields(data)
     header = f"""---
 title: {data['title']}
 titleEn: {data['titleEn']}
@@ -345,7 +317,7 @@ status: draft
 
 """
     path = DRAFTS_DIR / f"{slug}.md"
-    body = ensure_book_link(data["markdown"])
+    body = shared_ensure_book_link(data["markdown"])
     path.write_text(header + body.strip() + "\n", encoding="utf-8")
     return str(path)
 
@@ -409,6 +381,18 @@ def main():
         try:
             # 生成文章
             data = generate_article(topic)
+            data["seoTitle"], data["seoDescription"] = shared_build_seo_fields(data)
+            seo_issues = validate_article_payload(
+                {**data, "markdownZh": data["markdown"], "markdownEn": ""},
+                allowed_categories=list(CATEGORY_EN_MAP.keys()),
+                category_map=CATEGORY_EN_MAP,
+                min_zh_chars=2200,
+                min_en_words=0,
+                require_keyword_fields=False,
+                require_internal_links=True,
+            )
+            if seo_issues:
+                raise ValueError("SEO validation failed: " + "; ".join(seo_issues[:8]))
             slug = make_slug(topic["title_zh"])
             
             # 生成配图
@@ -418,7 +402,7 @@ def main():
             path = save_draft(slug, data, image_url, topic["source_url"], publish_date)
             print(f"  [Draft] {path}")
             
-            seo_title, seo_desc = build_seo_fields(data)
+            seo_title, seo_desc = shared_build_seo_fields(data)
             queue_entries.append({
                 "publish_date": publish_date,
                 "slug": slug,

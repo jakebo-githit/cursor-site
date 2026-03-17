@@ -25,6 +25,7 @@ from pathlib import Path
 
 from zhipuai import ZhipuAI
 from ark_image_helper import generate_cover_image
+from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload
 
 # ─────────────────────────── Config ───────────────────────────
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -169,6 +170,8 @@ JSON structure:
   "titleEn": "English title (max 60 chars)",
   "excerpt": "中文摘要 (80-120 chars, no newlines)",
   "excerptEn": "English excerpt (100-160 chars, no newlines)",
+  "focusKeyword": "Primary Chinese keyword phrase for this article",
+  "longTailKeywords": ["long-tail keyword 1", "long-tail keyword 2", "long-tail keyword 3"],
   "category": "中文分类 (one of: 保胆 | 胆囊炎 | 胆囊结石 | 胆囊切除术后营养 | 胆囊与长寿 | 肝脏健康)",
   "categoryEn": "English category (one of: Gallbladder Preservation | Cholecystitis | Gallstones | Post-Cholecystectomy Nutrition | Gallbladder & Longevity | Liver Health)",
   "tags": ["tag1", "tag2", "tag3"],
@@ -189,6 +192,7 @@ Chinese article requirements (AskDrLiu GEO template):
 - Length must be 1200-1800 Chinese characters (do not write short posts)
 - Must start with section `## 先说结论（30秒读完）` and give clear conclusion first
 - SEO rule: title must reflect a concrete search intent; the first paragraph must naturally include the main keyword and answer the question quickly
+- Include at least 2 internal relative links in the Chinese article, such as /blog /faq /assessment /contact
 - Then use at least 4 FAQ-style subheadings (question format), e.g. “胆囊结石一定要切吗？”
 - Each FAQ section must include: one-line conclusion + 2-4 actionable bullets + one common misconception line
 - Include section `## 风险边界与就医信号` with clear emergency signals (bullets)
@@ -279,15 +283,22 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
                     raise ValueError(f"Model did not return JSON: {text[:300]}")
                 data = json.loads(m.group(0))
 
-            required = ["title", "titleEn", "excerpt", "excerptEn", "category", "categoryEn", "tags", "markdownZh", "markdownEn"]
+            required = ["title", "titleEn", "excerpt", "excerptEn", "category", "categoryEn", "tags", "focusKeyword", "longTailKeywords", "markdownZh", "markdownEn"]
             for k in required:
                 if k not in data:
                     raise ValueError(f"Missing required key: {k}")
 
-            try:
-                _validate_references(data)
-            except Exception as ex:
-                print(f"[WARN] Reference validation skipped: {ex}")
+            data["seoTitle"], data["seoDescription"] = shared_build_seo_fields(data)
+            _validate_references(data)
+            seo_issues = validate_article_payload(
+                data,
+                min_zh_chars=1200,
+                min_en_words=800,
+                require_keyword_fields=True,
+                require_internal_links=True,
+            )
+            if seo_issues:
+                raise ValueError("SEO validation failed: " + "; ".join(seo_issues[:8]))
             return data
         except Exception as ex:
             last_error = ex
@@ -328,31 +339,6 @@ def generate_siliconflow_image(topic_type: str, slug: str) -> str:
 
 
 
-BOOK_LINK_BLOCK_ZH = """
-
-## 延伸阅读：推荐电子书
-
-> **如果你希望更系统地了解胆囊切除术后饮食、腹泻、腹胀、脂肪消化与营养修复，可以进一步查看刘波医生整理的相关患者教育资料与电子书页面。**
->
-> **《手術成功了，為什麼我的身體變了？——膽囊切除後的飲食與營養修復》**
->
-> **👉 [在 gallbladdercare.com 查看这本书](https://gallbladdercare.com)**
-"""
-
-
-def ensure_book_link(markdown_text: str) -> str:
-    if "gallbladdercare.com" in markdown_text:
-        return markdown_text
-    marker = "## 参考文献"
-    if marker in markdown_text:
-        return markdown_text.replace(marker, BOOK_LINK_BLOCK_ZH + "
-" + marker, 1)
-    return markdown_text.rstrip() + "
-
-" + BOOK_LINK_BLOCK_ZH + "
-"
-
-
 def save_markdown(slug: str, data: dict, image_url: str, source_url: str):
     today = datetime.now().strftime("%Y-%m-%d")
 
@@ -366,7 +352,7 @@ source: {source_url}
 ---
 
 """
-    zh_body = ensure_book_link(data["markdownZh"])
+    zh_body = shared_ensure_book_link(data["markdownZh"])
     zh_path.write_text(zh_header + zh_body.strip() + "\n", encoding="utf-8")
 
     en_path = BLOG_MD_DIR / f"{slug}-en.md"
@@ -395,12 +381,18 @@ def update_blog_index(slug: str, data: dict, image_url: str):
     category = esc(data.get("category", ""))
     category_en = esc(data.get("categoryEn", ""))
 
+    built_seo_title, built_seo_desc = shared_build_seo_fields(data)
+    seo_title = esc(built_seo_title)
+    seo_desc = esc(built_seo_desc)
+
     new_entry = f"""  {{
     id: '{slug}',
     title: '{title}',
     titleEn: '{title_en}',
     excerpt: '{excerpt}',
     excerptEn: '{excerpt_en}',
+    seoTitle: '{seo_title}',
+    seoDescription: '{seo_desc}',
     date: '{today}',
     category: '{category}',
     categoryEn: '{category_en}',

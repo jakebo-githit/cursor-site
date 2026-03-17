@@ -22,6 +22,7 @@ from datetime import datetime
 from pathlib import Path
 from zhipuai import ZhipuAI
 from ark_image_helper import generate_cover_image
+from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload
 
 # ─────────────────────────── Config ───────────────────────────
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -38,18 +39,6 @@ ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
 
 MODEL = "glm-4-plus"
 
-BOOK_LINK_BLOCK_ZH = """
-
-## 延伸阅读：推荐电子书
-
-> **如果你希望更系统地了解胆囊切除术后饮食、腹泻、腹胀、脂肪消化与营养修复，可以进一步查看刘波医生整理的相关患者教育资料与电子书页面。**
->
-> **《手術成功了，為什麼我的身體變了？——膽囊切除後的飲食與營養修復》**
->
-> **👉 [在 gallbladdercare.com 查看这本书](https://gallbladdercare.com)**
-"""
-
-# Allowed topics (from requirements)
 ALLOWED_CATEGORIES_ZH = ["保胆", "胆囊炎", "胆囊结石", "胆囊切除术后营养"]
 ALLOWED_CATEGORIES_EN = ["Gallbladder Preservation", "Cholecystitis", "Gallstones", "Post-Cholecystectomy Nutrition"]
 
@@ -59,19 +48,6 @@ CATEGORY_MAP = {
     "胆囊结石": "Gallstones",
     "胆囊切除术后营养": "Post-Cholecystectomy Nutrition",
 }
-
-
-def ensure_book_link(markdown_text: str) -> str:
-    if "gallbladdercare.com" in markdown_text:
-        return markdown_text
-    marker = "## 参考文献"
-    if marker in markdown_text:
-        return markdown_text.replace(marker, BOOK_LINK_BLOCK_ZH + "
-" + marker, 1)
-    return markdown_text.rstrip() + "
-
-" + BOOK_LINK_BLOCK_ZH + "
-"
 
 # Subtopics for each category (for content variety)
 # SEO Strategy: 30%-40% 长尾关键词 (Long-tail) + 60%-70% 普通关键词 (Medium competition)
@@ -177,8 +153,10 @@ JSON Structure:
   "category": "Chinese category (must be one of: 保胆 | 胆囊炎 | 胆囊结石 | 胆囊切除术后营养)",
   "categoryEn": "English category (must match category mapping)",
   "tags": ["tag1", "tag2", "tag3"],
-  "seoTitle": "SEO-optimized Chinese title (40-60 chars)",
-  "seoDescription": "SEO description (120-160 chars, includes main keywords)",
+  "focusKeyword": "Primary Chinese keyword phrase for this article",
+  "longTailKeywords": ["long-tail keyword 1", "long-tail keyword 2", "long-tail keyword 3"],
+  "seoTitle": "SEO-optimized Chinese title (40-60 chars, must include focusKeyword)",
+  "seoDescription": "SEO description (120-160 chars, includes focusKeyword and long-tail search intent)",
   "markdownZh": "Chinese article body (2200-3800 chars, include multiple SEO-friendly H2/H3 sections, ## 参考文献 section with 5-8 real sources with URLs, cite throughout the article)",
   "markdownEn": "English article body (1200-1800 words, include ## References section with 5-8 real sources with URLs, cite throughout the article)"
 }"""
@@ -191,9 +169,10 @@ Subtopic: {subtopic}
 Chinese Article Requirements (2200-3800 characters, MUST be at least 2200 characters):
 - Engaging hook (1-2 lines that grab attention)
 - Comprehensive explanation of the medical condition or topic (detailed but accessible)
-- Add clear SEO-friendly H2/H3 headings around search intent such as causes, diet, warning signs, and practical management
+- Add clear SEO-friendly H2/H3 headings around search intent such as causes, diet, warning signs, practical management, and follow-up decisions
 - Include at least 5 substantial sections, not counting references/disclaimer
 - Use 2-4 long-tail search phrases naturally in the Chinese title, first 2 paragraphs, and H2/H3 headings
+- Include at least 2 internal relative links in the Chinese article, such as /blog /faq /assessment /contact
 - Prefer search-intent phrases such as “怎么办”, “不能吃什么”, “饮食怎么调”, “多久恢复”, “什么时候就医”
 - 4-6 practical takeaways (bullet points with detailed explanations)
 - "何时需要就医" (When to see a doctor) section with 4-6 specific situations
@@ -213,6 +192,8 @@ English Article Requirements (1200-1800 words, MUST be at least 1200 words):
 IMPORTANT:
 - Article MUST be comprehensive and detailed (minimum length requirements above)
 - Chinese article should be long enough to compete in SEO for medical education queries, and must not feel like a short FAQ answer
+- focusKeyword must appear in title, seoTitle, seoDescription, and the first 120-220 Chinese characters
+- longTailKeywords must be practical search phrases and must be naturally used in headings and正文
 - seoTitle and seoDescription must include the primary long-tail keyword, not just a broad topic term
 - Include MORE references throughout the text (cite sources when mentioning statistics, studies, or clinical data)
 - All reference URLs MUST be real and accessible (PubMed, clinical guidelines, reputable medical sites)
@@ -311,7 +292,7 @@ def generate_post(category: str, subtopic: str, max_retries=3) -> dict:
 
             # Validate required fields
             required = ["title", "titleEn", "excerpt", "excerptEn", "category", "categoryEn",
-                       "tags", "seoTitle", "seoDescription", "markdownZh", "markdownEn"]
+                       "tags", "focusKeyword", "longTailKeywords", "seoTitle", "seoDescription", "markdownZh", "markdownEn"]
             for k in required:
                 if k not in data:
                     raise ValueError(f"Missing required field: {k}")
@@ -320,21 +301,32 @@ def generate_post(category: str, subtopic: str, max_retries=3) -> dict:
             if data["category"] not in ALLOWED_CATEGORIES_ZH:
                 raise ValueError(f"Invalid category: {data['category']}. Must be one of {ALLOWED_CATEGORIES_ZH}")
 
+            data["seoTitle"], data["seoDescription"] = shared_build_seo_fields(data)
+
             # Validate references
             validation = validate_references(data)
+            seo_issues = validate_article_payload(
+                data,
+                allowed_categories=ALLOWED_CATEGORIES_ZH,
+                category_map=CATEGORY_MAP,
+                min_zh_chars=2200,
+                min_en_words=1200,
+                require_keyword_fields=True,
+                require_internal_links=True,
+            )
 
-            if not validation["valid"]:
-                print(f"[WARN] Reference validation failed: {', '.join(validation['issues'])}")
+            if not validation["valid"] or seo_issues:
+                all_issues = validation["issues"] + seo_issues
+                print(f"[WARN] Validation failed: {'; '.join(all_issues[:8])}")
                 if attempt < max_retries - 1:
-                    print(f"[RETRY] Regenerating with better references...")
+                    print(f"[RETRY] Regenerating with stronger SEO structure and references...")
                     time.sleep(2)
                     continue
-                else:
-                    # Final attempt: still has issues, but proceed with warning
-                    print(f"[WARN] Proceeding despite reference issues after {max_retries} attempts")
+                raise ValueError("Validation failed after retries: " + "; ".join(all_issues[:10]))
 
             print(f"[OK] Generated: {data['title']} / {data['titleEn']}")
             print(f"[OK] References: {validation['total_refs']} total, {validation['checked_refs']} checked")
+            print(f"[OK] SEO keyword: {data.get('focusKeyword', '')}")
 
             return data
 
@@ -398,7 +390,7 @@ source: {source_url}
 ---
 
 """
-    zh_body = ensure_book_link(data["markdownZh"])
+    zh_body = shared_ensure_book_link(data["markdownZh"])
     zh_path.write_text(zh_header + zh_body.strip() + "\n", encoding="utf-8")
 
     # English
@@ -428,8 +420,9 @@ def update_blog_index(slug: str, data: dict, image_url: str):
     excerpt_en = esc(data.get("excerptEn", ""))
     category = esc(data.get("category", ""))
     category_en = esc(data.get("categoryEn", ""))
-    seo_title = esc(data.get("seoTitle", title))
-    seo_desc = esc(data.get("seoDescription", excerpt))
+    built_seo_title, built_seo_desc = shared_build_seo_fields(data)
+    seo_title = esc(built_seo_title)
+    seo_desc = esc(built_seo_desc)
 
     new_entry = f"""  {{
     id: '{slug}',
@@ -475,8 +468,8 @@ def update_queue(slug: str, data: dict, image_url: str, publish_date: str):
         "imageUrl": image_url,
         "excerpt": data["excerpt"],
         "excerptEn": data["excerptEn"],
-        "seoTitle": data.get("seoTitle", data["title"]),
-        "seoDescription": data.get("seoDescription", data["excerpt"]),
+        "seoTitle": shared_build_seo_fields(data)[0],
+        "seoDescription": shared_build_seo_fields(data)[1],
         "status": "published",
         "published_at": publish_date,
     }
