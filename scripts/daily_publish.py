@@ -41,6 +41,17 @@ FALLBACK_IMAGE_MAP = {
     "Gallbladder Health": ["/images/gallstone-prevention.jpg", "/images/pocs-surgery.jpg"],
 }
 
+BOOK_LINK_BLOCK_ZH = """
+
+## 延伸阅读
+
+如果你希望更系统地了解胆囊切除术后饮食、腹泻、腹胀、脂肪消化与营养修复，可以进一步查看刘波医生整理的相关患者教育资料与电子书页面：
+
+**《手術成功了，為什麼我的身體變了？——膽囊切除後的飲食與營養修復》**
+
+👉 [在 gallbladdercare.com 查看这本书](https://gallbladdercare.com)
+"""
+
 
 def strip_frontmatter(content: str) -> tuple[dict, str]:
     """解析并剥离 frontmatter，返回 (meta_dict, body)"""
@@ -54,6 +65,12 @@ def strip_frontmatter(content: str) -> tuple[dict, str]:
                 meta[k.strip()] = v.strip()
         body = content[m.end():]
     return meta, body
+
+
+def ensure_book_link(markdown_text: str) -> str:
+    if "gallbladdercare.com" in markdown_text:
+        return markdown_text
+    return markdown_text.rstrip() + BOOK_LINK_BLOCK_ZH + "\n"
 
 
 def recent_image_urls(limit: int = 4) -> list[str]:
@@ -165,10 +182,12 @@ def main():
         _meta, body = strip_frontmatter(raw)
 
         # 5. 写入正式发布目录（只保留正文，frontmatter 已通过 blog-posts.ts 管理）
-        publish_path.write_text(body.strip() + "\n", encoding="utf-8")
+        publish_path.write_text(ensure_book_link(body).strip() + "\n", encoding="utf-8")
         print(f"  [File] → {publish_path.name}")
     elif publish_path.exists():
-        print(f"  [Compensate] Draft missing, but published file exists: {publish_path.name}")
+        body = publish_path.read_text(encoding="utf-8")
+        publish_path.write_text(ensure_book_link(body).strip() + "\n", encoding="utf-8")
+        print(f"  [Compensate] Draft missing, normalized published file: {publish_path.name}")
     else:
         print(f"[ERROR] Neither draft nor published file found for slug: {slug}")
         return

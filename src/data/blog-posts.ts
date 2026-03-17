@@ -29,7 +29,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-17',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260317-胆囊炎为何反复-w4xvs1.png',
     author: 'AskDrLiu.com'
   },
   {
