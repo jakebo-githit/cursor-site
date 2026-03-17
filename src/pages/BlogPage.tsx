@@ -227,12 +227,12 @@ const BlogPage = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto grid gap-10 lg:grid-cols-[1.2fr_0.8fr] items-start">
             <div>
-              <SectionHeader title={isEnglish ? 'How to Use This Blog' : '这个博客页解决什么问题'} />
+              <SectionHeader title={isEnglish ? 'How to Use This Blog' : '如果你不知道从哪篇开始读'} />
               <div className="space-y-4 text-gray-700 leading-8">
                 <p>
                   {isEnglish
-                    ? 'This page is designed as a topic hub rather than a simple archive. It groups the most important gallbladder questions into clearer reading paths.'
-                    : '这个页面不只是文章列表，而是围绕胆囊炎、胆囊结石、保胆评估和胆囊切除术后营养恢复，建立一个更容易被读者理解、也更容易被搜索引擎识别的专题内容入口。'}
+                    ? 'This page groups the most common gallbladder questions so you can start with the topic that best matches your current concern.'
+                    : '这里把患者最常见的 4 类问题集中在一起：胆囊炎、胆囊结石、保胆评估和胆囊切除术后营养恢复。你可以根据自己当前最关心的问题，直接进入相应专题。'}
                 </p>
                 <p>
                   {isEnglish
@@ -241,8 +241,8 @@ const BlogPage = () => {
                 </p>
                 <p>
                   {isEnglish
-                    ? 'From an SEO and navigation perspective, we organize content around symptom-driven and decision-driven searches so readers can reach the next useful article faster.'
-                    : '从 SEO 和用户体验的角度，我们把内容按问题路径组织起来，让读者能更快进入“症状判断、治疗决策、术后恢复”这些真正有搜索需求的主题，而不是随机翻找文章。'}
+                    ? 'If you are not sure where to begin, start with the topic that feels closest to your current symptoms or decision point, then continue into the detailed articles.'
+                    : '如果你暂时不确定自己该先看哪一部分，可以先从与当前症状、检查结果或术后恢复最接近的专题开始，再继续阅读相应文章。'}
                 </p>
               </div>
             </div>
@@ -270,8 +270,8 @@ const BlogPage = () => {
             <SectionHeader
               title={isEnglish ? 'Browse by Topic' : '按主题进入阅读'}
               subtitle={isEnglish
-                ? 'These topic clusters strengthen internal linking and help readers reach the right next article faster.'
-                : '这 4 个主题分区既帮助读者更快找到目标文章，也能强化站内内链结构。'}
+                ? 'Start with the topic that best matches your current question, and then continue into the detailed articles.'
+                : '按你当前最关心的问题进入，会更容易找到适合自己的文章。'}
               centered
             />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
