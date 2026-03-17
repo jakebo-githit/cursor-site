@@ -39,6 +39,33 @@ const STATIC_PAGES = [
   { path: '/free-guide', title: '胆囊健康免费资料 | AskDrLiu.com', description: '获取胆囊健康和术后恢复的免费科普资料与阅读资源。', priority: '0.5', changefreq: 'monthly' }
 ];
 
+const FAQ_ENTRIES = [
+  {
+    question: 'POCS技术安全吗？',
+    answer: 'POCS技术是经过充分验证的微创技术，相比传统开腹手术，并发症发生率显著降低。在专业医生操作下，安全性很高。但任何手术都存在一定风险，术前会进行详细评估和沟通。'
+  },
+  {
+    question: '多大的结石可以通过POCS技术处理？',
+    answer: '理论上，POCS技术可以处理任何大小的胆道结石，因为它可以在直视下进行碎石。对于较大结石或多发结石，可能需要分次治疗。具体情况需要根据患者的影像学检查结果来评估。'
+  },
+  {
+    question: 'POCS手术后多久能恢复正常生活？',
+    answer: '大多数患者术后1-3天即可下床活动，5-7天可出院，2-4周可恢复正常生活和轻度工作。完全恢复通常需要1-2个月，期间应避免剧烈运动和过度劳累。'
+  },
+  {
+    question: '做了POCS手术后还会复发吗？',
+    answer: 'POCS技术可以有效清除已形成的结石，但无法改变患者的结石体质。术后需要结合药物治疗、饮食调整和定期随访，可显著降低复发风险。'
+  },
+  {
+    question: 'POCS技术和传统ERCP取石有什么区别？',
+    answer: '传统ERCP更依赖间接操作，而POCS是在直视下处理结石，对复杂胆道结石、肝内胆管结石和传统方法失败患者更有优势。'
+  },
+  {
+    question: '是否所有胆结石患者都适合POCS技术？',
+    answer: '并非所有患者都适合。需要综合考虑结石情况、患者年龄和基础疾病等因素，建议通过正规专科评估确定最适合的治疗方案。'
+  }
+];
+
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
@@ -210,17 +237,57 @@ function personSchema() {
   };
 }
 
-function renderArticlePage(post, markdown) {
+
+function breadcrumbSchema(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path)
+    }))
+  };
+}
+
+function getRelatedPosts(posts, currentPost, limit = 3) {
+  return posts
+    .filter((post) => post.id !== currentPost.id)
+    .sort((a, b) => {
+      const aScore = (a.category === currentPost.category ? 2 : 0) + (a.categoryEn === currentPost.categoryEn ? 1 : 0);
+      const bScore = (b.category === currentPost.category ? 2 : 0) + (b.categoryEn === currentPost.categoryEn ? 1 : 0);
+      if (bScore !== aScore) return bScore - aScore;
+      return new Date(b.date) - new Date(a.date);
+    })
+    .slice(0, limit);
+}
+
+function renderArticlePage(post, markdown, posts) {
   const articleHtml = marked.parse(markdown || '');
+  const relatedPosts = getRelatedPosts(posts, post);
+  const relatedHtml = relatedPosts.map((item) => `
+      <section class="list-card">
+        <div class="badge">${escapeHtml(item.category)}</div>
+        <h3><a href="${SITE_URL}/blog/${item.id}">${escapeHtml(item.title)}</a></h3>
+        <p>${escapeHtml(item.excerpt || item.seoDescription || '')}</p>
+      </section>`).join('\n');
   const body = `
     <article>
+      <div class="meta"><a href="${SITE_URL}">首页</a> / <a href="${SITE_URL}/blog">博客</a> / <span>${escapeHtml(post.title)}</span></div>
       <div class="badge">${escapeHtml(post.category)}</div>
       <h1>${escapeHtml(post.title)}</h1>
       <div class="meta"><span>${escapeHtml(post.date)}</span><span>作者：AskDrLiu.com</span><span>${escapeHtml(post.category)}</span></div>
       <p>${escapeHtml(post.excerpt || post.seoDescription || '')}</p>
       ${post.imageUrl ? `<img class="cover" src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" />` : ''}
       <div class="article-body">${articleHtml}</div>
-    </article>`;
+    </article>
+    <section class="hero">
+      <div class="badge">相关文章</div>
+      <h2>继续阅读同主题内容</h2>
+      <p>从站内主题相关性出发，补充更多与当前文章相关的胆囊健康内容。</p>
+      <div class="grid">${relatedHtml}</div>
+    </section>`;
 
   return renderShell({
     title: post.seoTitle || post.title,
@@ -230,7 +297,14 @@ function renderArticlePage(post, markdown) {
     imageUrl: post.imageUrl,
     publishedTime: `${post.date}T08:00:00+08:00`,
     modifiedTime: `${post.date}T08:00:00+08:00`,
-    schema: [articleSchema(post, `/blog/${post.id}`)]
+    schema: [
+      articleSchema(post, `/blog/${post.id}`),
+      breadcrumbSchema([
+        { name: '首页', path: '/' },
+        { name: '博客', path: '/blog' },
+        { name: post.title, path: `/blog/${post.id}` }
+      ])
+    ]
   });
 }
 
@@ -263,6 +337,45 @@ function renderBlogIndex(posts) {
       name: '胆囊健康医学博客',
       url: `${SITE_URL}/blog`
     }]
+  });
+}
+
+function renderFaqPage(page) {
+  const faqItems = FAQ_ENTRIES.map((item) => `
+    <section class="list-card">
+      <h2>${escapeHtml(item.question)}</h2>
+      <p>${escapeHtml(item.answer)}</p>
+    </section>`).join('\n');
+
+  const body = `
+    <section class="hero">
+      <div class="badge">AskDrLiu.com FAQ</div>
+      <h1>${escapeHtml(page.title)}</h1>
+      <p>${escapeHtml(page.description)}</p>
+    </section>
+    <div class="grid">${faqItems}</div>`;
+
+  return renderShell({
+    title: page.title,
+    description: page.description,
+    canonicalPath: page.path,
+    body,
+    schema: [
+      websiteSchema(),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: FAQ_ENTRIES.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer }
+        }))
+      },
+      breadcrumbSchema([
+        { name: '首页', path: '/' },
+        { name: 'FAQ', path: '/faq' }
+      ])
+    ]
   });
 }
 
@@ -340,11 +453,12 @@ function main() {
 
   for (const post of posts) {
     const markdown = readArticleMarkdown(post.id);
-    writeFileSyncRecursive(path.join(DIST_DIR, 'blog', post.id, 'index.html'), renderArticlePage(post, markdown));
+    writeFileSyncRecursive(path.join(DIST_DIR, 'blog', post.id, 'index.html'), renderArticlePage(post, markdown, posts));
   }
 
   for (const page of STATIC_PAGES.filter((page) => page.path !== '/' && page.path !== '/blog')) {
-    writeFileSyncRecursive(path.join(DIST_DIR, page.path.replace(/^\//, ''), 'index.html'), renderSimplePage(page));
+    const html = page.path === '/faq' ? renderFaqPage(page) : renderSimplePage(page);
+    writeFileSyncRecursive(path.join(DIST_DIR, page.path.replace(/^\//, ''), 'index.html'), html);
   }
 
   patchHomeIndex();
