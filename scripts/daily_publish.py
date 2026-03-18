@@ -72,12 +72,8 @@ def ensure_book_link(markdown_text: str) -> str:
         return markdown_text
     marker = "## 参考文献"
     if marker in markdown_text:
-        return markdown_text.replace(marker, BOOK_LINK_BLOCK_ZH + "
-" + marker, 1)
-    return markdown_text.rstrip() + "
-
-" + BOOK_LINK_BLOCK_ZH + "
-"
+        return markdown_text.replace(marker, BOOK_LINK_BLOCK_ZH + "\n" + marker, 1)
+    return markdown_text.rstrip() + "\n\n" + BOOK_LINK_BLOCK_ZH + "\n"
 
 
 def recent_image_urls(limit: int = 4) -> list[str]:
