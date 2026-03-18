@@ -11,6 +11,10 @@ on:
         required: false
         default: ''
 
+concurrency:
+  group: askdrliu-daily-publish
+  cancel-in-progress: false
+
 jobs:
   daily-publish:
     runs-on: ubuntu-latest

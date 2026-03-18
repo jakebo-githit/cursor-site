@@ -109,6 +109,38 @@ def resolve_image_url(entry: dict) -> str:
     return fallback
 
 
+def find_publish_candidate(posts: list[dict], today: str):
+    publishable_statuses = {"draft", "pending"}
+    todays = [
+        p for p in posts
+        if p.get("publish_date") == today and p.get("status") in publishable_statuses
+    ]
+    if todays:
+        return todays[0], False
+
+    overdue = []
+    for p in posts:
+        publish_date = (p.get("publish_date") or "").strip()
+        if not publish_date or p.get("status") not in publishable_statuses:
+            continue
+        if publish_date >= today:
+            continue
+        slug = p.get("slug") or ""
+        if (DRAFTS_DIR / f"{slug}.md").exists() or (PUBLISH_DIR / f"{slug}.md").exists():
+            overdue.append(p)
+
+    overdue.sort(key=lambda item: (item.get("publish_date") or "9999-99-99", item.get("slug") or ""))
+    if overdue:
+        chosen = overdue[0]
+        original_date = chosen.get("publish_date")
+        chosen["publish_date"] = today
+        chosen["recovered_from"] = original_date
+        print(f"[RECOVER] No post scheduled for {today}; using overdue draft {chosen.get('slug')} from {original_date}")
+        return chosen, True
+
+    return None, False
+
+
 def register_in_index(entry: dict):
     """将文章注册到 blog-posts.ts"""
     title_conflict = find_title_conflict(entry.get("title", ""), ignore_slugs={entry.get("slug", "")})
@@ -165,18 +197,12 @@ def main():
     queue = json.loads(QUEUE_FILE.read_text(encoding="utf-8"))
     posts = queue.get("posts", [])
 
-    # 2. 找今天的条目
-    publishable_statuses = {"draft", "pending"}
-    todays = [
-        p for p in posts
-        if p.get("publish_date") == today and p.get("status") in publishable_statuses
-    ]
-
-    if not todays:
+    # 2. 找今天的条目；如无，自动补位最早的过期待发草稿
+    entry, recovered = find_publish_candidate(posts, today)
+    if not entry:
         print(f"[INFO] No post scheduled for {today}.")
         return
 
-    entry = todays[0]
     slug  = entry["slug"]
     print(f"[PUB] Publishing: {slug} — {entry.get('title','')}")
 
@@ -229,6 +255,7 @@ def main():
         if p["slug"] == slug:
             p["status"] = "published"
             p["published_at"] = today
+            p["publish_date"] = today
 
     QUEUE_FILE.write_text(
         json.dumps({"updated": queue["updated"], "posts": posts}, ensure_ascii=False, indent=2),

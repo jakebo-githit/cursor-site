@@ -44,11 +44,9 @@ MODEL = "glm-4-plus"              # 智谱清言文本模型
 # RSS sources: strict hepatobiliary focus
 FEED_URLS = [
     "https://www.sciencedaily.com/rss/health_medicine/gallbladder_disease.xml",
-    "https://www.sciencedaily.com/rss/health_medicine/liver_disease.xml",
     "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=gallbladder+stone+cholecystitis&format=rss&limit=30",
     "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=cholecystectomy+postoperative+nutrition&format=rss&limit=30",
     "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=gallbladder+preservation+cholelithiasis&format=rss&limit=25",
-    "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=liver+health+longevity&format=rss&limit=20",
 ]
 
 FALLBACK_TOPICS = [
@@ -81,7 +79,7 @@ IMAGE_KEYWORDS = {
 FOCUS_KEYWORDS = [
     "gallbladder", "gallstone", "cholelithiasis", "cholecystitis", "cholecystectomy",
     "post-cholecystectomy", "gallbladder preservation", "biliary", "bile", "pocs",
-    "diet after cholecystectomy", "gallbladder inflammation",
+    "diet after cholecystectomy", "gallbladder inflammation", "gallbladder diet", "bile acid diarrhea",
 ]
 
 BLOCK_KEYWORDS = [
@@ -172,8 +170,8 @@ JSON structure:
   "excerptEn": "English excerpt (100-160 chars, no newlines)",
   "focusKeyword": "Primary Chinese keyword phrase for this article",
   "longTailKeywords": ["long-tail keyword 1", "long-tail keyword 2", "long-tail keyword 3"],
-  "category": "中文分类 (one of: 保胆 | 胆囊炎 | 胆囊结石 | 胆囊切除术后营养 | 胆囊与长寿 | 肝脏健康)",
-  "categoryEn": "English category (one of: Gallbladder Preservation | Cholecystitis | Gallstones | Post-Cholecystectomy Nutrition | Gallbladder & Longevity | Liver Health)",
+  "category": "中文分类 (one of: 保胆 | 胆囊炎 | 胆囊结石 | 胆囊切除术后营养)",
+  "categoryEn": "English category (one of: Gallbladder Preservation | Cholecystitis | Gallstones | Post-Cholecystectomy Nutrition)",
   "tags": ["tag1", "tag2", "tag3"],
   "markdownZh": "中文正文 markdown (1200-1800字，含“参考文献”段)",
   "markdownEn": "English body markdown (800-1200 words, include 'References')"
@@ -188,11 +186,11 @@ Summary: {summary}
 Key focus areas: {focus}
 
 Chinese article requirements (AskDrLiu GEO template):
-- Topic must stay strictly within hepatobiliary scope, prioritizing: gallbladder preservation, cholecystitis, gallstones, post-cholecystectomy nutrition, gallbladder-related longevity, liver health
-- Length must be 1200-1800 Chinese characters (do not write short posts)
+- Topic must stay strictly within gallbladder and postoperative nutrition scope, prioritizing: gallbladder preservation, cholecystitis, gallstones, post-cholecystectomy nutrition
+- Length must be 2200-3200 Chinese characters (do not write short posts)
 - Must start with section `## 先说结论（30秒读完）` and give clear conclusion first
 - SEO rule: title must reflect a concrete search intent; the first paragraph must naturally include the main keyword and answer the question quickly
-- References should be concise: no more than 5 total, and prioritize newer studies or guidelines from the last 5 years when possible
+- References should be concise: 3-5 total maximum, and prioritize newer studies or guidelines from the last 5 years when possible
 - Include at least 2 internal relative links in the Chinese article, such as /blog /faq /assessment /contact
 - Then use at least 4 FAQ-style subheadings (question format), e.g. “胆囊结石一定要切吗？”
 - Each FAQ section must include: one-line conclusion + 2-4 actionable bullets + one common misconception line
@@ -203,7 +201,7 @@ Chinese article requirements (AskDrLiu GEO template):
 
 English article requirements:
 - Same structure but natural English tone
-- Length 800-1200 words
+- Length 900-1400 words
 - Start with a clear "Key takeaway" block before details
 - Use at least 4 question-style subheadings (FAQ style)
 - Add section `## References` with 3-5 real sources
@@ -230,6 +228,35 @@ def _url_reachable(u: str) -> bool:
         return r.status_code < 400
     except Exception:
         return False
+
+
+def is_rate_limit_error(ex: Exception) -> bool:
+    message = str(ex).lower()
+    return any(token in message for token in ["429", "rate limit", "too many requests", "余额不足", "无可用资源包", "频率"])
+
+
+def call_glm_with_backoff(client: ZhipuAI, *, messages: list[dict], temperature: float, max_attempts: int = 5):
+    last_error = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            return client.chat.completions.create(
+                model=MODEL,
+                temperature=temperature,
+                messages=messages,
+            )
+        except Exception as ex:
+            last_error = ex
+            if attempt >= max_attempts:
+                raise
+            if is_rate_limit_error(ex):
+                sleep_seconds = min(90, 8 * attempt + random.uniform(1.0, 3.0))
+                print(f"[WARN] Provider throttled on attempt {attempt}/{max_attempts}: {ex}")
+            else:
+                sleep_seconds = min(30, 3 * attempt + random.uniform(0.5, 1.5))
+                print(f"[WARN] GLM call failed on attempt {attempt}/{max_attempts}: {ex}")
+            print(f"[WAIT] Sleeping {sleep_seconds:.1f}s before retry")
+            time.sleep(sleep_seconds)
+    raise RuntimeError(f"Failed after retries: {last_error}")
 
 
 def _build_markdown_en_fallback(data: dict) -> str:
@@ -284,13 +311,13 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
 
     last_error = None
     for attempt in range(1, 4):
-        resp = client.chat.completions.create(
-            model=MODEL,
-            temperature=0.4,
+        resp = call_glm_with_backoff(
+            client,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": prompt},
             ],
+            temperature=0.4,
         )
 
         text = resp.choices[0].message.content.strip()
@@ -314,7 +341,7 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
             _validate_references(data)
             seo_issues = validate_article_payload(
                 data,
-                min_zh_chars=1200,
+                min_zh_chars=2200,
                 min_en_words=0,
                 require_keyword_fields=True,
                 require_internal_links=True,
@@ -501,8 +528,14 @@ def main():
     topic_type = detect_topic_type(topic["title"], topic["summary"])
 
     # 4. Generate bilingual post
-    print("[GEN] Calling Claude API...")
-    data = generate_post(topic["title"], topic["link"], topic["summary"])
+    print("[GEN] Calling GLM API...")
+    try:
+        data = generate_post(topic["title"], topic["link"], topic["summary"])
+    except Exception as ex:
+        if is_rate_limit_error(ex):
+            print(f"[WARN] Provider throttled, skip this manual run without failing: {ex}")
+            return
+        raise
     print(f"[OK] Generated: {data['title']} / {data['titleEn']}")
 
     # 5. AIGC 生成封面图

@@ -243,6 +243,35 @@ def validate_references(data: dict) -> dict:
     }
 
 
+def is_rate_limit_error(ex: Exception) -> bool:
+    message = str(ex).lower()
+    return any(token in message for token in ["429", "rate limit", "too many requests", "余额不足", "无可用资源包", "频率"])
+
+
+def call_glm_with_backoff(client: ZhipuAI, *, messages: list[dict], temperature: float, max_attempts: int = 5):
+    last_error = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            return client.chat.completions.create(
+                model=MODEL,
+                temperature=temperature,
+                messages=messages,
+            )
+        except Exception as ex:
+            last_error = ex
+            if attempt >= max_attempts:
+                raise
+            if is_rate_limit_error(ex):
+                sleep_seconds = min(90, 8 * attempt + random.uniform(1.0, 3.0))
+                print(f"[WARN] Provider throttled on attempt {attempt}/{max_attempts}: {ex}")
+            else:
+                sleep_seconds = min(30, 3 * attempt + random.uniform(0.5, 1.5))
+                print(f"[WARN] GLM call failed on attempt {attempt}/{max_attempts}: {ex}")
+            print(f"[WAIT] Sleeping {sleep_seconds:.1f}s before retry")
+            time.sleep(sleep_seconds)
+    raise RuntimeError(f"Failed after retries: {last_error}")
+
+
 def pick_unique_seed_topic() -> tuple[str, str]:
     candidates = [
         (category, subtopic)
@@ -275,13 +304,13 @@ def generate_post(category: str, subtopic: str, max_retries=3) -> dict:
         try:
             print(f"[GEN] Attempt {attempt + 1}/{max_retries}...")
 
-            resp = client.chat.completions.create(
-                model=MODEL,
-                temperature=0.4,
+            resp = call_glm_with_backoff(
+                client,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": prompt},
                 ],
+                temperature=0.4,
             )
 
             text = resp.choices[0].message.content.strip()

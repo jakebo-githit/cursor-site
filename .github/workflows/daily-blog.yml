@@ -9,6 +9,10 @@ on:
         required: false
         default: 'false'
 
+concurrency:
+  group: askdrliu-daily-blog
+  cancel-in-progress: false
+
 jobs:
   generate-blog:
     runs-on: ubuntu-latest
