@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260315-胆囊切除后吃什么-术后饮食与营养恢复指南',
+    title: '胆囊切除后吃什么？术后饮食、腹泻与营养恢复指南',
+    titleEn: 'What to Eat After Gallbladder Removal: Diet, Diarrhea and Recovery',
+    excerpt: '胆囊切除后吃什么、要清淡多久、腹泻怎么办？结合较新研究，讲清术后饮食与营养恢复要点。',
+    excerptEn: 'A practical guide to post-cholecystectomy diet, diarrhea control, and nutrition recovery based on recent evidence.',
+    seoTitle: '胆囊切除后吃什么？术后饮食与营养恢复指南',
+    seoDescription: '胆囊切除后饮食怎么安排？这篇文章结合最新研究，讲清术后腹泻、清淡饮食、高脂食物风险和营养恢复重点。',
+    date: '2026-03-18',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260315-postop-nutrition-manga.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260318-胆囊结石能自己排出吗-xxtlpm',
     title: '胆囊结石能自己排出吗',
     titleEn: 'Can Gallstones Pass on Their Own?',
