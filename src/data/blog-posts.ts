@@ -29,7 +29,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-18',
     category: '胆囊结石',
     categoryEn: 'Gallstones',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260318-胆囊结石能自己排出吗-xxtlpm.png',
     author: 'AskDrLiu.com'
   },
   {
