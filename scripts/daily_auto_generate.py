@@ -253,6 +253,7 @@ def is_rate_limit_error(ex: Exception) -> bool:
 
 def call_glm_with_backoff(client: ZhipuAI, *, messages: list[dict], temperature: float, max_attempts: int = 5):
     last_error = None
+    current_error = None
     for attempt in range(1, max_attempts + 1):
         try:
             return run_with_timeout(
@@ -263,17 +264,19 @@ def call_glm_with_backoff(client: ZhipuAI, *, messages: list[dict], temperature:
                 messages=messages,
             )
         except TimeoutError as ex:
+            current_error = ex
             last_error = ex
         except Exception as ex:
+            current_error = ex
             last_error = ex
         if attempt >= max_attempts:
             raise last_error
-        if is_rate_limit_error(ex):
+        if is_rate_limit_error(current_error):
             sleep_seconds = min(90, 8 * attempt + random.uniform(1.0, 3.0))
-            print(f"[WARN] Provider throttled on attempt {attempt}/{max_attempts}: {ex}")
+            print(f"[WARN] Provider throttled on attempt {attempt}/{max_attempts}: {current_error}")
         else:
             sleep_seconds = min(30, 3 * attempt + random.uniform(0.5, 1.5))
-            print(f"[WARN] GLM call failed on attempt {attempt}/{max_attempts}: {ex}")
+            print(f"[WARN] GLM call failed on attempt {attempt}/{max_attempts}: {current_error}")
         print(f"[WAIT] Sleeping {sleep_seconds:.1f}s before retry")
         time.sleep(sleep_seconds)
     raise RuntimeError(f"Failed after retries: {last_error}")
