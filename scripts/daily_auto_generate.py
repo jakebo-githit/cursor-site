@@ -20,7 +20,8 @@ import string
 import requests
 from datetime import datetime
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
+import threading
+from queue import Queue, Empty
 from zhipuai import ZhipuAI
 from ark_image_helper import generate_cover_image
 from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, validate_reference_policy, find_title_conflict, find_similar_article, extract_reference_urls
@@ -254,17 +255,15 @@ def call_glm_with_backoff(client: ZhipuAI, *, messages: list[dict], temperature:
     last_error = None
     for attempt in range(1, max_attempts + 1):
         try:
-            with ThreadPoolExecutor(max_workers=1) as executor:
-                future = executor.submit(
-                    client.chat.completions.create,
-                    model=MODEL,
-                    temperature=temperature,
-                    messages=messages,
-                )
-                return future.result(timeout=API_CALL_TIMEOUT_SECONDS)
-        except FuturesTimeoutError:
-            last_error = TimeoutError(f"GLM request timed out after {API_CALL_TIMEOUT_SECONDS}s")
-            ex = last_error
+            return run_with_timeout(
+                client.chat.completions.create,
+                API_CALL_TIMEOUT_SECONDS,
+                model=MODEL,
+                temperature=temperature,
+                messages=messages,
+            )
+        except TimeoutError as ex:
+            last_error = ex
         except Exception as ex:
             last_error = ex
         if attempt >= max_attempts:
@@ -278,6 +277,29 @@ def call_glm_with_backoff(client: ZhipuAI, *, messages: list[dict], temperature:
         print(f"[WAIT] Sleeping {sleep_seconds:.1f}s before retry")
         time.sleep(sleep_seconds)
     raise RuntimeError(f"Failed after retries: {last_error}")
+
+def run_with_timeout(func, timeout_seconds: int, /, *args, **kwargs):
+    result_queue: Queue = Queue(maxsize=1)
+
+    def worker():
+        try:
+            result_queue.put((True, func(*args, **kwargs)))
+        except Exception as ex:
+            result_queue.put((False, ex))
+
+    thread = threading.Thread(target=worker, daemon=True)
+    thread.start()
+    thread.join(timeout_seconds)
+    if thread.is_alive():
+        raise TimeoutError(f"GLM request timed out after {timeout_seconds}s")
+    try:
+        ok, payload = result_queue.get_nowait()
+    except Empty as ex:
+        raise RuntimeError("GLM worker exited without a result") from ex
+    if ok:
+        return payload
+    raise payload
+
 
 
 def pick_unique_seed_topic() -> tuple[str, str]:

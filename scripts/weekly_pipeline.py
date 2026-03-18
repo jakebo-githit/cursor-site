@@ -21,7 +21,8 @@ import warnings
 from copy import deepcopy
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
+import threading
+from queue import Queue, Empty
 
 import feedparser
 import requests
@@ -98,6 +99,29 @@ IMAGE_PROMPTS = {
 def is_rate_limit_error(ex: Exception):
     message = str(ex).lower()
     return any(token in message for token in ["429", "rate limit", "too many requests", "余额不足", "无可用资源包", "频率"])
+
+def run_with_timeout(func, timeout_seconds: int, /, *args, **kwargs):
+    result_queue: Queue = Queue(maxsize=1)
+
+    def worker():
+        try:
+            result_queue.put((True, func(*args, **kwargs)))
+        except Exception as ex:
+            result_queue.put((False, ex))
+
+    thread = threading.Thread(target=worker, daemon=True)
+    thread.start()
+    thread.join(timeout_seconds)
+    if thread.is_alive():
+        raise TimeoutError(f"GLM request timed out after {timeout_seconds}s")
+    try:
+        ok, payload = result_queue.get_nowait()
+    except Empty as ex:
+        raise RuntimeError("GLM worker exited without a result") from ex
+    if ok:
+        return payload
+    raise payload
+
 
 TOPIC_SELECT_PROMPT = """你是 AskDrLiu.com 的中文医学选题编辑。
 
@@ -209,18 +233,16 @@ def _call_glm(messages, temperature=0.3, max_attempts=4):
     for attempt in range(1, max_attempts + 1):
         for model in [GLM_MODEL, GLM_FALLBACK]:
             try:
-                with ThreadPoolExecutor(max_workers=1) as executor:
-                    future = executor.submit(
-                        client.chat.completions.create,
-                        model=model,
-                        temperature=temperature,
-                        messages=messages,
-                    )
-                    resp = future.result(timeout=API_CALL_TIMEOUT_SECONDS)
+                resp = run_with_timeout(
+                    client.chat.completions.create,
+                    API_CALL_TIMEOUT_SECONDS,
+                    model=model,
+                    temperature=temperature,
+                    messages=messages,
+                )
                 return resp.choices[0].message.content.strip(), model
-            except FuturesTimeoutError:
+            except TimeoutError as ex:
                 last_error = TimeoutError(f"GLM request timed out after {API_CALL_TIMEOUT_SECONDS}s on {model}")
-                ex = last_error
                 print(f"[WARN] model {model} timed out on attempt {attempt}/{max_attempts}")
             except Exception as ex:
                 last_error = ex
