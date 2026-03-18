@@ -19,7 +19,7 @@ from pathlib import Path
 warnings.filterwarnings("ignore")
 from zhipuai import ZhipuAI
 from ark_image_helper import generate_cover_image
-from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload
+from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, validate_reference_policy, find_title_conflict, find_similar_article
 
 # ─── 路径 ───────────────────────────────────────────────
 REPO_ROOT   = Path(__file__).resolve().parents[1]
@@ -126,8 +126,9 @@ TOPIC_SELECT_PROMPT = """你是 AskDrLiu.com（肝胆外科医生刘波主任的
 1. 仅限肝脏及胆囊健康，优先以下方向：保胆、胆囊炎、胆囊结石、胆囊切除术后营养、胆囊与健康长寿关联
 2. 与上述方向无关的内容（泛营养、泛养生、非肝胆系统）一律剔除
 3. 有医学文献支撑或患者真实痛点
-4. 话题多样，不重复同一主题
+4. 话题多样，不重复同一主题，不得与站内已有文章标题重复或高度相似
 5. 优先选择可以自然延伸出“怎么办”“不能吃什么”“饮食怎么调”“多久恢复”“什么时候就医”等长尾搜索表达的话题
+6. 优先采用近5年内仍有临床参考价值的新研究或新指南，不要堆太多文献
 
 输入数据（JSON 数组）：
 {entries_json}
@@ -208,6 +209,7 @@ ARTICLE_SYSTEM = """你是 AskDrLiu.com 医学团队的科普撰稿人。
 - 不得出现具体医院名称、具体科室名称、机构宣传口吻
 - 不得插入联盟产品、导购清单或强销售内容
 - 允许文末以“延伸阅读”方式推荐 Kindle 电子书，但语气必须克制
+- 参考文献控制在 3-5 条，优先选近5年内的新研究或新指南
 - 结构：引子(H1后首段含核心关键词) → 机制/背景(H2) → 研究证据(H2) → 实用建议(3-5条，H2) → 就医指征(H2) → 常见问题FAQ(2-3问，H2) → 参考文献 → 免责声明
 - 至少包含 2 个站内相对链接，如 /blog /faq /assessment /contact
 - 正文中至少包含2-3个站内相对链接（如 /blog /clinic /assessment）
@@ -391,6 +393,15 @@ def main():
                 require_keyword_fields=False,
                 require_internal_links=True,
             )
+            seo_issues.extend(validate_reference_policy(data["markdown"], "", min_refs=3, max_refs=5, recent_year_threshold=2021))
+            title_conflict = find_title_conflict(data.get("title", ""))
+            if title_conflict:
+                seo_issues.append(f"Duplicate title conflict with {title_conflict['slug']}")
+            similar_article = find_similar_article(data.get("markdown", ""))
+            if similar_article:
+                seo_issues.append(
+                    f"Article too similar to existing post {similar_article['slug']} ({similar_article['similarity']:.2f})"
+                )
             if seo_issues:
                 raise ValueError("SEO validation failed: " + "; ".join(seo_issues[:8]))
             slug = make_slug(topic["title_zh"])

@@ -5,7 +5,10 @@
 
 from __future__ import annotations
 
+import json
 import re
+from difflib import SequenceMatcher
+from pathlib import Path
 from typing import Iterable
 
 BOOK_LINK_BLOCK_ZH = """
@@ -35,6 +38,11 @@ SEARCH_INTENT_HINTS = ["怎么办", "不能吃什么", "饮食怎么调", "多�
 INTERNAL_LINK_HINTS = ["/blog", "/faq", "/assessment", "/contact", "/about"]
 DISCLAIMER_HINTS = ["免责声明", "不替代专业医疗建议", "不构成个人诊疗建议", "does not replace professional medical advice"]
 CARE_HINTS = ["何时需要就医", "风险边界与就医信号", "什么时候需要就医", "When to see a doctor"]
+REPO_ROOT = Path(__file__).resolve().parents[1]
+BLOG_INDEX_FILE = REPO_ROOT / "src" / "data" / "blog-posts.ts"
+QUEUE_FILE = REPO_ROOT / "scripts" / "queue.json"
+BLOG_MD_DIR = REPO_ROOT / "public" / "blog-posts"
+DRAFTS_DIR = BLOG_MD_DIR / "drafts"
 
 
 def normalize_space(value: str | None) -> str:
@@ -71,6 +79,150 @@ def extract_internal_links(markdown: str) -> list[str]:
     return [u for u in re.findall(r"\((/[^)]+)\)", markdown or "") if any(u.startswith(p) for p in INTERNAL_LINK_HINTS)]
 
 
+def extract_urls(text: str) -> list[str]:
+    return re.findall(r"https?://[^\s)\]\"]+", text or "")
+
+
+def extract_reference_sections(markdown: str) -> list[str]:
+    sections: list[str] = []
+    for marker in ["## 参考文献", "## References"]:
+        match = re.search(rf"{re.escape(marker)}\s*([\s\S]*?)(?:\n##\s+|\Z)", markdown or "", flags=re.MULTILINE)
+        if match:
+            sections.append(match.group(1))
+    return sections
+
+
+def extract_reference_urls(markdown: str) -> list[str]:
+    urls: list[str] = []
+    for section in extract_reference_sections(markdown):
+        urls.extend(extract_urls(section))
+    return list(dict.fromkeys(urls))
+
+
+def extract_reference_years(markdown: str) -> list[int]:
+    sections = extract_reference_sections(markdown)
+    years = []
+    for year in re.findall(r"\b(19\d{2}|20\d{2})\b", "\n".join(sections)):
+        try:
+            years.append(int(year))
+        except ValueError:
+            continue
+    return years
+
+
+def validate_reference_policy(
+    zh_markdown: str,
+    en_markdown: str = "",
+    *,
+    min_refs: int = 3,
+    max_refs: int = 5,
+    recent_year_threshold: int = 2021,
+) -> list[str]:
+    issues: list[str] = []
+    urls = list(dict.fromkeys(extract_reference_urls(zh_markdown) + extract_reference_urls(en_markdown)))
+    if len(urls) < min_refs:
+        issues.append(f"Insufficient references: found {len(urls)}, need at least {min_refs}")
+    if len(urls) > max_refs:
+        issues.append(f"Too many references: found {len(urls)}, must not exceed {max_refs}")
+
+    years = extract_reference_years(zh_markdown) + extract_reference_years(en_markdown)
+    recent_years = [year for year in years if year >= recent_year_threshold]
+    required_recent = 1 if urls else 0
+    if urls and len(recent_years) < required_recent:
+        issues.append(
+            f"Not enough recent references: found {len(recent_years)}, need at least {required_recent} from {recent_year_threshold}+"
+        )
+
+    return issues
+
+
+def normalize_title_for_dedupe(value: str | None) -> str:
+    normalized = normalize_space(value).lower()
+    normalized = re.sub(r"[^\w\u4e00-\u9fff]+", "", normalized)
+    return normalized
+
+
+def load_existing_post_entries() -> list[dict]:
+    if not BLOG_INDEX_FILE.exists():
+        return []
+    content = BLOG_INDEX_FILE.read_text(encoding="utf-8")
+    entries: list[dict] = []
+    for match in re.finditer(r"id:\s*'([^']+)'.*?title:\s*'([^']+)'", content, flags=re.DOTALL):
+        entries.append({"slug": match.group(1), "title": match.group(2), "source": "index"})
+    return entries
+
+
+def load_queue_entries() -> list[dict]:
+    if not QUEUE_FILE.exists():
+        return []
+    try:
+        payload = json.loads(QUEUE_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    posts = payload.get("posts", []) if isinstance(payload, dict) else []
+    return [
+        {"slug": item.get("slug", ""), "title": item.get("title", ""), "source": "queue"}
+        for item in posts
+        if isinstance(item, dict)
+    ]
+
+
+def find_title_conflict(title: str, *, ignore_slugs: set[str] | None = None) -> dict | None:
+    ignore_slugs = ignore_slugs or set()
+    normalized = normalize_title_for_dedupe(title)
+    if not normalized:
+        return None
+
+    for entry in load_existing_post_entries() + load_queue_entries():
+        slug = entry.get("slug", "")
+        if slug in ignore_slugs:
+            continue
+        if normalize_title_for_dedupe(entry.get("title")) == normalized:
+            return entry
+    return None
+
+
+def _iter_markdown_paths() -> Iterable[Path]:
+    for directory in [BLOG_MD_DIR, DRAFTS_DIR]:
+        if not directory.exists():
+            continue
+        for path in directory.glob("*.md"):
+            if path.name.endswith("-en.md"):
+                continue
+            yield path
+
+
+def find_similar_article(
+    markdown: str,
+    *,
+    ignore_slugs: set[str] | None = None,
+    threshold: float = 0.72,
+) -> dict | None:
+    ignore_slugs = ignore_slugs or set()
+    candidate_plain = plain_text(markdown)[:6000]
+    if not candidate_plain:
+        return None
+
+    best_match: dict | None = None
+    best_score = 0.0
+
+    for path in _iter_markdown_paths():
+        slug = path.stem
+        if slug in ignore_slugs:
+            continue
+        existing_plain = plain_text(path.read_text(encoding="utf-8"))[:6000]
+        if not existing_plain:
+            continue
+        score = SequenceMatcher(None, candidate_plain, existing_plain).ratio()
+        if score > best_score:
+            best_score = score
+            best_match = {"slug": slug, "path": str(path), "similarity": score}
+
+    if best_match and best_score >= threshold:
+        return best_match
+    return None
+
+
 def ensure_book_link(markdown_text: str) -> str:
     if "gallbladdercare.com" in (markdown_text or ""):
         return markdown_text
@@ -78,7 +230,6 @@ def ensure_book_link(markdown_text: str) -> str:
     if marker in (markdown_text or ""):
         return markdown_text.replace(marker, BOOK_LINK_BLOCK_ZH + "\n" + marker, 1)
     return (markdown_text or "").rstrip() + "\n\n" + BOOK_LINK_BLOCK_ZH + "\n"
-
 
 def build_seo_fields(data: dict) -> tuple[str, str]:
     title = normalize_space(data.get("title"))
@@ -187,5 +338,7 @@ def validate_article_payload(
     blocked_hits = [term for term in PROHIBITED_TERMS if term in (zh_markdown + "\n" + en_markdown)]
     if blocked_hits:
         issues.append("Contains prohibited brand/institution terms: " + ", ".join(blocked_hits[:3]))
+
+    issues.extend(validate_reference_policy(zh_markdown, en_markdown))
 
     return issues

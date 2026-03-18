@@ -22,7 +22,7 @@ from datetime import datetime
 from pathlib import Path
 from zhipuai import ZhipuAI
 from ark_image_helper import generate_cover_image
-from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload
+from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, validate_reference_policy, find_title_conflict, find_similar_article, extract_reference_urls
 
 # ─────────────────────────── Config ───────────────────────────
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -102,7 +102,7 @@ SUBTOPICS = {
         # 长尾关键词 (40%)
         "胆固醇性胆结石怎么吃",
         "胆囊结石小于1cm怎么治疗",
-        "胆囊结石能自己排出吗",
+        "胆囊结石不做手术可以观察多久",
         "胆囊结石能喝牛奶吗",
         "胆囊结石能吃豆腐吗",
         "胆囊结石可以喝茶吗",
@@ -140,7 +140,7 @@ Core Principles:
 - Practical takeaways and actionable advice
 - Include "When to see a doctor" section
 - One-line disclaimer at the end
-- Cite extensive medical literature (5-8 references minimum)
+- Cite 3-5 real medical references maximum, prioritizing newer studies and guidelines from the last 5 years when possible
 
 Output MUST be valid JSON only (no markdown fences).
 
@@ -157,8 +157,8 @@ JSON Structure:
   "longTailKeywords": ["long-tail keyword 1", "long-tail keyword 2", "long-tail keyword 3"],
   "seoTitle": "SEO-optimized Chinese title (40-60 chars, must include focusKeyword)",
   "seoDescription": "SEO description (120-160 chars, includes focusKeyword and long-tail search intent)",
-  "markdownZh": "Chinese article body (2200-3800 chars, include multiple SEO-friendly H2/H3 sections, ## 参考文献 section with 5-8 real sources with URLs, cite throughout the article)",
-  "markdownEn": "English article body (1200-1800 words, include ## References section with 5-8 real sources with URLs, cite throughout the article)"
+  "markdownZh": "Chinese article body (2200-3800 chars, include multiple SEO-friendly H2/H3 sections, ## 参考文献 section with 3-5 real sources with URLs, cite throughout the article)",
+  "markdownEn": "English article body (1200-1800 words, include ## References section with 3-5 real sources with URLs, cite throughout the article)"
 }"""
 
 USER_PROMPT_TEMPLATE = """Generate a bilingual medical blog post on this topic:
@@ -176,7 +176,7 @@ Chinese Article Requirements (2200-3800 characters, MUST be at least 2200 charac
 - Prefer search-intent phrases such as “怎么办”, “不能吃什么”, “饮食怎么调”, “多久恢复”, “什么时候就医”
 - 4-6 practical takeaways (bullet points with detailed explanations)
 - "何时需要就医" (When to see a doctor) section with 4-6 specific situations
-- ## 参考文献 section with 5-8 real medical sources (PubMed, reputable journals, clinical guidelines) with URLs
+- ## 参考文献 section with 3-5 real medical sources (PubMed, reputable journals, clinical guidelines) with URLs
 - Citations should be integrated throughout the article body, not just at the end
 - One-line disclaimer: 本内容仅供科普参考，不替代专业医疗建议
 
@@ -185,7 +185,7 @@ English Article Requirements (1200-1800 words, MUST be at least 1200 words):
 - More detailed and comprehensive content
 - Practical takeaways (4-6 bullet points with detailed explanations)
 - "When to see a doctor" section (4-6 situations)
-- ## References section with 5-8 real sources with URLs
+- ## References section with 3-5 real sources with URLs
 - Citations should be integrated throughout the article body
 - One-line disclaimer: This content is for educational purposes only and does not replace professional medical advice
 
@@ -195,7 +195,7 @@ IMPORTANT:
 - focusKeyword must appear in title, seoTitle, seoDescription, and the first 120-220 Chinese characters
 - longTailKeywords must be practical search phrases and must be naturally used in headings and正文
 - seoTitle and seoDescription must include the primary long-tail keyword, not just a broad topic term
-- Include MORE references throughout the text (cite sources when mentioning statistics, studies, or clinical data)
+- Keep references concise and useful: 3-5 total, prioritized to the newest clinically relevant studies or guidelines from the last 5 years when possible
 - All reference URLs MUST be real and accessible (PubMed, clinical guidelines, reputable medical sites)
 - Do NOT fabricate studies or make up URLs
 - If uncertain about a reference, use general authoritative sources like PubMed, UpToDate, or medical society guidelines
@@ -219,25 +219,13 @@ def url_reachable(url: str, timeout=15) -> bool:
         return False
 
 def validate_references(data: dict) -> dict:
-    """Validate references and report issues. Returns dict with validation results."""
+    """Validate reference count, freshness, and reachability."""
     zh = data.get("markdownZh", "")
     en = data.get("markdownEn", "")
 
-    issues = []
+    issues = validate_reference_policy(zh, en, min_refs=3, max_refs=5, recent_year_threshold=2021)
+    all_urls = list(dict.fromkeys(extract_reference_urls(zh) + extract_reference_urls(en)))
 
-    if "参考文献" not in zh:
-        issues.append("Missing '参考文献' section in Chinese article")
-    if "References" not in en:
-        issues.append("Missing 'References' section in English article")
-
-    zh_urls = extract_urls(zh)
-    en_urls = extract_urls(en)
-    all_urls = list(dict.fromkeys(zh_urls + en_urls))
-
-    if len(all_urls) < 3:
-        issues.append(f"Insufficient references: found {len(all_urls)}, need at least 3")
-
-    # Check first 5 URLs for reachability
     unreachable = []
     for url in all_urls[:5]:
         if not url_reachable(url):
@@ -253,6 +241,23 @@ def validate_references(data: dict) -> dict:
         "checked_refs": min(len(all_urls), 5),
         "unreachable": unreachable
     }
+
+
+def pick_unique_seed_topic() -> tuple[str, str]:
+    candidates = [
+        (category, subtopic)
+        for category, subtopics in SUBTOPICS.items()
+        for subtopic in subtopics
+        if not find_title_conflict(subtopic)
+    ]
+    if not candidates:
+        candidates = [
+            (category, subtopic)
+            for category, subtopics in SUBTOPICS.items()
+            for subtopic in subtopics
+        ]
+    return random.choice(candidates)
+
 
 def generate_post(category: str, subtopic: str, max_retries=3) -> dict:
     """Generate blog post with retry logic for reference validation."""
@@ -314,6 +319,14 @@ def generate_post(category: str, subtopic: str, max_retries=3) -> dict:
                 require_keyword_fields=True,
                 require_internal_links=True,
             )
+            title_conflict = find_title_conflict(data.get("title", ""))
+            if title_conflict:
+                seo_issues.append(f"Duplicate title conflict with {title_conflict['slug']}")
+            similar_article = find_similar_article(data.get("markdownZh", ""))
+            if similar_article:
+                seo_issues.append(
+                    f"Article too similar to existing post {similar_article['slug']} ({similar_article['similarity']:.2f})"
+                )
 
             if not validation["valid"] or seo_issues:
                 all_issues = validation["issues"] + seo_issues
@@ -412,6 +425,9 @@ source: {source_url}
 def update_blog_index(slug: str, data: dict, image_url: str):
     """Update blog-posts.ts index."""
     today = datetime.now().strftime("%Y-%m-%d")
+    title_conflict = find_title_conflict(data.get("title", ""), ignore_slugs={slug})
+    if title_conflict:
+        raise ValueError(f"Duplicate title conflict with {title_conflict['slug']}")
 
     esc = lambda s: (s or "").replace("'", "\\'")
     title = esc(data.get("title", ""))
@@ -453,6 +469,9 @@ def update_blog_index(slug: str, data: dict, image_url: str):
 
 def update_queue(slug: str, data: dict, image_url: str, publish_date: str):
     """Add new post to queue.json."""
+    title_conflict = find_title_conflict(data.get("title", ""), ignore_slugs={slug})
+    if title_conflict:
+        raise ValueError(f"Duplicate title conflict with {title_conflict['slug']}")
     if not QUEUE_FILE.exists():
         queue_data = {"updated": publish_date, "posts": []}
     else:
@@ -509,9 +528,8 @@ def commit_and_push(slug: str):
 def main():
     print("=== AskDrLiu Daily Auto-Generator ===")
 
-    # 1. Pick random category and subtopic
-    category = random.choice(ALLOWED_CATEGORIES_ZH)
-    subtopic = random.choice(SUBTOPICS[category])
+    # 1. Pick a topic seed that does not already collide with an existing title
+    category, subtopic = pick_unique_seed_topic()
 
     print(f"[TOPIC] Category: {category}")
     print(f"[TOPIC] Subtopic: {subtopic}")
@@ -556,8 +574,8 @@ def main():
         print(f"[WARN] Failed to update queue.json: {e}")
 
     # 8. Count references
-    zh_refs = len(extract_urls(data["markdownZh"]))
-    en_refs = len(extract_urls(data["markdownEn"]))
+    zh_refs = len(extract_reference_urls(data["markdownZh"]))
+    en_refs = len(extract_reference_urls(data["markdownEn"]))
     total_refs = zh_refs + en_refs
 
     # 9. Commit and push

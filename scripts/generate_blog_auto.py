@@ -25,7 +25,7 @@ from pathlib import Path
 
 from zhipuai import ZhipuAI
 from ark_image_helper import generate_cover_image
-from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, plain_text, normalize_space
+from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, plain_text, normalize_space, validate_reference_policy, find_title_conflict, find_similar_article
 
 # ─────────────────────────── Config ───────────────────────────
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -192,11 +192,12 @@ Chinese article requirements (AskDrLiu GEO template):
 - Length must be 1200-1800 Chinese characters (do not write short posts)
 - Must start with section `## 先说结论（30秒读完）` and give clear conclusion first
 - SEO rule: title must reflect a concrete search intent; the first paragraph must naturally include the main keyword and answer the question quickly
+- References should be concise: no more than 5 total, and prioritize newer studies or guidelines from the last 5 years when possible
 - Include at least 2 internal relative links in the Chinese article, such as /blog /faq /assessment /contact
 - Then use at least 4 FAQ-style subheadings (question format), e.g. “胆囊结石一定要切吗？”
 - Each FAQ section must include: one-line conclusion + 2-4 actionable bullets + one common misconception line
 - Include section `## 风险边界与就医信号` with clear emergency signals (bullets)
-- Include section `## 参考文献` with 3-6 real sources, each as markdown list item with title/journal/year/URL
+- Include section `## 参考文献` with 3-5 real sources, each as markdown list item with title/journal/year/URL
 - End with one-line medical disclaimer
 - Tone rule: flagship stance allowed but medically safe — "能保尽保，前提是安全可保；不具备条件时，规范切除 + 术后营养管理"
 
@@ -205,7 +206,7 @@ English article requirements:
 - Length 800-1200 words
 - Start with a clear "Key takeaway" block before details
 - Use at least 4 question-style subheadings (FAQ style)
-- Add section `## References` with 3-6 real sources
+- Add section `## References` with 3-5 real sources
 
 SEO/GEO requirement:
 - Write for citation-readability: short paragraphs, explicit conclusions, practical bullets, no vague claims
@@ -260,18 +261,13 @@ def _validate_references(data: dict):
     zh = data.get("markdownZh", "")
     en = data.get("markdownEn", "")
 
-    if "参考文献" not in zh:
-        raise ValueError("Missing `参考文献` section in Chinese article")
-    if "References" not in en:
-        raise ValueError("Missing `References` section in English article")
-
-    urls = list(dict.fromkeys(_extract_reference_urls(zh) + _extract_reference_urls(en)))
-    if len(urls) < 3:
-        raise ValueError(f"Not enough reference URLs (found {len(urls)}, require >=3)")
-
-    unreachable = [u for u in urls[:8] if not _url_reachable(u)]
+    issues = validate_reference_policy(zh, en, min_refs=3, max_refs=5, recent_year_threshold=2021)
+    urls = list(dict.fromkeys(extract_reference_urls(zh) + extract_reference_urls(en)))
+    unreachable = [u for u in urls[:5] if not _url_reachable(u)]
     if unreachable:
-        raise ValueError("Unreachable reference URLs: " + ", ".join(unreachable[:3]))
+        issues.append("Unreachable reference URLs: " + ", ".join(unreachable[:3]))
+    if issues:
+        raise ValueError("; ".join(issues))
 
 
 def generate_post(headline: str, url: str, summary: str) -> dict:
@@ -323,6 +319,14 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
                 require_keyword_fields=True,
                 require_internal_links=True,
             )
+            title_conflict = find_title_conflict(data.get("title", ""))
+            if title_conflict:
+                seo_issues.append(f"Duplicate title conflict with {title_conflict['slug']}")
+            similar_article = find_similar_article(data.get("markdownZh", ""))
+            if similar_article:
+                seo_issues.append(
+                    f"Article too similar to existing post {similar_article['slug']} ({similar_article['similarity']:.2f})"
+                )
             if seo_issues:
                 raise ValueError("SEO validation failed: " + "; ".join(seo_issues[:8]))
             return data
@@ -398,6 +402,9 @@ source: {source_url}
 def update_blog_index(slug: str, data: dict, image_url: str):
     """Insert new post entry into src/data/blog-posts.ts"""
     today = datetime.now().strftime("%Y-%m-%d")
+    title_conflict = find_title_conflict(data.get("title", ""), ignore_slugs={slug})
+    if title_conflict:
+        raise ValueError(f"Duplicate title conflict with {title_conflict['slug']}")
 
     esc = lambda s: (s or "").replace("'", "\\'")
     title = esc(data.get("title", ""))

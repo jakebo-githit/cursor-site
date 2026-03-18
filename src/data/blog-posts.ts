@@ -33,20 +33,6 @@ export const blogPosts: BlogPost[] = [
     author: 'AskDrLiu.com'
   },
   {
-    id: '20260318-胆囊结石能自己排出吗-xxtlpm',
-    title: '胆囊结石能自己排出吗',
-    titleEn: 'Can Gallstones Pass on Their Own?',
-    excerpt: '胆囊结石能否自行排出？了解真相与科学处理方法。',
-    excerptEn: 'Understanding whether gallstones can pass naturally and what to do when they cause problems.',
-    seoTitle: '胆囊结石能自己排出吗？真相与处理方法',
-    seoDescription: '探讨胆囊结石能否自行排出的医学真相，了解症状、风险和科学处理方法，何时需要就医。',
-    date: '2026-03-18',
-    category: '胆囊结石',
-    categoryEn: 'Gallstones',
-    imageUrl: '/images/blog/blog-20260318-胆囊结石能自己排出吗-xxtlpm.png',
-    author: 'AskDrLiu.com'
-  },
-  {
     id: '20260317-胆囊炎为何反复-w4xvs1',
     title: '胆囊炎反复发作怎么办？原因、饮食与就医时机',
     titleEn: 'Why Does Cholecystitis Keep Recurring?',

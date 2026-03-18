@@ -16,6 +16,8 @@ import os, re, json
 from datetime import datetime
 from pathlib import Path
 
+from seo_article_rules import find_title_conflict, find_similar_article
+
 # ─── 路径 ───────────────────────────────────────────────
 REPO_ROOT   = Path(__file__).resolve().parents[1]
 DRAFTS_DIR  = REPO_ROOT / "public" / "blog-posts" / "drafts"
@@ -109,6 +111,9 @@ def resolve_image_url(entry: dict) -> str:
 
 def register_in_index(entry: dict):
     """将文章注册到 blog-posts.ts"""
+    title_conflict = find_title_conflict(entry.get("title", ""), ignore_slugs={entry.get("slug", "")})
+    if title_conflict:
+        raise ValueError(f"Duplicate title conflict with {title_conflict['slug']}")
     content = INDEX_FILE.read_text(encoding="utf-8")
     marker  = "export const blogPosts: BlogPost[] = ["
 
@@ -175,6 +180,17 @@ def main():
     slug  = entry["slug"]
     print(f"[PUB] Publishing: {slug} — {entry.get('title','')}")
 
+    title_conflict = find_title_conflict(entry.get("title", ""), ignore_slugs={slug})
+    if title_conflict:
+        entry["status"] = "failed"
+        entry["error"] = f"duplicate-title:{title_conflict['slug']}"
+        QUEUE_FILE.write_text(
+            json.dumps({"updated": queue["updated"], "posts": posts}, ensure_ascii=False, indent=2),
+            encoding="utf-8"
+        )
+        print(f"[ERROR] Duplicate title blocked: {title_conflict['slug']}")
+        return
+
     # 3. 找草稿文件（若已迁移到发布目录，走补偿路径）
     draft_path = DRAFTS_DIR / f"{slug}.md"
     publish_path = PUBLISH_DIR / f"{slug}.md"
@@ -185,6 +201,16 @@ def main():
         _meta, body = strip_frontmatter(raw)
 
         # 5. 写入正式发布目录（只保留正文，frontmatter 已通过 blog-posts.ts 管理）
+        similar_article = find_similar_article(body, ignore_slugs={slug})
+        if similar_article:
+            entry["status"] = "failed"
+            entry["error"] = f"duplicate-content:{similar_article['slug']}"
+            QUEUE_FILE.write_text(
+                json.dumps({"updated": queue["updated"], "posts": posts}, ensure_ascii=False, indent=2),
+                encoding="utf-8"
+            )
+            print(f"[ERROR] Similar article blocked: {similar_article['slug']} ({similar_article['similarity']:.2f})")
+            return
         publish_path.write_text(ensure_book_link(body).strip() + "\n", encoding="utf-8")
         print(f"  [File] → {publish_path.name}")
     elif publish_path.exists():
