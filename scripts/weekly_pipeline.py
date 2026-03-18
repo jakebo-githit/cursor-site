@@ -21,6 +21,7 @@ import warnings
 from copy import deepcopy
 from datetime import date, datetime, timedelta
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 
 import feedparser
 import requests
@@ -59,6 +60,7 @@ GLM_FALLBACK = "glm-4-plus"
 TARGET_QUEUE_DEPTH = 7
 MIN_QUEUE_DEPTH = 5
 API_COOLDOWN_SECONDS = 6
+API_CALL_TIMEOUT_SECONDS = 70
 
 FEED_URLS = [
     "https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=gallbladder+stone+cholecystitis&format=rss&limit=30",
@@ -92,6 +94,10 @@ IMAGE_PROMPTS = {
     "胆囊切除术后营养": "黑白漫画风格医学科普封面，主题为胆囊切除术后饮食恢复与营养管理，画面干净明亮、安心专业，可出现均衡清淡饮食、家中恢复、散步等日常生活方式",
     "default": "黑白漫画风格肝胆健康医学科普封面，画面干净明亮、专业可信，可出现医生沟通、健康饮食、恢复生活方式等安全场景",
 }
+
+def is_rate_limit_error(ex: Exception):
+    message = str(ex).lower()
+    return any(token in message for token in ["429", "rate limit", "too many requests", "余额不足", "无可用资源包", "频率"])
 
 TOPIC_SELECT_PROMPT = """你是 AskDrLiu.com 的中文医学选题编辑。
 
@@ -203,17 +209,27 @@ def _call_glm(messages, temperature=0.3, max_attempts=4):
     for attempt in range(1, max_attempts + 1):
         for model in [GLM_MODEL, GLM_FALLBACK]:
             try:
-                resp = client.chat.completions.create(
-                    model=model,
-                    temperature=temperature,
-                    messages=messages,
-                )
+                with ThreadPoolExecutor(max_workers=1) as executor:
+                    future = executor.submit(
+                        client.chat.completions.create,
+                        model=model,
+                        temperature=temperature,
+                        messages=messages,
+                    )
+                    resp = future.result(timeout=API_CALL_TIMEOUT_SECONDS)
                 return resp.choices[0].message.content.strip(), model
+            except FuturesTimeoutError:
+                last_error = TimeoutError(f"GLM request timed out after {API_CALL_TIMEOUT_SECONDS}s on {model}")
+                ex = last_error
+                print(f"[WARN] model {model} timed out on attempt {attempt}/{max_attempts}")
             except Exception as ex:
                 last_error = ex
                 print(f"[WARN] model {model} failed on attempt {attempt}/{max_attempts}: {ex}")
         if attempt < max_attempts:
-            sleep_seconds = min(45, (2 ** attempt) + random.uniform(0.5, 1.5))
+            if is_rate_limit_error(last_error):
+                sleep_seconds = min(90, 8 * attempt + random.uniform(1.0, 3.0))
+            else:
+                sleep_seconds = min(45, (2 ** attempt) + random.uniform(0.5, 1.5))
             print(f"[WAIT] Topic selection retry in {sleep_seconds:.1f}s")
             time.sleep(sleep_seconds)
     raise RuntimeError(f"All GLM models failed: {last_error}")

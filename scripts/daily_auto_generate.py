@@ -20,6 +20,7 @@ import string
 import requests
 from datetime import datetime
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 from zhipuai import ZhipuAI
 from ark_image_helper import generate_cover_image
 from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, validate_reference_policy, find_title_conflict, find_similar_article, extract_reference_urls
@@ -38,6 +39,7 @@ ZHIPU_API_KEY = os.getenv("ZHIPU_API_KEY", "").strip()
 ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
 
 MODEL = "glm-4-plus"
+API_CALL_TIMEOUT_SECONDS = 70
 
 ALLOWED_CATEGORIES_ZH = ["保胆", "胆囊炎", "胆囊结石", "胆囊切除术后营养"]
 ALLOWED_CATEGORIES_EN = ["Gallbladder Preservation", "Cholecystitis", "Gallstones", "Post-Cholecystectomy Nutrition"]
@@ -252,23 +254,29 @@ def call_glm_with_backoff(client: ZhipuAI, *, messages: list[dict], temperature:
     last_error = None
     for attempt in range(1, max_attempts + 1):
         try:
-            return client.chat.completions.create(
-                model=MODEL,
-                temperature=temperature,
-                messages=messages,
-            )
+            with ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(
+                    client.chat.completions.create,
+                    model=MODEL,
+                    temperature=temperature,
+                    messages=messages,
+                )
+                return future.result(timeout=API_CALL_TIMEOUT_SECONDS)
+        except FuturesTimeoutError:
+            last_error = TimeoutError(f"GLM request timed out after {API_CALL_TIMEOUT_SECONDS}s")
+            ex = last_error
         except Exception as ex:
             last_error = ex
-            if attempt >= max_attempts:
-                raise
-            if is_rate_limit_error(ex):
-                sleep_seconds = min(90, 8 * attempt + random.uniform(1.0, 3.0))
-                print(f"[WARN] Provider throttled on attempt {attempt}/{max_attempts}: {ex}")
-            else:
-                sleep_seconds = min(30, 3 * attempt + random.uniform(0.5, 1.5))
-                print(f"[WARN] GLM call failed on attempt {attempt}/{max_attempts}: {ex}")
-            print(f"[WAIT] Sleeping {sleep_seconds:.1f}s before retry")
-            time.sleep(sleep_seconds)
+        if attempt >= max_attempts:
+            raise last_error
+        if is_rate_limit_error(ex):
+            sleep_seconds = min(90, 8 * attempt + random.uniform(1.0, 3.0))
+            print(f"[WARN] Provider throttled on attempt {attempt}/{max_attempts}: {ex}")
+        else:
+            sleep_seconds = min(30, 3 * attempt + random.uniform(0.5, 1.5))
+            print(f"[WARN] GLM call failed on attempt {attempt}/{max_attempts}: {ex}")
+        print(f"[WAIT] Sleeping {sleep_seconds:.1f}s before retry")
+        time.sleep(sleep_seconds)
     raise RuntimeError(f"Failed after retries: {last_error}")
 
 
