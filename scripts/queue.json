@@ -1,6 +1,21 @@
 {
-  "updated": "2026-03-18",
+  "updated": "2026-03-19",
   "posts": [
+    {
+      "publish_date": "2026-03-19",
+      "slug": "20260319-胆囊炎反复发作的原因-folgmj",
+      "title": "胆囊炎反复发作的原因",
+      "titleEn": "Causes of Recurrent Cholecystitis",
+      "category": "胆囊炎",
+      "categoryEn": "Cholecystitis",
+      "imageUrl": "/images/gallstone-prevention.jpg",
+      "excerpt": "胆囊炎反复发作可能由多种原因引起，包括胆囊结石、胆囊功能障碍和饮食习惯等。了解这些原因有助于预防和管理胆囊炎。",
+      "excerptEn": "Recurrent cholecystitis can be caused by various factors, including gallstones, gallbladder dysfunction, and dietary habits. Understanding these causes can help in preventing and managing cholecystitis.",
+      "seoTitle": "胆囊炎反复发作的原因及预防",
+      "seoDescription": "了解胆囊炎反复发作的原因，包括胆囊结石、胆囊功能障碍和饮食习惯等，以及如何预防和管理胆囊炎。",
+      "status": "published",
+      "published_at": "2026-03-19"
+    },
     {
       "publish_date": "2026-03-18",
       "slug": "20260315-胆囊切除后吃什么-术后饮食与营养恢复指南",
