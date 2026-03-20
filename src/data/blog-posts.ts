@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260320-急性胆囊炎的早期识别与紧急处理-x5w0vo',
+    title: '急性胆囊炎的早期识别与紧急处理',
+    titleEn: 'Early Identification and Emergency Management of Acute Cholecystitis',
+    excerpt: '急性胆囊炎是一种常见的胆囊疾病，了解其早期识别与紧急处理至关重要。',
+    excerptEn: 'Acute cholecystitis is a common gallbladder condition; understanding its early identification and emergency management is crucial.',
+    seoTitle: '急性胆囊炎的早期识别与紧急处理',
+    seoDescription: '了解急性胆囊炎的早期识别与紧急处理方法，助您快速应对。',
+    date: '2026-03-20',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/gallstone-prevention.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260319-胆囊炎反复发作的原因-folgmj',
     title: '胆囊炎反复发作的原因',
     titleEn: 'Causes of Recurrent Cholecystitis',
