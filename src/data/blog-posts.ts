@@ -19,6 +19,34 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260321-保胆取石术后护理要点加速康复的关键指南-7fvbbi',
+    title: '保胆取石术后护理要点：加速康复的关键指南',
+    titleEn: 'Essential Post-Operative Care After Gallbladder-Preserving Cholecystolithotomy',
+    excerpt: '保胆取石术后的科学护理对预防结石复发、促进身体康复至关重要。本文从饮食管理、伤口护理、运动恢复及长期随访四个维度，为您详细解读术后护理要点。',
+    excerptEn: 'Proper post-operative care after gallbladder-preserving cholecystolithotomy is crucial for preventing stone recurrence and promoting recovery. This guide covers dietary management, wound care, physical activity, and long-term follow-up strategies.',
+    seoTitle: '保胆取石术后护理要点 | 肝胆外科专家指导',
+    seoDescription: '详解保胆取石术后护理要点，包括饮食调整、伤口护理、运动恢复及复查随访，帮助患者科学康复，降低结石复发风险。',
+    date: '2026-03-21',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: '20260321-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-3msnbi',
+    title: '胆囊炎发作可以吃止痛药吗？肝胆外科医生的详细解答',
+    titleEn: 'Can You Take Painkillers During a Gallbladder Attack? A Hepatobiliary Surgeon\'s Guide',
+    excerpt: '胆囊炎发作时的剧烈疼痛常让患者难以忍受。本文详细解答胆囊炎患者能否服用止痛药、哪些药物安全有效、何时需要紧急就医等关键问题，帮助您科学应对胆囊炎急性发作。',
+    excerptEn: 'The severe pain of acute cholecystitis can be unbearable. This article explains whether painkillers are safe for gallbladder attacks, which medications are effective, and when to seek emergency care.',
+    seoTitle: '胆囊炎止痛药：胆囊炎发作可以吃止痛药吗？医生详解安全用药与就医时机',
+    seoDescription: '胆囊炎止痛药，胆囊炎急性发作时能否服用止痛药？哪些止痛药安全有效？本文由肝胆外科专家详细解答胆囊炎疼痛管理的正确方法、药物选择注意事项及紧急就医指征。',
+    date: '2026-03-21',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/gallstone-prevention.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260320-急性胆囊炎的早期识别与紧急处理-x5w0vo',
     title: '急性胆囊炎的早期识别与紧急处理',
     titleEn: 'Early Identification and Emergency Management of Acute Cholecystitis',
