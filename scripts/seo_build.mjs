@@ -277,10 +277,23 @@ function renderArticlePage(post, markdown, posts) {
       <div class="meta"><a href="${SITE_URL}">首页</a> / <a href="${SITE_URL}/blog">博客</a> / <span>${escapeHtml(post.title)}</span></div>
       <div class="badge">${escapeHtml(post.category)}</div>
       <h1>${escapeHtml(post.title)}</h1>
-      <div class="meta"><span>${escapeHtml(post.date)}</span><span>作者：AskDrLiu.com</span><span>${escapeHtml(post.category)}</span></div>
+      <div class="meta"><span>${escapeHtml(post.date)}</span><span>作者：刘波主任医师</span><span>${escapeHtml(post.category)}</span></div>
       <p>${escapeHtml(post.excerpt || post.seoDescription || '')}</p>
       ${post.imageUrl ? `<img class="cover" src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" />` : ''}
       <div class="article-body">${articleHtml}</div>
+      <div style="margin-top:32px;padding:22px 24px;border-radius:18px;border:1px solid #dde5df;background:#f6fbf9;">
+        <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+          <div>
+            <p style="margin:0 0 6px;font-weight:700;font-size:1rem;color:#16322d;">关于作者 · 刘波主任医师</p>
+            <p style="margin:0;font-size:0.93rem;color:#5f6f67;line-height:1.8;">
+              中山大学附属第三医院（岭南医院）肝胆外科主任医师，从事肝胆外科临床工作近30年。
+              专注胆囊结石保胆取石（POCS）、ERCP、肝硬化与肝癌诊治。
+              2008年赴德国访学，2009–2011年于美国耶鲁大学访学。
+              本文内容基于临床循证医学，仅供患者教育参考，不替代专业诊疗建议。
+            </p>
+          </div>
+        </div>
+      </div>
     </article>
     <section class="hero">
       <div class="badge">相关文章</div>
