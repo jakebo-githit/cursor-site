@@ -32,20 +32,7 @@ export const blogPosts: BlogPost[] = [
     imageUrl: '/images/pocs-surgery.jpg',
     author: 'AskDrLiu.com'
   },
-  {
-    id: '20260321-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-3msnbi',
-    title: '胆囊炎发作可以吃止痛药吗？肝胆外科医生的详细解答',
-    titleEn: 'Can You Take Painkillers During a Gallbladder Attack? A Hepatobiliary Surgeon\'s Guide',
-    excerpt: '胆囊炎发作时的剧烈疼痛常让患者难以忍受。本文详细解答胆囊炎患者能否服用止痛药、哪些药物安全有效、何时需要紧急就医等关键问题，帮助您科学应对胆囊炎急性发作。',
-    excerptEn: 'The severe pain of acute cholecystitis can be unbearable. This article explains whether painkillers are safe for gallbladder attacks, which medications are effective, and when to seek emergency care.',
-    seoTitle: '胆囊炎止痛药：胆囊炎发作可以吃止痛药吗？医生详解安全用药与就医时机',
-    seoDescription: '胆囊炎止痛药，胆囊炎急性发作时能否服用止痛药？哪些止痛药安全有效？本文由肝胆外科专家详细解答胆囊炎疼痛管理的正确方法、药物选择注意事项及紧急就医指征。',
-    date: '2026-03-21',
-    category: '胆囊炎',
-    categoryEn: 'Cholecystitis',
-    imageUrl: '/images/gallstone-prevention.jpg',
-    author: 'AskDrLiu.com'
-  },
+
   {
     id: '20260320-急性胆囊炎的早期识别与紧急处理-x5w0vo',
     title: '急性胆囊炎的早期识别与紧急处理',
@@ -74,20 +61,7 @@ export const blogPosts: BlogPost[] = [
     imageUrl: '/images/gallstone-prevention.jpg',
     author: 'AskDrLiu.com'
   },
-  {
-    id: '20260318-胆囊结石能自己排出吗-xxtlpm',
-    title: '胆囊结石能自己排出吗',
-    titleEn: 'Can Gallstones Pass on Their Own?',
-    excerpt: '胆囊结石能否自行排出？了解真相与科学处理方法。',
-    excerptEn: 'Understanding whether gallstones can pass naturally and what to do when they cause problems.',
-    seoTitle: '胆囊结石能自己排出吗？真相与处理方法',
-    seoDescription: '探讨胆囊结石能否自行排出的医学真相，了解症状、风险和科学处理方法，何时需要就医。',
-    date: '2026-03-18',
-    category: '胆囊结石',
-    categoryEn: 'Gallstones',
-    imageUrl: '/images/blog/blog-20260318-胆囊结石能自己排出吗-xxtlpm.png',
-    author: 'AskDrLiu.com'
-  },
+
   {
     id: '20260317-胆囊炎为何反复-w4xvs1',
     title: '胆囊炎反复发作怎么办？原因、饮食与就医时机',
@@ -130,34 +104,8 @@ export const blogPosts: BlogPost[] = [
     imageUrl: '/images/blog/blog-20260315-胆囊切除后吃什么-术后饮食与营养恢复指南-regen.png',
     author: 'AskDrLiu.com'
   },
-  {
-    id: '20260317-胆囊炎为何反复-w4xvs1',
-    title: '胆囊炎反复发作怎么办？原因、饮食与就医时机',
-    titleEn: 'Why Does Cholecystitis Keep Recurring?',
-    excerpt: '胆囊炎反复发作怎么办？这篇文章从胆结石、饮食刺激、胆汁淤积和复查时机出发，讲清复发原因与应对要点。',
-    excerptEn: 'Understanding the underlying causes of recurrent cholecystitis can help with effective prevention and management strategies.',
-    seoTitle: '胆囊炎反复发作怎么办？原因、饮食与就医时机',
-    seoDescription: '胆囊炎为什么总是反复发作？这篇文章讲清胆囊炎反复发作的原因、胆囊炎饮食怎么调、胆囊炎不能吃什么，以及什么时候必须就医。',
-    date: '2026-03-17',
-    category: '胆囊炎',
-    categoryEn: 'Cholecystitis',
-    imageUrl: '/images/blog/blog-20260317-胆囊炎为何反复-w4xvs1.png',
-    author: 'AskDrLiu.com'
-  },
-  {
-    id: '20260316-胆囊结石能自己排出吗-65pvyl',
-    title: '胆囊结石能自己排出吗',
-    titleEn: 'Can Gallstones Pass on Their Own?',
-    excerpt: '胆囊结石能否自行排出？了解风险与科学应对策略，避免盲目尝试排石疗法。',
-    excerptEn: 'Can gallstones pass on their own? Learn about the risks and evidence-based approaches to avoid dangerous self-treatment attempts.',
-    seoTitle: '胆囊结石能自己排出吗？肝胆外科医生的真实解答',
-    seoDescription: '"喝橄榄油能排石"是真的吗？肝胆外科医生从循证角度解释胆囊结石为何几乎不能自行排出，以及拖延的真实风险。',
-    date: '2026-03-16',
-    category: '胆囊结石',
-    categoryEn: 'Gallstones',
-    imageUrl: '/images/blog/blog-20260316-胆囊结石能自己排出吗-65pvyl.jpg',
-    author: 'AskDrLiu.com'
-  },
+
+
   {
     id: '20260315-胆汁酸腹泻胆囊切除后新解-y792un',
     title: '胆汁酸腹泻：胆囊切除后新解',
