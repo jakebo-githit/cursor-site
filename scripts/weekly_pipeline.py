@@ -26,7 +26,7 @@ from queue import Queue, Empty
 
 import feedparser
 import requests
-from zhipuai import ZhipuAI
+from openai import OpenAI
 
 from ark_image_helper import generate_cover_image
 from daily_auto_generate import SUBTOPICS as CURATED_SUBTOPICS
@@ -51,8 +51,9 @@ QUEUE_FILE = REPO_ROOT / "scripts" / "queue.json"
 DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
-ZHIPU_KEY = os.getenv("ZHIPU_API_KEY", "").strip()
+TEXT_API_KEY = (os.getenv("LLM_API_KEY") or os.getenv("ZHIPU_API_KEY") or "").strip()
 ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
+LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/coding/paas/v4")
 TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 TG_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "1094807201").strip()
 
@@ -225,10 +226,10 @@ def fetch_reddit_entries():
 
 
 def _call_glm(messages, temperature=0.3, max_attempts=4):
-    if not ZHIPU_KEY:
-        raise RuntimeError("Missing ZHIPU_API_KEY")
+    if not TEXT_API_KEY:
+        raise RuntimeError("Missing LLM_API_KEY/ZHIPU_API_KEY")
 
-    client = ZhipuAI(api_key=ZHIPU_KEY)
+    client = OpenAI(api_key=TEXT_API_KEY, base_url=LLM_BASE_URL)
     last_error = None
     for attempt in range(1, max_attempts + 1):
         for model in [GLM_MODEL, GLM_FALLBACK]:
@@ -239,6 +240,7 @@ def _call_glm(messages, temperature=0.3, max_attempts=4):
                     model=model,
                     temperature=temperature,
                     messages=messages,
+                    max_tokens=2500,
                 )
                 return resp.choices[0].message.content.strip(), model
             except TimeoutError as ex:

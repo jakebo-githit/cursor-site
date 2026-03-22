@@ -44,7 +44,7 @@ QUEUE_FILE = REPO_ROOT / "scripts" / "queue.json"
 BLOG_MD_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
-LLM_API_KEY = os.getenv("LLM_API_KEY", "").strip()
+LLM_API_KEY = (os.getenv("LLM_API_KEY") or os.getenv("ZHIPU_API_KEY") or "").strip()
 ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
 LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/coding/paas/v4")
 
@@ -289,7 +289,7 @@ def pick_unique_seed_topic() -> tuple[str, str]:
 def generate_post(category: str, subtopic: str, max_retries=3) -> dict:
     """Generate blog post with retry logic for reference validation."""
     if not LLM_API_KEY:
-        raise RuntimeError("Missing LLM_API_KEY environment variable")
+        raise RuntimeError("Missing LLM_API_KEY/ZHIPU_API_KEY environment variable")
 
     client = OpenAI(api_key=LLM_API_KEY, base_url=LLM_BASE_URL)
 
