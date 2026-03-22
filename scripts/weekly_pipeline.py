@@ -30,7 +30,6 @@ from zhipuai import ZhipuAI
 
 from ark_image_helper import generate_cover_image
 from daily_auto_generate import SUBTOPICS as CURATED_SUBTOPICS
-from daily_auto_generate import generate_post as generate_seed_post
 from generate_blog_auto import generate_post as generate_news_post
 from seo_article_rules import (
     build_seo_fields as shared_build_seo_fields,
@@ -487,14 +486,10 @@ def normalize_generated_payload(payload, source_topic):
 
 
 def generate_article(topic):
-    if topic.get("fallback_seed"):
-        payload = generate_seed_post(topic["category"], topic["title_zh"])
-    else:
-        payload = generate_news_post(
-            topic["source_title"],
-            topic.get("source_url") or "https://www.askdrliu.com/blog",
-            topic.get("summary") or topic.get("reason") or topic["title_zh"],
-        )
+    source_title = topic.get("source_title") or topic["title_zh"]
+    source_url = topic.get("source_url") or "https://www.askdrliu.com/blog"
+    source_summary = topic.get("summary") or topic.get("reason") or topic["title_zh"]
+    payload = generate_news_post(source_title, source_url, source_summary)
     return normalize_generated_payload(payload, topic)
 
 

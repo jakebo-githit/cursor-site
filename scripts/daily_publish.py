@@ -14,6 +14,7 @@ Daily Publish Script for AskDrLiu / cursor-site
 
 import os, re, json
 from datetime import datetime
+from time import strptime
 from pathlib import Path
 
 from seo_article_rules import find_title_conflict, find_similar_article
@@ -187,6 +188,11 @@ def register_in_index(entry: dict):
 
 def main():
     today = (os.getenv("DATE_OVERRIDE") or datetime.now().strftime("%Y-%m-%d")).strip()
+    if today:
+        try:
+            strptime(today, "%Y-%m-%d")
+        except ValueError as exc:
+            raise ValueError(f"Invalid DATE_OVERRIDE/date value: {today}") from exc
     print(f"=== Daily Publish: {today} ===")
 
     # 1. 读取队列
