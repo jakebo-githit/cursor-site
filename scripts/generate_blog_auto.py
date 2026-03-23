@@ -250,7 +250,6 @@ def call_glm_with_backoff(client: OpenAI, *, messages: list[dict], temperature: 
                 model=MODEL,
                 temperature=temperature,
                 messages=messages,
-                max_tokens=6000,
             )
         except TimeoutError as ex:
             current_error = ex
