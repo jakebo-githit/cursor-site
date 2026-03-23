@@ -240,7 +240,6 @@ def _call_glm(messages, temperature=0.3, max_attempts=4):
                     model=model,
                     temperature=temperature,
                     messages=messages,
-                    max_tokens=2500,
                 )
                 return resp.choices[0].message.content.strip(), model
             except TimeoutError as ex:
@@ -493,7 +492,7 @@ def generate_article(topic):
         payload = generate_seed_post(topic["category"], topic["title_zh"])
     else:
         payload = generate_news_post(
-            topic["source_title"],
+            topic.get("source_title") or topic["title_zh"],
             topic.get("source_url") or "https://www.askdrliu.com/blog",
             topic.get("summary") or topic.get("reason") or topic["title_zh"],
         )
