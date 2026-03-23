@@ -331,9 +331,32 @@ def generate_post(category: str, subtopic: str, max_retries=3) -> dict:
                 if k not in data:
                     raise ValueError(f"Missing required field: {k}")
 
-            # Validate category
+            # Map category to allowed list
+            category_mapping = {
+                "保胆取石": "保胆",
+                "保胆手术": "保胆",
+                "保胆取石手术": "保胆",
+                "胆结石预防": "胆囊结石",
+                "胆结石形成": "胆囊结石",
+                "胆结石治疗": "胆囊结石",
+                "术后营养": "胆囊切除术后营养",
+                "术后饮食": "胆囊切除术后营养",
+                "术后营养补充": "胆囊切除术后营养",
+                "胆囊切除后饮食": "胆囊切除术后营养",
+            }
+            
             if data["category"] not in ALLOWED_CATEGORIES_ZH:
-                raise ValueError(f"Invalid category: {data['category']}. Must be one of {ALLOWED_CATEGORIES_ZH}")
+                # Try to map
+                mapped = False
+                for key, value in category_mapping.items():
+                    if key in data["category"]:
+                        data["category"] = value
+                        data["categoryEn"] = CATEGORY_MAP[value]
+                        mapped = True
+                        break
+                
+                if not mapped:
+                    raise ValueError(f"Invalid category: {data['category']}. Must be one of {ALLOWED_CATEGORIES_ZH}")
 
             data["seoTitle"], data["seoDescription"] = shared_build_seo_fields(data)
 

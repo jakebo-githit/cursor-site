@@ -19,6 +19,18 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260323-胆囊结石与胰腺炎的关系-警惕胆源性胰腺炎的风险-wusqcu',
+    title: '胆囊结石与胰腺炎的关系：警惕胆源性胰腺炎的风险',
+    titleEn: 'The Relationship Between Gallstones and Pancreatitis: Understanding Biliary Pancreatitis Risk',
+    excerpt: '胆囊结石是引起急性胰腺炎最常见的原因之一。当结石滑落阻塞胆胰管交汇处时，可能引发胆源性胰腺炎。本文深入解析两者关系、发病机制及防治策略。',
+    excerptEn: 'Gallstones are one of the most common causes of acute pancreatitis. When stones slip and block the biliopancreatic junction, they can trigger biliary pancreatitis. This article explores their relationship, pathogenesis, and prevention strategies.',
+    date: '2026-03-23',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/gallstone-prevention.jpg',
+    author: '刘波主任'
+  },
+  {
     id: '20260321-保胆取石术后护理要点加速康复的关键指南-7fvbbi',
     title: '保胆取石术后护理要点：加速康复的关键指南',
     titleEn: 'Essential Post-Operative Care After Gallbladder-Preserving Cholecystolithotomy',
