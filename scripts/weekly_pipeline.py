@@ -478,6 +478,8 @@ def normalize_generated_payload(payload, source_topic):
         "titleEn": payload.get("titleEn", payload.get("title", source_topic["title_zh"])).strip(),
         "excerpt": payload.get("excerpt", "").strip(),
         "excerptEn": payload.get("excerptEn", payload.get("excerpt", "")).strip(),
+        "seoTitle": payload.get("seoTitle", "").strip(),
+        "seoDescription": payload.get("seoDescription", "").strip(),
         "category": payload.get("category", source_topic.get("category", "胆囊结石")),
         "categoryEn": payload.get("categoryEn", CATEGORY_EN_MAP.get(payload.get("category", source_topic.get("category", "胆囊结石")), "Gallstones")),
         "focusKeyword": payload.get("focusKeyword", payload.get("title", source_topic["title_zh"])).strip(),
