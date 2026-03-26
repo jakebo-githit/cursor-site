@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj',
+    title: '胆囊炎并发症的识别与预防：守护胆囊健康的关键指南',
+    titleEn: 'Recognition and Prevention of Cholecystitis Complications: A Key Guide to Protecting Gallbladder Health',
+    excerpt: '胆囊炎若不及时治疗，可能引发胆囊穿孔、胆管炎、胰腺炎等严重并发症。本文详解胆囊炎并发症的早期识别方法与科学预防策略，帮助患者及时就医，避免病情恶化。',
+    excerptEn: 'If left untreated, cholecystitis can lead to serious complications such as gallbladder perforation, cholangitis, and pancreatitis. This article explains early recognition methods and scientific prevention strategies to help patients seek timely medical care and avoid disease progression.',
+    seoTitle: '胆囊炎并发症的识别与预防 | 肝胆外科专家详解',
+    seoDescription: '了解胆囊炎并发症的识别与预防方法，包括胆囊穿孔、胆管炎、胰腺炎等。肝胆外科专家为您详解症状、风险因素及科学预防策略。',
+    date: '2026-03-26',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/gallstone-prevention.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260325-胆囊切除术后一周食谱清单肝胆外科医生的饮食分级指南-m5dqdl',
     title: '胆囊切除术后一周食谱清单：肝胆外科医生的饮食分级指南',
     titleEn: 'One-Week Meal Plan After Cholecystectomy: A Hepatobiliary Surgeon\'s Dietary Guide',
