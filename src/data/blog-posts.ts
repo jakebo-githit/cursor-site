@@ -29,7 +29,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-26',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -57,7 +57,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-25',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -69,7 +69,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-23',
     category: '胆囊结石',
     categoryEn: 'Gallstones',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj.png',
     author: '刘波主任'
   },
   {
@@ -98,7 +98,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-20',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -112,7 +112,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-19',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj.png',
     author: 'AskDrLiu.com'
   },
 
@@ -353,7 +353,7 @@ export const blogPosts: BlogPost[] = [
     date: '2025-03-15',
     category: '胆结石预防',
     categoryEn: 'Gallstone Prevention',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj.png',
     author: 'AskDrLiu.com'
   },
   {
