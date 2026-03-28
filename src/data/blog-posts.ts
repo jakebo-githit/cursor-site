@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260328-保胆手术后的复查与长期管理完整指南-hdmxex',
+    title: '保胆手术后的复查与长期管理：完整指南',
+    titleEn: 'Post-Gallbladder-Preserving Surgery Follow-up and Long-term Management: A Complete Guide',
+    excerpt: '保胆手术后并非一劳永逸，科学的复查计划与长期生活管理是预防结石复发的关键。本文详解术后复查时间节点、检查项目及日常注意事项，助您守护胆囊健康。',
+    excerptEn: 'Gallbladder-preserving surgery is not a one-time solution. Scientific follow-up schedules and long-term lifestyle management are crucial for preventing stone recurrence. This article details postoperative follow-up timelines, examination items, and daily precautions to help you maintain gallbladder health.',
+    seoTitle: '保胆手术后复查与长期管理指南 | 肝胆外科专家建议',
+    seoDescription: '保胆手术后复查，详解保胆手术后的标准复查流程、必做检查项目及时间安排，提供专业的长期管理建议，有效降低胆囊结石复发风险，守护您的胆囊健康。',
+    date: '2026-03-28',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/blog/blog-20260328-保胆手术后的复查与长期管理完整指南-hdmxex.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260327-胆固醇性胆结石患者饮食指南吃什么怎么吃-jznxvi',
     title: '胆固醇性胆结石患者饮食指南：吃什么、怎么吃',
     titleEn: 'Dietary Guide for Cholesterol Gallstones: What to Eat and How to Eat',

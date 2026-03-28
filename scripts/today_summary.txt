@@ -1,9 +1,7 @@
-Title: 胆囊炎并发症的识别与预防：守护胆囊健康的关键指南
-Slug: 20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj
-Image: /images/blog/blog-20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj.png
-References: 4 (2 verified, 2 may need update)
+Title: 胆固醇性胆结石患者饮食指南：吃什么、怎么吃
+Slug: 20260327-胆固醇性胆结石患者饮食指南吃什么怎么吃-jznxvi
+Image: /images/blog/blog-20260327-胆固醇性胆结石患者饮食指南吃什么怎么吃-jznxvi.png
+References: 3
 Status: PUBLISHED
-Date: 2026-03-26
-Category: 胆囊炎
-Pushed: YES
-URL: https://www.askdrliu.com/blog/20260326-胆囊炎并发症的识别与预防守护胆囊健康的关键指南-ggwezj
+Date: 2026-03-27
+Category: 胆囊结石
