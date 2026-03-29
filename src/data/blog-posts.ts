@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260329-胆囊切除术后能吃海鲜吗肝胆外科医生的详细解答-belypj',
+    title: '胆囊切除术后能吃海鲜吗？肝胆外科医生的详细解答',
+    titleEn: 'Can You Eat Seafood After Cholecystectomy? A Hepatobiliary Surgeon\\'s Guide',
+    excerpt: '胆囊切除术后可以适量吃海鲜，但需注意时机和方式。术后早期应避免，恢复期可从低脂鱼类开始，逐步增加种类。本文详解术后海鲜摄入的注意事项。',
+    excerptEn: 'Patients can eat seafood in moderation after cholecystectomy, but timing and preparation matter. Start with low-fat fish during recovery and gradually expand variety. This guide explains key considerations for post-surgical seafood consumption.',
+    seoTitle: '胆囊切除术后吃海鲜：胆囊切除术后能吃海鲜吗？术后饮食指南与注意事项',
+    seoDescription: '胆囊切除术后吃海鲜，胆囊切除术后能否吃海鲜？肝胆外科医生详解术后海鲜摄入时机、种类选择及注意事项，帮助患者科学恢复。',
+    date: '2026-03-29',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260329-胆囊切除术后能吃海鲜吗肝胆外科医生的详细解答-belypj.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260328-保胆手术后的复查与长期管理完整指南-hdmxex',
     title: '保胆手术后的复查与长期管理：完整指南',
     titleEn: 'Post-Gallbladder-Preserving Surgery Follow-up and Long-term Management: A Complete Guide',
