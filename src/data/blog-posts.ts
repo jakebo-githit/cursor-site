@@ -478,7 +478,19 @@ export const getBlogPostsByCategory = (category: string, isEnglish: boolean): Bl
 };
 
 // 搜索文章
-export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[] => {
+export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
+  {
+    id: 'gallbladder-preservation-mnchxc6u',
+    title: '保胆取石手术的适应症与长期效果',
+    titleEn: '保胆取石手术的适应症与长期效果',
+    excerpt: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
+    excerptEn: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
+    date: '2026-03-30',
+    category: '技术介绍',
+    categoryEn: 'Technology Introduction',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  }] => {
   const lowerQuery = query.toLowerCase();
   return blogPosts.filter(post => {
     const title = isEnglish ? post.titleEn.toLowerCase() : post.title.toLowerCase();
