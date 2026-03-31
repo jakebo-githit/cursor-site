@@ -19,6 +19,34 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260331-胆囊切除后如何应对脂肪消化问题肝胆外科医生的实用指南-vswhan',
+    title: '胆囊切除后如何应对脂肪消化问题：肝胆外科医生的实用指南',
+    titleEn: 'Managing Fat Digestion After Cholecystectomy: A Practical Guide from a Hepatobiliary Surgeon',
+    excerpt: '胆囊切除术后出现脂肪消化不良是常见问题。本文从肝胆外科专业角度解析胆汁持续引流对脂肪消化的影响，提供科学的饮食调整策略和逐步恢复方法，帮助患者重获正常消化功能。',
+    excerptEn: 'Fat digestion issues are common after gallbladder removal. This article explains how continuous bile flow affects fat digestion and provides evidence-based dietary strategies to help patients regain normal digestive function.',
+    seoTitle: '胆囊切除后脂肪消化问题全解析 | 肝胆外科专家指南',
+    seoDescription: '胆囊切除后脂肪消化，胆囊切除后吃油腻食物就腹泻？肝胆外科医生详解术后脂肪消化问题的成因、症状缓解方法和科学饮食策略，助您平稳度过恢复期。',
+    date: '2026-03-31',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260331-胆囊切除后如何应对脂肪消化问题肝胆外科医生的实用指南-vswhan.png',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: '20260331-胆囊结石的成因与高危因素深入了解胆石症的发生机制-jmjgaf',
+    title: '胆囊结石的成因与高危因素：深入了解胆石症的发生机制',
+    titleEn: 'Causes and Risk Factors of Gallstones: A Comprehensive Guide to Cholelithiasis',
+    excerpt: '胆囊结石是常见的消化系统疾病，了解其成因和高危因素有助于预防和早期干预。本文从胆固醇代谢、胆汁淤积、生活方式等多角度解析胆结石形成机制，并提供专业的预防建议。',
+    excerptEn: 'Gallstones are a common digestive system disorder. Understanding their causes and risk factors is essential for prevention and early intervention. This article explores gallstone formation mechanisms from multiple perspectives, including cholesterol metabolism, bile stasis, and lifestyle factors.',
+    seoTitle: '胆囊结石成因与高危因素 | 肝胆外科专家深度解析',
+    seoDescription: '胆囊结石成因，详解胆囊结石的形成原因与高危因素，包括胆固醇代谢异常、胆汁淤积、肥胖、快速减肥等。由肝胆外科专家撰写，提供科学预防建议。',
+    date: '2026-03-31',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260331-胆囊结石的成因与高危因素深入了解胆石症的发生机制-jmjgaf.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260329-胆囊切除术后能吃海鲜吗肝胆外科医生的详细解答-belypj',
     title: '胆囊切除术后能吃海鲜吗？肝胆外科医生的详细解答',
     titleEn: 'Can You Eat Seafood After Cholecystectomy? A Hepatobiliary Surgeon\\'s Guide',
