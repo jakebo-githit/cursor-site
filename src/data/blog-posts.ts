@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260331-胆囊切除术后能喝咖啡吗科学指南与建议-krqxlr',
+    title: '胆囊切除术后能喝咖啡吗？科学指南与建议',
+    titleEn: 'Can You Drink Coffee After Cholecystectomy? A Scientific Guide',
+    excerpt: '胆囊切除术后适量饮用咖啡通常是安全的，但需注意时机与个体差异。本文详解术后喝咖啡的注意事项、潜在益处及可能的消化不适，助您科学恢复。',
+    excerptEn: 'Moderate coffee consumption is generally safe after gallbladder removal, but timing and individual tolerance matter. This guide covers precautions, potential benefits, and digestive considerations for post-cholecystectomy patients.',
+    seoTitle: '胆囊切除术后喝咖啡：胆囊切除术后能喝咖啡吗？权威解答与饮用建议 | 肝胆外科专家',
+    seoDescription: '胆囊切除术后喝咖啡，胆囊切除术后能否喝咖啡？本文由肝胆外科专家撰写，详解术后喝咖啡的安全性、最佳时机、注意事项及替代选择，助您科学恢复。',
+    date: '2026-03-31',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260331-胆囊切除术后能喝咖啡吗科学指南与建议-krqxlr.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260331-胆囊结石小于1cm怎么治疗专业肝胆外科医生详解-eajcaq',
     title: '胆囊结石小于1cm怎么治疗？专业肝胆外科医生详解',
     titleEn: 'How to Treat Gallbladder Stones Smaller Than 1cm: A Specialist\\'s Guide',
