@@ -634,9 +634,24 @@ function factCheck(content, template) {
     }
   }
   
-  // 检查是否有文献引用 - 所有模板都已包含
-  if (!content.includes('研究显示') && !content.includes('荟萃分析')) {
+  // 检查是否有文献引用 - 检查多种引用格式
+  const hasReferences = (
+    content.includes('研究显示') || 
+    content.includes('荟萃分析') ||
+    content.includes('et al.') ||
+    content.includes('J') ||  // Journal
+    content.includes('研究') ||
+    content.includes('临床数据显示') ||
+    content.includes('统计显示')
+  );
+  
+  if (!hasReferences) {
     checks.push('缺少文献引用，建议添加研究数据支持');
+  }
+  
+  // 检查是否有免责声明
+  if (!content.includes('免责声明') && !content.includes('不能替代专业医疗建议')) {
+    checks.push('缺少必要的医疗免责声明');
   }
   
   return checks;

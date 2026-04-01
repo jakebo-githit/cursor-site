@@ -1,7 +1,7 @@
-Title: 胆囊切除术后能喝咖啡吗？科学指南与建议
-Slug: 20260331-胆囊切除术后能喝咖啡吗科学指南与建议-krqxlr
-Image: /images/blog/blog-20260331-胆囊切除术后能喝咖啡吗科学指南与建议-krqxlr.png
-References: 4
-Status: PUBLISHED
+Title: 保胆还是切胆？肝胆外科医生的深度解析
+Slug: 20260331-保胆还是切胆肝胆外科医生的深度解析-damxpa
+Image: /images/gallstone-prevention.jpg
+References: 3-5 (pre-validated)
+Status: DRAFT_SAVED
 Date: 2026-03-31
-Category: 胆囊切除术后营养
+Category: 保胆
