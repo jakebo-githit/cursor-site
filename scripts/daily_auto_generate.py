@@ -48,7 +48,8 @@ LLM_API_KEY = (os.getenv("LLM_API_KEY") or os.getenv("ZHIPU_API_KEY") or "").str
 ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
 LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/coding/paas/v4")
 
-MODEL = "glm-5"
+MODEL_PRIMARY = "glm-5"
+MODEL_FALLBACK = "glm-4-plus"
 API_CALL_TIMEOUT_SECONDS = 300
 
 ALLOWED_CATEGORIES_ZH = ["保胆", "胆囊炎", "胆囊结石", "胆囊切除术后营养"]
@@ -611,35 +612,31 @@ def is_rate_limit_error(ex: Exception) -> bool:
 
 
 def call_llm_with_backoff(client: OpenAI, *, messages: list[dict], temperature: float, max_attempts: int = 5):
+    """Call LLM with automatic model fallback (Primary -> Fallback)."""
     last_error = None
-    current_error = None
-    for attempt in range(1, max_attempts + 1):
-        try:
-            return run_with_timeout(
-                client.chat.completions.create,
-                API_CALL_TIMEOUT_SECONDS,
-                model=MODEL,
-                temperature=temperature,
-                messages=messages,
-                max_tokens=9000,
-            )
-        except TimeoutError as ex:
-            current_error = ex
-            last_error = ex
-        except Exception as ex:
-            current_error = ex
-            last_error = ex
-        if attempt >= max_attempts:
-            raise last_error
-        if is_rate_limit_error(current_error):
-            sleep_seconds = min(90, 8 * attempt + random.uniform(1.0, 3.0))
-            print(f"[WARN] Provider throttled on attempt {attempt}/{max_attempts}: {current_error}")
-        else:
-            sleep_seconds = min(30, 3 * attempt + random.uniform(0.5, 1.5))
-            print(f"[WARN] LLM call failed on attempt {attempt}/{max_attempts}: {current_error}")
-        print(f"[WAIT] Sleeping {sleep_seconds:.1f}s before retry")
-        time.sleep(sleep_seconds)
-    raise RuntimeError(f"Failed after retries: {last_error}")
+    for model in [MODEL_PRIMARY, MODEL_FALLBACK]:
+        for attempt in range(1, max_attempts + 1):
+            try:
+                print(f"  [LLM] Calling {model} (attempt {attempt})...")
+                resp = run_with_timeout(
+                    client.chat.completions.create,
+                    API_CALL_TIMEOUT_SECONDS,
+                    model=model,
+                    messages=messages,
+                    temperature=temperature,
+                    max_tokens=9000,
+                )
+                return resp, model
+            except Exception as e:
+                last_error = e
+                if is_rate_limit_error(e):
+                    wait = 2**attempt
+                    print(f"  [WARN] Rate limited ({model}), waiting {wait}s...")
+                    time.sleep(wait)
+                    continue
+                print(f"  [WARN] {model} failed: {e}")
+                break  # try next model
+    raise last_error
 
 def run_with_timeout(func, timeout_seconds: int, /, *args, **kwargs):
     result_queue: Queue = Queue(maxsize=1)
@@ -699,7 +696,7 @@ def generate_post(category: str, subtopic: str, max_retries=4) -> dict:
         try:
             print(f"[GEN] Attempt {attempt + 1}/{max_retries}...")
 
-            resp = call_llm_with_backoff(
+            resp, used_model = call_llm_with_backoff(
                 client,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
@@ -707,6 +704,7 @@ def generate_post(category: str, subtopic: str, max_retries=4) -> dict:
                 ],
                 temperature=0.25,
             )
+            print(f"  [OK] Generated via {used_model}")
 
             text = resp.choices[0].message.content.strip()
             text = clean_json_string(text)
@@ -751,3 +749,153 @@ def generate_post(category: str, subtopic: str, max_retries=4) -> dict:
                 raise
 
     raise RuntimeError(f"Failed to generate post after {max_retries} attempts")
+
+
+def make_slug(title: str) -> str:
+    """Generate a URL-friendly slug from title."""
+    # Remove non-alphanumeric (keep spaces/hyphens)
+    clean = re.sub(r"[^\w\s-]", "", title, flags=re.UNICODE)
+    # Replace spaces with hyphens
+    clean = re.sub(r"\s+", "-", clean.strip()).lower()
+    # Limit length
+    clean = clean[:40]
+    # Add random suffix
+    suffix = "".join(random.choices(string.ascii_lowercase + string.digits, k=6))
+    today = datetime.now().strftime("%Y%m%d")
+    return f"{today}-{clean.strip('-')}-{suffix}" if clean.strip('-') else f"{today}-post-{suffix}"
+
+
+def save_markdown(slug: str, data: dict, image_url: str):
+    """Save bilingual markdown files to public/blog-posts/."""
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    # Chinese version
+    zh_path = BLOG_MD_DIR / f"{slug}.md"
+    zh_header = f"""---
+title: {data['title']}
+date: {today}
+category: {data['category']}
+image: {image_url}
+---
+
+"""
+    zh_body = shared_ensure_book_link(data["markdownZh"])
+    zh_path.write_text(zh_header + zh_body.strip() + "\n", encoding="utf-8")
+
+    # English version
+    en_path = BLOG_MD_DIR / f"{slug}-en.md"
+    en_header = f"""---
+title: {data['titleEn']}
+date: {today}
+category: {data['categoryEn']}
+image: {image_url}
+---
+
+"""
+    en_path.write_text(en_header + data["markdownEn"].strip() + "\n", encoding="utf-8")
+
+    print(f"[OK] Files saved: {zh_path.name}, {en_path.name}")
+
+
+def update_blog_index(slug: str, data: dict, image_url: str):
+    """Insert new post entry into src/data/blog-posts.ts."""
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    esc = lambda s: (s or "").replace("'", "\\'")
+    title = esc(data.get("title", ""))
+    title_en = esc(data.get("titleEn", ""))
+    excerpt = esc(data.get("excerpt", ""))
+    excerpt_en = esc(data.get("excerptEn", ""))
+    category = esc(data.get("category", ""))
+    category_en = esc(data.get("categoryEn", ""))
+    seo_title = esc(data.get("seoTitle", title))
+    seo_desc = esc(data.get("seoDescription", excerpt))
+
+    new_entry = f"""  {{
+    id: '{slug}',
+    title: '{title}',
+    titleEn: '{title_en}',
+    excerpt: '{excerpt}',
+    excerptEn: '{excerpt_en}',
+    seoTitle: '{seo_title}',
+    seoDescription: '{seo_desc}',
+    date: '{today}',
+    category: '{category}',
+    categoryEn: '{category_en}',
+    imageUrl: '{image_url}',
+    author: 'AskDrLiu.com'
+  }},"""
+
+    try:
+        content = BLOG_INDEX_FILE.read_text(encoding="utf-8")
+        marker = "export const blogPosts: BlogPost[] = ["
+        if marker not in content:
+            print(f"[WARN] Marker not found in {BLOG_INDEX_FILE}. Manual update required.")
+            print(f"[ENTRY]\n{new_entry}")
+            return
+
+        pos = content.index(marker) + len(marker)
+        new_content = content[:pos] + "\n" + new_entry + content[pos:]
+        BLOG_INDEX_FILE.write_text(new_content, encoding="utf-8")
+        print(f"[OK] Updated blog-posts.ts: {slug}")
+    except Exception as e:
+        print(f"[ERROR] Failed to update blog-posts.ts: {e}")
+
+
+def update_sitemap():
+    """Basic sitemap generator."""
+    sitemap_path = REPO_ROOT / "public" / "sitemap.xml"
+    if not BLOG_INDEX_FILE.exists():
+        return
+    ids = re.findall(r"id:\s*'([^']+)'", BLOG_INDEX_FILE.read_text(encoding="utf-8"))
+    urls = ["https://www.askdrliu.com/", "https://www.askdrliu.com/blog"]
+    urls.extend([f"https://www.askdrliu.com/blog/{slug}" for slug in ids])
+    unique_urls = list(dict.fromkeys(urls))
+
+    body = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for url in unique_urls:
+        body.append(f"  <url><loc>{url}</loc></url>")
+    body.append("</urlset>")
+
+    sitemap_path.write_text("\n".join(body) + "\n", encoding="utf-8")
+    print(f"[OK] Updated sitemap.xml with {len(unique_urls)} URLs")
+
+
+def main():
+    print("=== AskDrLiu Blog Daily Generator (Standalone) ===")
+
+    # 1. Pick a topic
+    category, subtopic = pick_unique_seed_topic()
+    print(f"[TOPIC] {subtopic} ({category})")
+
+    # 2. Generate content
+    try:
+        data = generate_post(category, subtopic)
+    except Exception as e:
+        if is_rate_limit_error(e):
+            print(f"[SKIP] API Throttled: {e}")
+            return
+        print(f"[FATAL] Generation failed: {e}")
+        return
+
+    # 3. Generate cover image
+    slug = make_slug(data["title"])
+    print(f"[IMG] Generating image for {slug}...")
+    image_url = generate_cover_image(
+        slug=slug,
+        images_dir=IMAGES_DIR,
+        fallback_path="/images/pocs-surgery.jpg",
+        base_prompt=data["title"],
+        api_key=ARK_API_KEY
+    )
+
+    # 4. Save and Update
+    save_markdown(slug, data, image_url)
+    update_blog_index(slug, data, image_url)
+    update_sitemap()
+
+    print(f"\n✅ Done! Slug: {slug}")
+
+
+if __name__ == "__main__":
+    main()

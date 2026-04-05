@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260405-胆囊炎发作时什么姿势能缓解疼痛医生详解正确体位-6ro4i6',
+    title: '胆囊炎发作时什么姿势能缓解疼痛？医生详解正确体位',
+    titleEn: 'What Posture Helps Relieve Pain During a Cholecystitis Attack?',
+    excerpt: '胆囊炎发作时采取正确姿势可辅助缓解疼痛。建议蜷曲侧卧位或半卧位，避免平躺。但姿势只是辅助，若持续疼痛超6小时或伴发热黄疸需立即就医，切勿仅依赖体位调整。',
+    excerptEn: 'During a cholecystitis attack, proper posture can help relieve pain. Curled side-lying or semi-recumbent positions are recommended, while lying flat should be avoided.',
+    seoTitle: '胆囊炎发作时什么姿势能缓解疼痛？医生详解正确体位：胆囊炎发作姿势：怎么躺能缓解疼痛？医生图文详解',
+    seoDescription: '胆囊炎发作时什么姿势能缓解疼痛？医生详解正确体位，胆囊炎发作时疼痛剧烈，采取正确的胆囊炎发作姿势如屈膝左侧卧位可辅助缓解。本文详解胆囊炎怎么躺舒服、禁忌动作及何时必须就医，点击阅读专家建议。',
+    date: '2026-04-05',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/blog/blog-20260405-胆囊炎发作时什么姿势能缓解疼痛医生详解正确体位-6ro4i6.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260321-保胆取石术后护理要点加速康复的关键指南-7fvbbi',
     title: '保胆取石术后护理要点：加速康复的关键指南',
     titleEn: 'Essential Post-Operative Care After Gallbladder-Preserving Cholecystolithotomy',
