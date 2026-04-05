@@ -43,7 +43,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-21',
     category: '保胆',
     categoryEn: 'Gallbladder Preservation',
-    imageUrl: '/images/pocs-surgery.jpg',
+    imageUrl: '/images/blog/blog-20260321-保胆取石术后护理要点加速康复的关键指南-7fvbbi.png',
     author: 'AskDrLiu.com'
   },
 
@@ -58,7 +58,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-20',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260320-急性胆囊炎的早期识别与紧急处理-x5w0vo.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -72,7 +72,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-19',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-20260319-胆囊炎反复发作的原因-folgmj.png',
     author: 'AskDrLiu.com'
   },
 
@@ -229,7 +229,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-08',
     category: '胆囊切除术后营养',
     categoryEn: 'Post-Cholecystectomy Nutrition',
-    imageUrl: '/images/recovery-guide.jpg',
+    imageUrl: '/images/blog/blog-20260308-胆囊切除后腹泻应对-l357rf.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -271,7 +271,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-03-05',
     category: '胆囊健康',
     categoryEn: 'Gallbladder Health',
-    imageUrl: '/images/pocs-surgery.jpg',
+    imageUrl: '/images/blog/blog-20260305-蔬果农药与胆囊健康-olrmws.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -313,7 +313,7 @@ export const blogPosts: BlogPost[] = [
     date: '2025-03-15',
     category: '胆结石预防',
     categoryEn: 'Gallstone Prevention',
-    imageUrl: '/images/gallstone-prevention.jpg',
+    imageUrl: '/images/blog/blog-gallstone-prevention.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -327,7 +327,7 @@ export const blogPosts: BlogPost[] = [
     date: '2025-02-22',
     category: '饮食指导',
     categoryEn: 'Dietary Guidance',
-    imageUrl: '/images/dietary-guidance.jpg',
+    imageUrl: '/images/blog/blog-dietary-guidance.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -341,7 +341,7 @@ export const blogPosts: BlogPost[] = [
     date: '2025-01-30',
     category: '肝胆健康',
     categoryEn: 'Hepatobiliary Health',
-    imageUrl: '/images/liver-health.jpg',
+    imageUrl: '/images/blog/blog-liver-health.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -355,7 +355,7 @@ export const blogPosts: BlogPost[] = [
     date: '2025-01-10',
     category: '术后护理',
     categoryEn: 'Post-operative Care',
-    imageUrl: '/images/recovery-guide.jpg',
+    imageUrl: '/images/blog/blog-recovery-guide.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -369,7 +369,7 @@ export const blogPosts: BlogPost[] = [
     date: '2025-01-05',
     category: '技术介绍',
     categoryEn: 'Technology Introduction',
-    imageUrl: '/images/pocs-surgery.jpg',
+    imageUrl: '/images/blog/blog-pocs-vs-traditional.png',
     author: 'AskDrLiu.com'
   }
 ];
