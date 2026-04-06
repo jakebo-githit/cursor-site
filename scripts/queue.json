@@ -1,6 +1,36 @@
 {
-  "updated": "2026-03-31",
+  "updated": "2026-04-06",
   "posts": [
+    {
+      "publish_date": "2026-04-06",
+      "slug": "20260406-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-vkpzzz",
+      "title": "胆囊炎发作可以吃止痛药吗？肝胆外科医生的详细解答",
+      "titleEn": "Can You Take Painkillers During a Gallbladder Attack? A Hepatobiliary Surgeon's Guide",
+      "category": "胆囊炎",
+      "categoryEn": "Cholecystitis",
+      "imageUrl": "/images/blog/blog-20260406-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-vkpzzz.png",
+      "excerpt": "胆囊炎发作时能否服用止痛药是患者常见疑问。本文从肝胆外科专业角度，详细解析胆囊炎疼痛管理、止痛药使用的注意事项及何时需要紧急就医。",
+      "excerptEn": "Whether to take painkillers during a gallbladder attack is a common question. This article provides professional insights on pain management, precautions for painkiller use, and when to seek emergency care.",
+      "seoTitle": "胆囊炎止痛药：胆囊炎发作可以吃止痛药吗？专业医生解答与注意事项",
+      "seoDescription": "胆囊炎止痛药，胆囊炎发作疼痛难忍时能否吃止痛药？本文由肝胆外科医生详解胆囊炎疼痛管理策略、止痛药选择、禁忌症及紧急就医指征，帮助您安全应对胆囊炎发作。",
+      "status": "published",
+      "published_at": "2026-04-06"
+    },
+    {
+      "publish_date": "2026-04-06",
+      "slug": "20260406-胆囊切除术后腹泻管理指南-uqqhge",
+      "title": "胆囊切除术后腹泻管理指南",
+      "titleEn": "Managing Diarrhea After Gallbladder Removal: A Comprehensive Guide",
+      "category": "胆囊切除术后营养",
+      "categoryEn": "Post-Cholecystectomy Nutrition",
+      "imageUrl": "/images/blog/gallbladder-removal-diarrhea-management-20260406.jpg",
+      "excerpt": "胆囊切除术后腹泻是常见症状，本文详细介绍腹泻的原因、科学管理策略、药物治疗建议及就医时机，助您科学恢复。",
+      "excerptEn": "Diarrhea after gallbladder removal is common. This article covers causes, management strategies, medications, and when to seek medical help.",
+      "seoTitle": "胆囊切除术后腹泻管理指南 | 肝胆外科专家建议",
+      "seoDescription": "胆囊切除术后腹泻怎么办？肝胆外科专家详解腹泻原因、饮食调整、药物治疗及康复指导，助您科学度过恢复期。",
+      "status": "draft",
+      "published_at": null
+    },
     {
       "publish_date": "2026-03-31",
       "slug": "20260331-胆囊切除术后能喝咖啡吗科学指南与建议-krqxlr",

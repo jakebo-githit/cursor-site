@@ -1,7 +1,7 @@
-Title: 保胆还是切胆？肝胆外科医生的深度解析
-Slug: 20260331-保胆还是切胆肝胆外科医生的深度解析-damxpa
-Image: /images/gallstone-prevention.jpg
-References: 3-5 (pre-validated)
-Status: DRAFT_SAVED
-Date: 2026-03-31
-Category: 保胆
+Title: 胆囊切除术后腹泻管理指南
+Slug: 20260406-胆囊切除术后腹泻管理指南-uqqhge
+Image: /images/blog/gallbladder-removal-diarrhea-management-20260406.jpg
+References: 3
+Status: DRAFT_CREATED
+Date: 2026-04-06
+Category: 胆囊切除术后营养

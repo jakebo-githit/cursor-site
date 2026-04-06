@@ -19,6 +19,34 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260406-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-vkpzzz',
+    title: '胆囊炎发作可以吃止痛药吗？肝胆外科医生的详细解答',
+    titleEn: 'Can You Take Painkillers During a Gallbladder Attack? A Hepatobiliary Surgeon\\'s Guide',
+    excerpt: '胆囊炎发作时能否服用止痛药是患者常见疑问。本文从肝胆外科专业角度，详细解析胆囊炎疼痛管理、止痛药使用的注意事项及何时需要紧急就医。',
+    excerptEn: 'Whether to take painkillers during a gallbladder attack is a common question. This article provides professional insights on pain management, precautions for painkiller use, and when to seek emergency care.',
+    seoTitle: '胆囊炎止痛药：胆囊炎发作可以吃止痛药吗？专业医生解答与注意事项',
+    seoDescription: '胆囊炎止痛药，胆囊炎发作疼痛难忍时能否吃止痛药？本文由肝胆外科医生详解胆囊炎疼痛管理策略、止痛药选择、禁忌症及紧急就医指征，帮助您安全应对胆囊炎发作。',
+    date: '2026-04-06',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/blog/blog-20260406-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-vkpzzz.png',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: 'gallbladder-removal-one-week-meal-plan',
+    title: '胆囊切除术后一周食谱清单：科学饮食助你快速康复',
+    titleEn: 'One-Week Meal Plan After Gallbladder Removal: Science-Based Nutrition for Recovery',
+    excerpt: '胆囊切除术后一周内如何科学饮食？本文提供详细的每日食谱建议，包括早餐、午餐、晚餐和加餐，帮助您平稳度过术后恢复期，减少消化不适。',
+    excerptEn: 'How to eat scientifically in the first week after gallbladder removal? This article provides detailed daily meal plan suggestions, including breakfast, lunch, dinner, and snacks, to help you smoothly navigate the post-surgery recovery period and minimize digestive discomfort.',
+    seoTitle: '胆囊切除术后一周食谱清单：科学饮食助快速康复',
+    seoDescription: '胆囊切除术后一周怎么吃？提供7天详细食谱、食物选择原则、烹饪方法建议及就医信号，助您科学恢复。',
+    date: '2026-04-05',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/gallbladder-removal-meal-plan.jpg',
+    author: 'Dr. Liu'
+  },
+  {
     id: '20260331-胆囊切除术后能喝咖啡吗科学指南与建议-krqxlr',
     title: '胆囊切除术后能喝咖啡吗？科学指南与建议',
     titleEn: 'Can You Drink Coffee After Cholecystectomy? A Scientific Guide',
