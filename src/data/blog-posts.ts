@@ -21,7 +21,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: '20260406-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-vkpzzz',
     title: '胆囊炎发作可以吃止痛药吗？肝胆外科医生的详细解答',
-    titleEn: 'Can You Take Painkillers During a Gallbladder Attack? A Hepatobiliary Surgeon\\'s Guide',
+    titleEn: 'Can You Take Painkillers During a Gallbladder Attack? A Hepatobiliary Surgeon\'s Guide',
     excerpt: '胆囊炎发作时能否服用止痛药是患者常见疑问。本文从肝胆外科专业角度，详细解析胆囊炎疼痛管理、止痛药使用的注意事项及何时需要紧急就医。',
     excerptEn: 'Whether to take painkillers during a gallbladder attack is a common question. This article provides professional insights on pain management, precautions for painkiller use, and when to seek emergency care.',
     seoTitle: '胆囊炎止痛药：胆囊炎发作可以吃止痛药吗？专业医生解答与注意事项',
@@ -63,9 +63,9 @@ export const blogPosts: BlogPost[] = [
   {
     id: '20260331-胆囊结石小于1cm怎么治疗专业肝胆外科医生详解-eajcaq',
     title: '胆囊结石小于1cm怎么治疗？专业肝胆外科医生详解',
-    titleEn: 'How to Treat Gallbladder Stones Smaller Than 1cm: A Specialist\\'s Guide',
+    titleEn: 'How to Treat Gallbladder Stones Smaller Than 1cm: A Specialist\'s Guide',
     excerpt: '小于1cm的胆囊结石并不一定需要立即手术。本文从专业肝胆外科角度，详细解析小结石的治疗策略、随访方案及手术指征，帮助您做出明智的医疗决策。',
-    excerptEn: 'Gallstones smaller than 1cm don\\'t always require immediate surgery. This article provides a specialist perspective on treatment strategies, follow-up protocols, and surgical indications for small gallstones.',
+    excerptEn: 'Gallstones smaller than 1cm don\'t always require immediate surgery. This article provides a specialist perspective on treatment strategies, follow-up protocols, and surgical indications for small gallstones.',
     seoTitle: '胆囊结石小于1cm治疗：胆囊结石小于1cm怎么治疗？手术还是观察？| 肝胆外科专家解读',
     seoDescription: '胆囊结石小于1cm治疗，胆囊结石小于1cm如何治疗？是否需要手术？本文由肝胆外科专家详细解答小结石的治疗方案、随访策略及手术时机，助您科学决策。',
     date: '2026-03-31',
@@ -105,7 +105,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: '20260329-胆囊切除术后能吃海鲜吗肝胆外科医生的详细解答-belypj',
     title: '胆囊切除术后能吃海鲜吗？肝胆外科医生的详细解答',
-    titleEn: 'Can You Eat Seafood After Cholecystectomy? A Hepatobiliary Surgeon\\'s Guide',
+    titleEn: 'Can You Eat Seafood After Cholecystectomy? A Hepatobiliary Surgeon\'s Guide',
     excerpt: '胆囊切除术后可以适量吃海鲜，但需注意时机和方式。术后早期应避免，恢复期可从低脂鱼类开始，逐步增加种类。本文详解术后海鲜摄入的注意事项。',
     excerptEn: 'Patients can eat seafood in moderation after cholecystectomy, but timing and preparation matter. Start with low-fat fish during recovery and gradually expand variety. This guide explains key considerations for post-surgical seafood consumption.',
     seoTitle: '胆囊切除术后吃海鲜：胆囊切除术后能吃海鲜吗？术后饮食指南与注意事项',
@@ -562,55 +562,7 @@ export const getBlogPostsByCategory = (category: string, isEnglish: boolean): Bl
 };
 
 // 搜索文章
-export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
-  {
-    id: 'gallbladder-preservation-mnchxc6u',
-    title: '保胆取石手术的适应症与长期效果',
-    titleEn: '保胆取石手术的适应症与长期效果',
-    excerpt: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
-    excerptEn: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
-    date: '2026-03-30',
-    category: '技术介绍',
-    categoryEn: 'Technology Introduction',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }
-  {
-    id: 'gallbladder-preservation-mne6us2p',
-    title: '保胆取石手术的适应症与长期效果',
-    titleEn: '保胆取石手术的适应症与长期效果',
-    excerpt: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
-    excerptEn: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
-    date: '2026-03-31',
-    category: '技术介绍',
-    categoryEn: 'Technology Introduction',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }
-  {
-    id: 'gallstones-mnfcnmz7',
-    title: '胆囊结石的成因诊断与综合治疗方案',
-    titleEn: '胆囊结石的成因诊断与综合治疗方案',
-    excerpt: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
-    excerptEn: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
-    date: '2026-04-01',
-    category: '胆结石专题',
-    categoryEn: 'Gallstones Topic',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }
-  {
-    id: 'gallbladder-preservation-mnpcqd1s',
-    title: '保胆取石手术的适应症与长期效果',
-    titleEn: '保胆取石手术的适应症与长期效果',
-    excerpt: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
-    excerptEn: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
-    date: '2026-04-08',
-    category: '技术介绍',
-    categoryEn: 'Technology Introduction',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }] => {
+export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[] => {
   const lowerQuery = query.toLowerCase();
   return blogPosts.filter(post => {
     const title = isEnglish ? post.titleEn.toLowerCase() : post.title.toLowerCase();
@@ -621,3 +573,5 @@ export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
            category.includes(lowerQuery);
   });
 };
+
+// 搜索文章
