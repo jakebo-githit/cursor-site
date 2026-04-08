@@ -1,7 +1,7 @@
-Title: 胆囊切除术后腹泻管理指南
-Slug: 20260406-胆囊切除术后腹泻管理指南-uqqhge
-Image: /images/blog/gallbladder-removal-diarrhea-management-20260406.jpg
-References: 3
-Status: DRAFT_CREATED
+Title: 胆囊炎发作可以吃止痛药吗？肝胆外科医生的详细解答
+Slug: 20260406-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-vkpzzz
+Image: /images/blog/blog-20260406-胆囊炎发作可以吃止痛药吗肝胆外科医生的详细解答-vkpzzz.png
+References: 4
+Status: PUBLISHED
 Date: 2026-04-06
-Category: 胆囊切除术后营养
+Category: 胆囊炎
