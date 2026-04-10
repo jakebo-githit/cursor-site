@@ -21,7 +21,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: '20260410-保胆手术后如何复查与长期管理肝胆外科专家给出建议-wfodte',
     title: '保胆手术后如何复查与长期管理？肝胆外科专家给出建议',
-    titleEn: 'Post-Cholecystolithotomy Follow-up and Long-Term Management: A Surgeon\\'s Guide',
+    titleEn: "Post-Cholecystolithotomy Follow-up and Long-Term Management: A Surgeon's Guide",
     excerpt: '保胆取石术后并非一劳永逸，科学的复查与生活习惯调整是预防结石复发的关键。本文详细解析保胆术后的复查时间表、饮食管理及用药指导。',
     excerptEn: 'Cholecystolithotomy is not a one-time cure. Scientific follow-ups and lifestyle adjustments are crucial to preventing gallstone recurrence. This guide details the post-op follow-up schedule, diet, and medication.',
     seoTitle: '保胆手术后复查与长期管理指南 - 肝胆外科专家详解',
