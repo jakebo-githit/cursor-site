@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260410-保胆手术后如何复查与长期管理肝胆外科专家给出建议-wfodte',
+    title: '保胆手术后如何复查与长期管理？肝胆外科专家给出建议',
+    titleEn: 'Post-Cholecystolithotomy Follow-up and Long-Term Management: A Surgeon\\'s Guide',
+    excerpt: '保胆取石术后并非一劳永逸，科学的复查与生活习惯调整是预防结石复发的关键。本文详细解析保胆术后的复查时间表、饮食管理及用药指导。',
+    excerptEn: 'Cholecystolithotomy is not a one-time cure. Scientific follow-ups and lifestyle adjustments are crucial to preventing gallstone recurrence. This guide details the post-op follow-up schedule, diet, and medication.',
+    seoTitle: '保胆手术后复查与长期管理指南 - 肝胆外科专家详解',
+    seoDescription: '保胆手术后复查，了解保胆手术后如何科学复查与长期管理。资深肝胆外科医生分享保胆取石术后复查时间表、饮食调整及预防结石复发的关键建议。',
+    date: '2026-04-10',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/blog/blog-20260410-保胆手术后如何复查与长期管理肝胆外科专家给出建议-wfodte.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260409-胆囊切除术后腹泻与消化不良的应对策略-nxhxqj',
     title: '胆囊切除术后腹泻与消化不良的应对策略',
     titleEn: 'Managing Diarrhea and Indigestion After Cholecystectomy',
