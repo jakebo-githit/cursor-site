@@ -590,7 +590,19 @@ export const getBlogPostsByCategory = (category: string, isEnglish: boolean): Bl
 };
 
 // 搜索文章
-export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[] => {
+export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
+  {
+    id: '20260412-胆囊炎的保守治疗哪些情况可以暂时不手术-iarifo',
+    title: '# 胆囊炎必须马上手术吗？',
+    titleEn: '# 胆囊炎必须马上手术吗？',
+    excerpt: 'title: 胆囊炎的保守治疗：哪些情况可以暂时不手术？titleEn: Conservative Management of Cholecystitis: W',
+    excerptEn: 'title: 胆囊炎的保守治疗：哪些情况可以暂时不手术？titleEn: Conservative Management of Cholecystitis: W',
+    date: '2026-04-12',
+    category: '胆结石预防',
+    categoryEn: 'Gallstone Prevention',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  }] => {
   const lowerQuery = query.toLowerCase();
   return blogPosts.filter(post => {
     const title = isEnglish ? post.titleEn.toLowerCase() : post.title.toLowerCase();

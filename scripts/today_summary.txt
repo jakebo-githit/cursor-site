@@ -1,3 +1,7 @@
-Status: FAILED
-Error: Command '['git', 'push']' returned non-zero exit status 1.
-Date: 2026-04-09
+Title: 胆囊炎的保守治疗：哪些情况可以暂时不手术？
+Slug: 20260412-胆囊炎的保守治疗哪些情况可以暂时不手术-iarifo
+Image: /images/gallstone-prevention.jpg
+References: 3-5 (pre-validated)
+Status: DRAFT_SAVED
+Date: 2026-04-12
+Category: 胆囊炎
