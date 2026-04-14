@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260414-胆囊结石能吃水果吗肝胆外科医生的饮食建议-duhzvt',
+    title: '胆囊结石能吃水果吗？肝胆外科医生的饮食建议',
+    titleEn: 'Can You Eat Fruit with Gallstones? A Surgeon\\'s Dietary Guide',
+    excerpt: '胆囊结石患者是可以吃水果的，但需注意种类和食用方式。本文由资深肝胆外科医生为您详细解答哪些水果适合，哪些应少吃。',
+    excerptEn: 'Yes, patients with gallstones can eat fruit, but the type and portion matter. This guide by a senior hepatobiliary surgeon explains which fruits are safe and which to limit.',
+    seoTitle: '胆囊结石能吃水果吗？附胆囊结石患者水果红黑榜',
+    seoDescription: '胆囊结石能吃水果吗，确诊胆囊结石后还能吃水果吗？资深肝胆外科医生为您解答。了解胆囊结石患者适宜的低脂高纤维水果，以及需要避免的诱发胆绞痛的饮食陷阱。',
+    date: '2026-04-14',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260414-胆囊结石能吃水果吗肝胆外科医生的饮食建议-duhzvt.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260410-保胆手术后如何复查与长期管理肝胆外科专家给出建议-wfodte',
     title: '保胆手术后如何复查与长期管理？肝胆外科专家给出建议',
     titleEn: "Post-Cholecystolithotomy Follow-up and Long-Term Management: A Surgeon's Guide",
