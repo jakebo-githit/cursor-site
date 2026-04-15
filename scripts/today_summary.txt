@@ -1,7 +1,7 @@
-Title: 胆囊炎的保守治疗：哪些情况可以暂时不手术？
-Slug: 20260412-胆囊炎的保守治疗哪些情况可以暂时不手术-iarifo
-Image: /images/gallstone-prevention.jpg
-References: 3-5 (pre-validated)
-Status: DRAFT_SAVED
-Date: 2026-04-12
-Category: 胆囊炎
+Title: 胆囊结石能吃水果吗？肝胆外科医生的饮食建议
+Slug: 20260414-胆囊结石能吃水果吗肝胆外科医生的饮食建议-duhzvt
+Image: /images/blog/blog-20260414-胆囊结石能吃水果吗肝胆外科医生的饮食建议-duhzvt.png
+References: 2
+Status: PUBLISHED
+Date: 2026-04-14
+Category: 胆囊结石

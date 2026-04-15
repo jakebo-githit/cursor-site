@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260415-胆囊结石的非手术治疗方法除了切除还有哪些选择-luwfts',
+    title: '胆囊结石的非手术治疗方法：除了切除还有哪些选择？',
+    titleEn: 'Non-Surgical Treatment Options for Gallstones: Alternatives to Gallbladder Removal',
+    excerpt: '患有胆囊结石必须切除胆囊吗？本文由肝胆外科专家为您详解熊去氧胆酸溶石、体外碎石、中医干预等非手术治疗的适应症与局限性。',
+    excerptEn: 'Do gallstones always require gallbladder removal? This guide by a senior hepatobiliary surgeon explores oral dissolution therapy, ESWL, and other non-surgical options, along with their limitations.',
+    seoTitle: '胆囊结石非手术治疗：胆囊结石的非手术治疗方法全解析：溶石、碎石与药物干预',
+    seoDescription: '胆囊结石非手术治疗，了解胆囊结石的非手术治疗方法。详解口服溶石药物、体外冲击波碎石等手段的适应症、优缺点及复发风险，帮助您做出明智的保胆治疗选择。',
+    date: '2026-04-15',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260415-胆囊结石的非手术治疗方法除了切除还有哪些选择-luwfts.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260414-胆囊结石能吃水果吗肝胆外科医生的饮食建议-duhzvt',
     title: '胆囊结石能吃水果吗？肝胆外科医生的饮食建议',
     titleEn: 'Can You Eat Fruit with Gallstones? A Surgeon\\'s Dietary Guide',
