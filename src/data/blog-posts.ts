@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260417-胆囊炎抗生素的合理使用指南肝胆外科医生的忠告-sumaxj',
+    title: '胆囊炎抗生素的合理使用指南：肝胆外科医生的忠告',
+    titleEn: 'Rational Use of Antibiotics in Cholecystitis: A Surgeon\\'s Guide',
+    excerpt: '胆囊炎发作一定要吃抗生素吗？作为肝胆外科医生，本文将为您详细解析急性与慢性胆囊炎抗生素的使用时机、种类选择以及滥用抗生素的危害。',
+    excerptEn: 'Do you always need antibiotics for cholecystitis? As a hepatobiliary surgeon, this article breaks down the timing, selection, and risks of antibiotic misuse in treating gallbladder inflammation.',
+    seoTitle: '胆囊炎抗生素治疗：胆囊炎抗生素怎么用？肝胆外科专家详解用药原则',
+    seoDescription: '胆囊炎抗生素治疗，了解胆囊炎抗生素的合理使用原则。本文由资深肝胆外科医生撰写，详解急慢性胆囊炎的抗生素选择、疗程及注意事项，帮助避免抗生素滥用。',
+    date: '2026-04-17',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/blog/blog-20260417-胆囊炎抗生素的合理使用指南肝胆外科医生的忠告-sumaxj.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260415-胆囊结石的非手术治疗方法除了切除还有哪些选择-luwfts',
     title: '胆囊结石的非手术治疗方法：除了切除还有哪些选择？',
     titleEn: 'Non-Surgical Treatment Options for Gallstones: Alternatives to Gallbladder Removal',
