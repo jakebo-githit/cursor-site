@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260419-胆囊结石多大需要手术肝胆外科医生的判断标准-tbl77hi',
+    title: '胆囊结石多大需要手术？肝胆外科医生的判断标准',
+    titleEn: 'How Large Must Gallstones Be Before Surgery? A Surgeon\'s Guide to Decision-Making',
+    excerpt: '胆囊结石多大需要手术？没有一条硬线标准，但结石≥3cm是公认的手术指征。本文从肝胆外科临床经验出发，系统解析不同大小结石的处理原则。',
+    excerptEn: 'Is there a size cutoff for gallstone surgery? Stones ≥3cm are a clear indication, but the decision involves more than size alone. A hepatobiliary surgeon explains.',
+    seoTitle: '胆囊结石多大需要手术？肝胆外科医生详解判断标准与保胆条件',
+    seoDescription: '胆囊结石多大需要手术？本文由肝胆外科专家详解不同大小结石的处理原则，包括小于1cm、1-2cm、2-3cm及大于3cm的治疗建议，以及保胆取石的适用条件。',
+    date: '2026-04-19',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260419-胆囊结石多大需要手术肝胆外科医生的判断标准-tbl77hi.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260417-胆囊炎抗生素的合理使用指南肝胆外科医生的忠告-sumaxj',
     title: '胆囊炎抗生素的合理使用指南：肝胆外科医生的忠告',
     titleEn: 'Rational Use of Antibiotics in Cholecystitis: A Surgeon\\'s Guide',
