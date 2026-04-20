@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260420-胆囊结石患者能不能吃鸡蛋肝胆外科医生终于说清楚了-4r22lj',
+    title: '胆囊结石患者能不能吃鸡蛋？肝胆外科医生终于说清楚了',
+    titleEn: 'Can Gallstone Patients Eat Eggs? A Surgeon Finally Explains',
+    excerpt: '胆结石患者要完全戒掉鸡蛋吗？并非如此。本文从肝胆外科临床角度，系统解答不同病情下的鸡蛋食用建议、烹饪方式选择及常见误区。',
+    excerptEn: 'Do gallstone patients need to give up eggs entirely? Not necessarily. A hepatobiliary surgeon explains when and how eggs can be safely consumed, best cooking methods, and common dietary myths.',
+    seoTitle: '胆囊结石能吃鸡蛋吗？肝胆外科医生详解食用建议与烹饪方式',
+    seoDescription: '胆囊结石患者能不能吃鸡蛋？本文由肝胆外科专家详细解答，涵盖不同病情的食用建议、最佳烹饪方式、常见误区及注意事项，帮助胆结石患者科学饮食。',
+    date: '2026-04-20',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260414-胆囊结石能吃水果吗肝胆外科医生的饮食建议-duhzvt.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260419-胆囊结石多大需要手术肝胆外科医生的判断标准-tbl77hi',
     title: '胆囊结石多大需要手术？肝胆外科医生的判断标准',
     titleEn: 'How Large Must Gallstones Be Before Surgery? A Surgeon\'s Guide to Decision-Making',
