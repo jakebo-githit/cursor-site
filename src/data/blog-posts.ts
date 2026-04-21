@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260421-保胆手术后多久可以运动肝胆外科医生的全面指南-ctztpn',
+    title: '保胆手术后多久可以运动？肝胆外科医生的全面指南',
+    titleEn: 'When Can You Exercise After Gallbladder-Preserving Surgery? A Comprehensive Guide',
+    excerpt: '保胆手术后恢复运动的时间因人而异，通常需要分阶段进行。本文详细解析术后不同时期的运动指南与注意事项，助您安全重返健康生活。',
+    excerptEn: 'The timeline for resuming exercise after gallbladder-preserving surgery varies and requires a phased approach. This guide details recovery stages, safe workouts, and precautions to help you return to an active lifestyle safely.',
+    seoTitle: '保胆手术后多久可以运动？术后恢复时间表与注意事项',
+    seoDescription: '保胆手术后多久可以运动，刚做完保胆手术多久能运动？本文由资深肝胆外科医生详解保胆取石术后恢复的各个阶段，包括日常活动、有氧运动及力量训练的时间节点和注意事项，助您安全康复。',
+    date: '2026-04-21',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/blog/blog-20260421-保胆手术后多久可以运动肝胆外科医生的全面指南-ctztpn.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260420-胆囊结石患者能不能吃鸡蛋肝胆外科医生终于说清楚了-4r22lj',
     title: '胆囊结石患者能不能吃鸡蛋？肝胆外科医生终于说清楚了',
     titleEn: 'Can Gallstone Patients Eat Eggs? A Surgeon Finally Explains',
