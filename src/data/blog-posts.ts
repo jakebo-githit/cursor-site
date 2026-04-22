@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260422-胆囊切除术后能吃坚果吗肝胆外科医生的详细饮食建议-kdmxnl',
+    title: '胆囊切除术后能吃坚果吗？肝胆外科医生的详细饮食建议',
+    titleEn: 'Can You Eat Nuts After Gallbladder Removal? A Surgeon\\'s Dietary Guide',
+    excerpt: '胆囊切除术后能吃坚果吗？本文由资深肝胆外科医生详细解答，包括术后何时引入坚果、食用注意事项以及如何避免脂肪泻等不适。',
+    excerptEn: 'Can you eat nuts after a cholecystectomy? This comprehensive guide by a senior hepatobiliary surgeon explains when and how to safely reintroduce nuts into your post-gallbladder removal diet.',
+    seoTitle: '胆囊切除术后能吃坚果吗？术后饮食指南与注意事项',
+    seoDescription: '胆囊切除术后能吃坚果吗？了解无胆囊患者如何安全食用坚果，掌握术后饮食过渡时间表与脂肪消化技巧，避免术后脂肪泻。',
+    date: '2026-04-22',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260422-胆囊切除术后能吃坚果吗肝胆外科医生的详细饮食建议-kdmxnl.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260421-保胆手术后多久可以运动肝胆外科医生的全面指南-ctztpn',
     title: '保胆手术后多久可以运动？肝胆外科医生的全面指南',
     titleEn: 'When Can You Exercise After Gallbladder-Preserving Surgery? A Comprehensive Guide',
