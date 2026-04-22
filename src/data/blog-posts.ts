@@ -698,6 +698,18 @@ export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
     categoryEn: 'Technology Introduction',
     imageUrl: '/images/pocs-surgery.jpg',
     author: 'AskDrLiu.com'
+  }
+  {
+    id: '20260422-胆囊结石的成因与高危因素-rkeyln',
+    title: '# 什么是胆囊结石？',
+    titleEn: '# 什么是胆囊结石？',
+    excerpt: 'title: 胆囊结石的成因与高危因素titleEn: Gallstones: Causes and Risk Factorscategory: 胆囊结石cat',
+    excerptEn: 'title: 胆囊结石的成因与高危因素titleEn: Gallstones: Causes and Risk Factorscategory: 胆囊结石cat',
+    date: '2026-04-22',
+    category: '胆结石预防',
+    categoryEn: 'Gallstone Prevention',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
   }] => {
   const lowerQuery = query.toLowerCase();
   return blogPosts.filter(post => {
