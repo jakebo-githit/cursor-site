@@ -467,31 +467,33 @@ def update_blog_index(slug: str, data: dict, image_url: str):
     if title_conflict:
         raise ValueError(f"Duplicate title conflict with {title_conflict['slug']}")
 
-    esc = lambda s: (s or "").replace("'", "\\'")
-    title = esc(data.get("title", ""))
-    title_en = esc(data.get("titleEn", ""))
-    excerpt = esc(data.get("excerpt", ""))
-    excerpt_en = esc(data.get("excerptEn", ""))
-    category = esc(data.get("category", ""))
-    category_en = esc(data.get("categoryEn", ""))
+    title = json.dumps(data.get("title", "") or "", ensure_ascii=False)
+    title_en = json.dumps(data.get("titleEn", "") or "", ensure_ascii=False)
+    excerpt = json.dumps(data.get("excerpt", "") or "", ensure_ascii=False)
+    excerpt_en = json.dumps(data.get("excerptEn", "") or "", ensure_ascii=False)
+    category = json.dumps(data.get("category", "") or "", ensure_ascii=False)
+    category_en = json.dumps(data.get("categoryEn", "") or "", ensure_ascii=False)
 
     built_seo_title, built_seo_desc = shared_build_seo_fields(data)
-    seo_title = esc(built_seo_title)
-    seo_desc = esc(built_seo_desc)
+    seo_title = json.dumps(built_seo_title or "", ensure_ascii=False)
+    seo_desc = json.dumps(built_seo_desc or "", ensure_ascii=False)
+    slug_literal = json.dumps(slug, ensure_ascii=False)
+    date_literal = json.dumps(today, ensure_ascii=False)
+    image_literal = json.dumps(image_url or "", ensure_ascii=False)
 
     new_entry = f"""  {{
-    id: '{slug}',
-    title: '{title}',
-    titleEn: '{title_en}',
-    excerpt: '{excerpt}',
-    excerptEn: '{excerpt_en}',
-    seoTitle: '{seo_title}',
-    seoDescription: '{seo_desc}',
-    date: '{today}',
-    category: '{category}',
-    categoryEn: '{category_en}',
-    imageUrl: '{image_url}',
-    author: 'AskDrLiu.com'
+    id: {slug_literal},
+    title: {title},
+    titleEn: {title_en},
+    excerpt: {excerpt},
+    excerptEn: {excerpt_en},
+    seoTitle: {seo_title},
+    seoDescription: {seo_desc},
+    date: {date_literal},
+    category: {category},
+    categoryEn: {category_en},
+    imageUrl: {image_literal},
+    author: "AskDrLiu.com"
   }},"""
 
     content = BLOG_INDEX_FILE.read_text(encoding="utf-8")

@@ -154,30 +154,31 @@ def register_in_index(entry: dict):
         print(f"  [SKIP] Already registered: {entry['slug']}")
         return
 
-    esc = lambda s: (s or '').replace("'", "\\\\'")
-    title = esc(entry.get('title', ''))
-    title_en = esc(entry.get('titleEn', ''))
-    excerpt = esc(entry.get('excerpt', ''))
-    excerpt_en = esc(entry.get('excerptEn', ''))
-    category = esc(entry.get('category', ''))
-    category_en = esc(entry.get('categoryEn', ''))
-    image_url = esc(resolve_image_url(entry))
-    seo_title = esc(entry.get('seoTitle', title))
-    seo_desc = esc(entry.get('seoDescription', excerpt))
+    title = json.dumps(entry.get('title', '') or '', ensure_ascii=False)
+    title_en = json.dumps(entry.get('titleEn', '') or '', ensure_ascii=False)
+    excerpt = json.dumps(entry.get('excerpt', '') or '', ensure_ascii=False)
+    excerpt_en = json.dumps(entry.get('excerptEn', '') or '', ensure_ascii=False)
+    category = json.dumps(entry.get('category', '') or '', ensure_ascii=False)
+    category_en = json.dumps(entry.get('categoryEn', '') or '', ensure_ascii=False)
+    image_url = json.dumps(resolve_image_url(entry) or '', ensure_ascii=False)
+    seo_title = json.dumps(entry.get('seoTitle', entry.get('title', '')) or '', ensure_ascii=False)
+    seo_desc = json.dumps(entry.get('seoDescription', entry.get('excerpt', '')) or '', ensure_ascii=False)
+    slug = json.dumps(entry['slug'], ensure_ascii=False)
+    publish_date = json.dumps(entry['publish_date'], ensure_ascii=False)
 
     new_entry = f"""  {{
-    id: '{entry['slug']}',
-    title: '{title}',
-    titleEn: '{title_en}',
-    excerpt: '{excerpt}',
-    excerptEn: '{excerpt_en}',
-    seoTitle: '{seo_title}',
-    seoDescription: '{seo_desc}',
-    date: '{entry['publish_date']}',
-    category: '{category}',
-    categoryEn: '{category_en}',
-    imageUrl: '{image_url}',
-    author: 'AskDrLiu.com'
+    id: {slug},
+    title: {title},
+    titleEn: {title_en},
+    excerpt: {excerpt},
+    excerptEn: {excerpt_en},
+    seoTitle: {seo_title},
+    seoDescription: {seo_desc},
+    date: {publish_date},
+    category: {category},
+    categoryEn: {category_en},
+    imageUrl: {image_url},
+    author: "AskDrLiu.com"
   }},"""
 
     insert_pos  = content.index(marker) + len(marker)
