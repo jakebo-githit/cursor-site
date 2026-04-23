@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260423-胆囊切除术后能喝牛奶吗-umfdqv',
+    title: '胆囊切除术后能喝牛奶吗？',
+    titleEn: 'Can You Drink Milk After Gallbladder Removal?',
+    excerpt: '胆囊切除术后患者常有乳制品摄入疑问，本文从循证医学角度解答术后牛奶摄入的安全性、适宜量及替代方案。',
+    excerptEn: 'Patients often have questions about dairy intake after gallbladder removal. This article provides evidence-based answers on the safety, appropriate amount, and alternatives for milk consumption post-cholecystectomy.',
+    seoTitle: '胆囊切除术后牛奶摄入：胆囊切除术后能喝牛奶吗？',
+    seoDescription: '胆囊切除术后牛奶摄入，胆囊切除术后患者常有乳制品摄入疑问，本文从循证医学角度解答术后牛奶摄入的安全性、适宜量及替代方案。',
+    date: '2026-04-23',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260423-胆囊切除术后能喝牛奶吗-umfdqv.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260422-胆囊切除术后能吃坚果吗肝胆外科医生的详细饮食建议-kdmxnl',
     title: '胆囊切除术后能吃坚果吗？肝胆外科医生的详细饮食建议',
     titleEn: 'Can You Eat Nuts After Gallbladder Removal? A Surgeon\\'s Dietary Guide',
