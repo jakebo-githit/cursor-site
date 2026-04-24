@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260424-胆囊切除术后初期饮食调整与注意事项-zwdfye',
+    title: '胆囊切除术后初期饮食调整与注意事项',
+    titleEn: 'Dietary Adjustments and Precautions in the Early Stage After Cholecystectomy',
+    excerpt: '胆囊切除术后初期如何进食？本文由肝胆外科专家详细解析术后饮食的四个过渡阶段，提供避免腹泻和消化不良的专业营养建议。',
+    excerptEn: 'How to eat after gallbladder removal? A senior hepatobiliary surgeon explains the 4 stages of post-cholecystectomy diet to prevent diarrhea and indigestion.',
+    seoTitle: '胆囊切除术后饮食指南：初期调整与注意事项',
+    seoDescription: '胆囊切除术后饮食，胆囊切除术后初期如何调整饮食？了解术后饮食过渡的4个阶段，避免脂肪泻与腹胀，快速恢复消化功能。点击查看专业肝胆外科建议。',
+    date: '2026-04-24',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260424-胆囊切除术后初期饮食调整与注意事项-zwdfye.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260423-胆囊切除术后能喝牛奶吗-umfdqv',
     title: '胆囊切除术后能喝牛奶吗？肝胆外科医生的详细解答',
     titleEn: 'Can You Drink Milk After Gallbladder Removal? A Surgeon\'s Detailed Guide',
