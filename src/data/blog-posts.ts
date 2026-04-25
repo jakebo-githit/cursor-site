@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260425-无症状胆囊结石需要手术吗肝胆外科医生的专业解答-jwlnxd',
+    title: '无症状胆囊结石需要手术吗？肝胆外科医生的专业解答',
+    titleEn: 'Do Asymptomatic Gallstones Require Surgery? A Hepatobiliary Surgeon\\'s Guide',
+    excerpt: '体检发现胆囊结石但没有症状，到底要不要手术？本文从肝胆外科专业角度，详细解读无症状胆囊结石的处理原则、需要考虑手术的特殊情况以及日常随访建议。',
+    excerptEn: 'Found gallstones on a routine exam but have no symptoms? This article provides a hepatobiliary surgeon\\'s professional perspective on managing asymptomatic gallstones, including when surgery is warranted and how to follow up safely.',
+    seoTitle: '无症状胆囊结石手术：无症状胆囊结石需要手术吗？肝胆外科医生详解手术指征',
+    seoDescription: '无症状胆囊结石手术，无症状胆囊结石是否需要手术？本文由肝胆外科医生详细解读无症状胆结石的处理原则、需要考虑手术的7种特殊情况以及日常管理与随访建议。',
+    date: '2026-04-25',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260425-无症状胆囊结石需要手术吗肝胆外科医生的专业解答-jwlnxd.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260424-胆囊切除术后初期饮食调整与注意事项-zwdfye',
     title: '胆囊切除术后初期饮食调整与注意事项',
     titleEn: 'Dietary Adjustments and Precautions in the Early Stage After Cholecystectomy',
