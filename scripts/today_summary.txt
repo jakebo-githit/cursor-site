@@ -1,7 +1,8 @@
-Title: 胆囊切除术后初期饮食调整与注意事项
-Slug: 20260424-胆囊切除术后初期饮食调整与注意事项-zwdfye
-Image: /images/blog/blog-20260424-胆囊切除术后初期饮食调整与注意事项-zwdfye.png
-References: 4
-Status: PUBLISHED
-Date: 2026-04-24
-Category: 胆囊切除术后营养
+Title: 胆囊炎急性发作时该怎么办？
+Slug: 20260426-胆囊炎急性发作时该怎么办-o3h5ed
+Image: /images/blog/blog-20260426-胆囊炎急性发作时该怎么办-o3h5ed.png
+References: 5
+Category: 胆囊炎
+Date: 2026-04-26
+BadURLs: []
+Issues: ['Excerpt too short: 51 chars', 'seoDescription length out of range: 59 chars', 'Chinese article too short: 761 CJK chars', 'English article too short: 480 words', 'H2 headings are not search-intent oriented enough', 'focusKeyword missing from title', 'Not enough long-tail keywords are naturally used in article/title', 'Need at least 2 internal relative links in Chinese article']

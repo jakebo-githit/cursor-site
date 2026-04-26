@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260426-胆囊炎急性发作时该怎么办-boba1c',
+    title: '胆囊炎急性发作时该怎么办',
+    titleEn: 'What to Do When Acute Cholecystitis Strikes',
+    excerpt: '胆囊炎急性发作时剧烈腹痛让人恐慌，本文详解急性胆囊炎的症状识别、家庭应急处理、何时必须急诊就医及后续治疗选择。',
+    excerptEn: 'During an acute attack of cholecystitis, patients may experience severe pain in the upper right abdomen, accompanied by fever and nausea. Understanding the symptoms, emergency measures at home, when to seek medical help, and treatment options is crucial.',
+    seoTitle: '胆囊炎急性发作怎么办？应急处理与就医指南 | AskDrLiu',
+    seoDescription: '胆囊炎急性发作时右上腹剧痛伴发热恶心该怎么办？肝胆外科医生详解急性胆囊炎的典型症状识别、家庭应急处理步骤、何时必须急诊就医，以及保胆与切胆的治疗选择。',
+    date: '2026-04-26',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/blog/blog-20260426-胆囊炎急性发作时该怎么办-boba1c.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260425-无症状胆囊结石需要手术吗肝胆外科医生的专业解答-jwlnxd',
     title: '无症状胆囊结石需要手术吗？肝胆外科医生的专业解答',
     titleEn: 'Do Asymptomatic Gallstones Require Surgery? A Hepatobiliary Surgeon\\'s Guide',
