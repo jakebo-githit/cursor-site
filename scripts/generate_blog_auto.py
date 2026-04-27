@@ -42,8 +42,9 @@ TEXT_API_KEY = (os.getenv("LLM_API_KEY") or os.getenv("ZHIPU_API_KEY") or "").st
 ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
 LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/coding/paas/v4")
 
-MODEL = "glm-4-plus"              # 智谱清言文本模型
-API_CALL_TIMEOUT_SECONDS = 70
+MODEL_PRIMARY = "glm-5"
+MODEL_FALLBACK = "glm-4-plus"
+API_CALL_TIMEOUT_SECONDS = 300
 
 # RSS sources: strict hepatobiliary focus
 FEED_URLS = [
@@ -154,17 +155,14 @@ def detect_topic_type(title: str, summary: str) -> str:
 
 
 # ─────────────────────────── Claude Generation ───────────────────────────
-SYSTEM_PROMPT = """You are a senior physician (hepatobiliary surgery specialist) writing bilingual medical education content.
-Rules:
-- Educational only — not diagnosis or personal medical advice.
-- This is for a personal doctor website, not a hospital or e-commerce site.
-- Do not mention concrete hospital names, departments, or institutional promotion.
-- Do not recommend affiliate products or product bundles; ebook mention is allowed only as soft follow-up reading.
-- No fear-based language, no absolute treatment claims.
-- Clear structure, short paragraphs, practical guidance.
-- When evidence is uncertain, explicitly say so.
-- Include a brief "When to see a doctor" section.
-- Output MUST be valid JSON only (no markdown fences).
+SYSTEM_PROMPT = """You are a senior hepatobiliary surgeon writing bilingual patient-education JSON for AskDrLiu.com.
+
+Hard rules:
+- Output pure JSON only. No markdown fences, no explanations, no extra commentary.
+- The Chinese article is the primary output and must be complete, practical, and long enough for a flagship medical education post.
+- Do not mention concrete hospital names, departments, institutional promotion, or affiliate product bundles.
+- Do not manually add ebook promotion blocks; site code will inject the ebook section later.
+- When evidence is uncertain, say so clearly instead of overstating certainty.
 
 JSON structure:
 {
@@ -177,11 +175,29 @@ JSON structure:
   "category": "中文分类 (one of: 保胆 | 胆囊炎 | 胆囊结石 | 胆囊切除术后营养)",
   "categoryEn": "English category (one of: Gallbladder Preservation | Cholecystitis | Gallstones | Post-Cholecystectomy Nutrition)",
   "tags": ["tag1", "tag2", "tag3"],
-  "markdownZh": "中文正文 markdown (1200-1800字，含“参考文献”段)",
-  "markdownEn": "English body markdown (800-1200 words, include 'References')"
-}"""
+  "markdownZh": "中文正文 markdown (2200-3200 Chinese chars, include 参考文献)",
+  "markdownEn": "English body markdown (900-1400 words, include References)"
+}
 
-USER_PROMPT = """Generate a bilingual medical blog post based on this news cue.
+Chinese article requirements:
+- markdownZh must be 2200-3200 Chinese characters after removing markdown syntax.
+- Start with `## 先说结论（30秒读完）`.
+- Include at least 5 Chinese H2 sections.
+- At least 4 H2 headings should reflect search intent such as “能不能… / 怎么办 / 多久恢复 / 什么时候需要就医 / 要不要…”.
+- The first 220 Chinese characters must naturally include focusKeyword and answer the question directly.
+- Include section `## 风险边界与就医信号（什么时候需要就医）`.
+- Include at least 2 internal relative links chosen from /blog /faq /assessment /contact /about.
+- Include section `## 参考文献` with 3-5 real sources, each with title, journal or guideline, year, and URL.
+- At least 1 reference must be from 2021 or later.
+- End with a one-line medical disclaimer.
+
+English article requirements:
+- Use natural English tone.
+- Include `## Key takeaway` and `## References`.
+- Use question-style subheadings where helpful.
+- No fabricated institutions or product promotion."""
+
+USER_PROMPT_TEMPLATE = """Generate a bilingual AskDrLiu.com medical article from this news cue.
 
 Headline: {headline}
 Source URL: {url}
@@ -189,30 +205,29 @@ Summary: {summary}
 
 Key focus areas: {focus}
 
-Chinese article requirements (AskDrLiu GEO template):
-- Topic must stay strictly within gallbladder and postoperative nutrition scope, prioritizing: gallbladder preservation, cholecystitis, gallstones, post-cholecystectomy nutrition
-- Length must be 2200-3200 Chinese characters (do not write short posts)
-- Must start with section `## 先说结论（30秒读完）` and give clear conclusion first
-- SEO rule: title must reflect a concrete search intent; the first paragraph must naturally include the main keyword and answer the question quickly
-- References should be concise: 3-5 total maximum, and prioritize newer studies or guidelines from the last 5 years when possible
-- Include at least 2 internal relative links in the Chinese article, such as /blog /faq /assessment /contact
-- Then use at least 4 FAQ-style subheadings (question format), e.g. “胆囊结石一定要切吗？”
-- Each FAQ section must include: one-line conclusion + 2-4 actionable bullets + one common misconception line
-- Include section `## 风险边界与就医信号` with clear emergency signals (bullets)
-- Include section `## 参考文献` with 3-5 real sources, each as markdown list item with title/journal/year/URL
-- End with one-line medical disclaimer
-- Tone rule: flagship stance allowed but medically safe — "能保尽保，前提是安全可保；不具备条件时，规范切除 + 术后营养管理"
+Chinese article must satisfy all of these:
+- 2200-3200 Chinese characters after removing markdown syntax
+- Answer the search intent quickly in the first 220 Chinese characters
+- focusKeyword must appear in the Chinese title and in the first 220 Chinese characters
+- Use at least 3 longTailKeywords, and naturally use at least 2 of them in the title/body
+- Start with `## 先说结论（30秒读完）`
+- Include at least 4 FAQ-style H2 sections using patient question wording
+- Each major section must have substantial detail, not thin placeholder bullets
+- Include `## 风险边界与就医信号（什么时候需要就医）`
+- Include at least 2 internal relative links among /blog /faq /assessment /contact /about
+- Include `## 参考文献` with 3-5 real sources
+- End with one-line disclaimer
+- Count Chinese characters before finishing and regenerate if under 2200
 
 English article requirements:
-- Same structure but natural English tone
-- Length 900-1400 words
-- Start with a clear "Key takeaway" block before details
-- Use at least 4 question-style subheadings (FAQ style)
-- Add section `## References` with 3-5 real sources
+- 900-1400 words
+- Include `## Key takeaway` and `## References`
+- Use at least 4 question-style subheadings
 
 SEO/GEO requirement:
 - Write for citation-readability: short paragraphs, explicit conclusions, practical bullets, no vague claims
 
+{feedback_block}
 Return valid JSON only."""
 
 
@@ -240,34 +255,31 @@ def is_rate_limit_error(ex: Exception) -> bool:
 
 
 def call_glm_with_backoff(client: OpenAI, *, messages: list[dict], temperature: float, max_attempts: int = 5):
+    """Call LLM with automatic model fallback (Primary -> Fallback)."""
     last_error = None
-    current_error = None
-    for attempt in range(1, max_attempts + 1):
-        try:
-            return run_with_timeout(
-                client.chat.completions.create,
-                API_CALL_TIMEOUT_SECONDS,
-                model=MODEL,
-                temperature=temperature,
-                messages=messages,
-            )
-        except TimeoutError as ex:
-            current_error = ex
-            last_error = ex
-        except Exception as ex:
-            current_error = ex
-            last_error = ex
-        if attempt >= max_attempts:
-            raise last_error
-        if is_rate_limit_error(current_error):
-            sleep_seconds = min(90, 8 * attempt + random.uniform(1.0, 3.0))
-            print(f"[WARN] Provider throttled on attempt {attempt}/{max_attempts}: {current_error}")
-        else:
-            sleep_seconds = min(30, 3 * attempt + random.uniform(0.5, 1.5))
-            print(f"[WARN] GLM call failed on attempt {attempt}/{max_attempts}: {current_error}")
-        print(f"[WAIT] Sleeping {sleep_seconds:.1f}s before retry")
-        time.sleep(sleep_seconds)
-    raise RuntimeError(f"Failed after retries: {last_error}")
+    for model in [MODEL_PRIMARY, MODEL_FALLBACK]:
+        for attempt in range(1, max_attempts + 1):
+            try:
+                print(f"  [LLM] Calling {model} (attempt {attempt})...")
+                resp = run_with_timeout(
+                    client.chat.completions.create,
+                    API_CALL_TIMEOUT_SECONDS,
+                    model=model,
+                    messages=messages,
+                    temperature=temperature,
+                    max_tokens=9000,
+                )
+                return resp, model
+            except Exception as e:
+                last_error = e
+                if is_rate_limit_error(e):
+                    wait = min(90, 2 ** attempt)
+                    print(f"  [WARN] Rate limited ({model}), waiting {wait}s...")
+                    time.sleep(wait)
+                    continue
+                print(f"  [WARN] {model} failed: {e}")
+                break
+    raise last_error
 
 def run_with_timeout(func, timeout_seconds: int, /, *args, **kwargs):
     result_queue: Queue = Queue(maxsize=1)
@@ -312,11 +324,41 @@ def _repair_generated_payload(data: dict) -> dict:
         data["focusKeyword"] = normalize_space(data.get("title"))
     if not data.get("longTailKeywords"):
         focus = normalize_space(data.get("focusKeyword")) or normalize_space(data.get("title"))
-        data["longTailKeywords"] = [focus, f"{focus}怎么办"] if focus else []
+        data["longTailKeywords"] = [focus, f"{focus}怎么办", f"{focus}什么时候需要就医"] if focus else []
     if not normalize_space(data.get("markdownEn")):
         data["markdownEn"] = _build_markdown_en_fallback(data)
     return data
 
+
+def _collect_validation_issues(data: dict) -> list[str]:
+    issues = validate_article_payload(
+        data,
+        min_zh_chars=2200,
+        min_en_words=0,
+        require_keyword_fields=True,
+        require_internal_links=True,
+    )
+    title_conflict = find_title_conflict(data.get("title", ""))
+    if title_conflict:
+        issues.append(f"Duplicate title conflict with {title_conflict['slug']}")
+    similar_article = find_similar_article(data.get("markdownZh", ""))
+    if similar_article:
+        issues.append(
+            f"Article too similar to existing post {similar_article['slug']} ({similar_article['similarity']:.2f})"
+        )
+    return issues
+
+
+def _build_feedback_block(validation_issues: list[str]) -> str:
+    if not validation_issues:
+        return ""
+    bullets = "\n".join(f"- {issue}" for issue in validation_issues[:8])
+    return (
+        "Previous output failed validation. Regenerate the full JSON from scratch and fix every issue below exactly:\n"
+        f"{bullets}\n\n"
+        "The most important rule is Chinese length: markdownZh must be 2200-3200 Chinese characters after removing markdown syntax. "
+        "Do not shorten the article, and do not omit references, internal links, or the care-escalation section."
+    )
 
 def _validate_references(data: dict):
     zh = data.get("markdownZh", "")
@@ -331,32 +373,32 @@ def _validate_references(data: dict):
         raise ValueError("; ".join(issues))
 
 
-def generate_post(headline: str, url: str, summary: str) -> dict:
+def generate_post(headline: str, url: str, summary: str, max_retries: int = 4) -> dict:
     if not TEXT_API_KEY:
         raise RuntimeError("Missing LLM_API_KEY/ZHIPU_API_KEY")
     client = OpenAI(api_key=TEXT_API_KEY, base_url=LLM_BASE_URL)
 
-    prompt = USER_PROMPT.format(
-        headline=headline,
-        url=url,
-        summary=summary[:600],
-        focus=", ".join(FOCUS_KEYWORDS[:8]),
-    )
-
     last_error = None
-    for attempt in range(1, 4):
-        resp = call_glm_with_backoff(
-            client,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": prompt},
-            ],
-            temperature=0.4,
+    feedback_issues: list[str] = []
+    for attempt in range(1, max_retries + 1):
+        prompt = USER_PROMPT_TEMPLATE.format(
+            headline=headline,
+            url=url,
+            summary=summary[:600],
+            focus=", ".join(FOCUS_KEYWORDS[:8]),
+            feedback_block=_build_feedback_block(feedback_issues),
         )
-
-        text = resp.choices[0].message.content.strip()
-
         try:
+            resp, used_model = call_glm_with_backoff(
+                client,
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.25,
+            )
+
+            text = resp.choices[0].message.content.strip()
             try:
                 data = json.loads(text)
             except Exception:
@@ -369,32 +411,34 @@ def generate_post(headline: str, url: str, summary: str) -> dict:
             for k in required:
                 if k not in data:
                     raise ValueError(f"Missing required key: {k}")
+            if not normalize_space(data.get("title")):
+                raise ValueError("Missing required content: title")
+            if not normalize_space(data.get("markdownZh")):
+                raise ValueError("Missing required content: markdownZh")
 
             data = _repair_generated_payload(data)
             data["seoTitle"], data["seoDescription"] = shared_build_seo_fields(data)
             _validate_references(data)
-            seo_issues = validate_article_payload(
-                data,
-                min_zh_chars=2200,
-                min_en_words=0,
-                require_keyword_fields=True,
-                require_internal_links=True,
-            )
-            title_conflict = find_title_conflict(data.get("title", ""))
-            if title_conflict:
-                seo_issues.append(f"Duplicate title conflict with {title_conflict['slug']}")
-            similar_article = find_similar_article(data.get("markdownZh", ""))
-            if similar_article:
-                seo_issues.append(
-                    f"Article too similar to existing post {similar_article['slug']} ({similar_article['similarity']:.2f})"
-                )
-            if seo_issues:
-                raise ValueError("SEO validation failed: " + "; ".join(seo_issues[:8]))
+            validation_issues = _collect_validation_issues(data)
+            if validation_issues:
+                feedback_issues = validation_issues
+                if attempt < max_retries:
+                    print(f"[WARN] Validation failed on attempt {attempt}: {'; '.join(validation_issues[:8])}")
+                    print("[RETRY] Regenerating with validation feedback...")
+                    time.sleep(2)
+                    continue
+                raise ValueError("SEO validation failed: " + "; ".join(validation_issues[:8]))
+
+            data["model_used"] = used_model
             return data
         except Exception as ex:
             last_error = ex
+            if not feedback_issues:
+                feedback_issues = [str(ex)]
             print(f"[WARN] JSON parse/validation failed on attempt {attempt}: {ex}")
-            time.sleep(2)
+            if attempt < max_retries:
+                time.sleep(2)
+                continue
 
     raise RuntimeError(f"Failed to generate valid post JSON after retries: {last_error}")
 
