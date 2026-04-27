@@ -49,9 +49,9 @@ export const blogPosts: BlogPost[] = [
   {
     id: '20260425-无症状胆囊结石需要手术吗肝胆外科医生的专业解答-jwlnxd',
     title: '无症状胆囊结石需要手术吗？肝胆外科医生的专业解答',
-    titleEn: 'Do Asymptomatic Gallstones Require Surgery? A Hepatobiliary Surgeon\\'s Guide',
+    titleEn: 'Do Asymptomatic Gallstones Require Surgery? A Hepatobiliary Surgeon\'s Guide',
     excerpt: '体检发现胆囊结石但没有症状，到底要不要手术？本文从肝胆外科专业角度，详细解读无症状胆囊结石的处理原则、需要考虑手术的特殊情况以及日常随访建议。',
-    excerptEn: 'Found gallstones on a routine exam but have no symptoms? This article provides a hepatobiliary surgeon\\'s professional perspective on managing asymptomatic gallstones, including when surgery is warranted and how to follow up safely.',
+    excerptEn: 'Found gallstones on a routine exam but have no symptoms? This article provides a hepatobiliary surgeon\'s professional perspective on managing asymptomatic gallstones, including when surgery is warranted and how to follow up safely.',
     seoTitle: '无症状胆囊结石手术：无症状胆囊结石需要手术吗？肝胆外科医生详解手术指征',
     seoDescription: '无症状胆囊结石手术，无症状胆囊结石是否需要手术？本文由肝胆外科医生详细解读无症状胆结石的处理原则、需要考虑手术的7种特殊情况以及日常管理与随访建议。',
     date: '2026-04-25',
@@ -81,7 +81,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: '胆囊切除术后可以喝牛奶，但需注意时机、种类和饮用量。本文由肝胆外科医生详解术后牛奶摄入的阶段性指南、腹胀腹泻的排查方法及补钙替代方案。',
     excerptEn: 'Yes, you can drink milk after gallbladder removal, but timing, type, and amount matter. A hepatobiliary surgeon explains the phased reintroduction guide, how to troubleshoot bloating and diarrhea, and calcium alternatives.',
     seoTitle: '胆囊切除术后能喝牛奶吗？肝胆外科医生详解术后饮奶指南',
-    seoDescription: '胆囊切除术后能喝牛奶吗？肝胆外科医生详解术后牛奶摄入时机、低脂与无乳糖选择、腹胀腹泻的排查方法及补钙替代方案。'}
+    seoDescription: '胆囊切除术后能喝牛奶吗？肝胆外科医生详解术后牛奶摄入时机、低脂与无乳糖选择、腹胀腹泻的排查方法及补钙替代方案。',
     date: '2026-04-23',
     category: '胆囊切除术后营养',
     categoryEn: 'Post-Cholecystectomy Nutrition',
@@ -91,7 +91,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: '20260422-胆囊切除术后能吃坚果吗肝胆外科医生的详细饮食建议-kdmxnl',
     title: '胆囊切除术后能吃坚果吗？肝胆外科医生的详细饮食建议',
-    titleEn: 'Can You Eat Nuts After Gallbladder Removal? A Surgeon\\'s Dietary Guide',
+    titleEn: 'Can You Eat Nuts After Gallbladder Removal? A Surgeon\'s Dietary Guide',
     excerpt: '胆囊切除术后能吃坚果吗？本文由资深肝胆外科医生详细解答，包括术后何时引入坚果、食用注意事项以及如何避免脂肪泻等不适。',
     excerptEn: 'Can you eat nuts after a cholecystectomy? This comprehensive guide by a senior hepatobiliary surgeon explains when and how to safely reintroduce nuts into your post-gallbladder removal diet.',
     seoTitle: '胆囊切除术后能吃坚果吗？术后饮食指南与注意事项',
@@ -147,7 +147,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: '20260417-胆囊炎抗生素的合理使用指南肝胆外科医生的忠告-sumaxj',
     title: '胆囊炎抗生素的合理使用指南：肝胆外科医生的忠告',
-    titleEn: 'Rational Use of Antibiotics in Cholecystitis: A Surgeon\\'s Guide',
+    titleEn: 'Rational Use of Antibiotics in Cholecystitis: A Surgeon\'s Guide',
     excerpt: '胆囊炎发作一定要吃抗生素吗？作为肝胆外科医生，本文将为您详细解析急性与慢性胆囊炎抗生素的使用时机、种类选择以及滥用抗生素的危害。',
     excerptEn: 'Do you always need antibiotics for cholecystitis? As a hepatobiliary surgeon, this article breaks down the timing, selection, and risks of antibiotic misuse in treating gallbladder inflammation.',
     seoTitle: '胆囊炎抗生素治疗：胆囊炎抗生素怎么用？肝胆外科专家详解用药原则',
@@ -175,7 +175,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: '20260414-胆囊结石能吃水果吗肝胆外科医生的饮食建议-duhzvt',
     title: '胆囊结石能吃水果吗？肝胆外科医生的饮食建议',
-    titleEn: 'Can You Eat Fruit with Gallstones? A Surgeon\\'s Dietary Guide',
+    titleEn: 'Can You Eat Fruit with Gallstones? A Surgeon\'s Dietary Guide',
     excerpt: '胆囊结石患者是可以吃水果的，但需注意种类和食用方式。本文由资深肝胆外科医生为您详细解答哪些水果适合，哪些应少吃。',
     excerptEn: 'Yes, patients with gallstones can eat fruit, but the type and portion matter. This guide by a senior hepatobiliary surgeon explains which fruits are safe and which to limit.',
     seoTitle: '胆囊结石能吃水果吗？附胆囊结石患者水果红黑榜',
@@ -758,43 +758,7 @@ export const getBlogPostsByCategory = (category: string, isEnglish: boolean): Bl
 };
 
 // 搜索文章
-export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
-  {
-    id: '20260412-胆囊炎的保守治疗哪些情况可以暂时不手术-iarifo',
-    title: '# 胆囊炎必须马上手术吗？',
-    titleEn: '# 胆囊炎必须马上手术吗？',
-    excerpt: 'title: 胆囊炎的保守治疗：哪些情况可以暂时不手术？titleEn: Conservative Management of Cholecystitis: W',
-    excerptEn: 'title: 胆囊炎的保守治疗：哪些情况可以暂时不手术？titleEn: Conservative Management of Cholecystitis: W',
-    date: '2026-04-12',
-    category: '胆结石预防',
-    categoryEn: 'Gallstone Prevention',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }
-  {
-    id: 'gallbladder-preservation-mnwhyhpj',
-    title: '保胆取石手术的适应症与长期效果',
-    titleEn: '保胆取石手术的适应症与长期效果',
-    excerpt: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
-    excerptEn: '胆囊切除术曾是治疗胆结石的标准方法，但随着技术的发展，保胆取石成为越来越多患者和医生的选择。保胆手术能否实施，需要综合考虑结石类型、胆囊功能、复发风险等因素。本',
-    date: '2026-04-13',
-    category: '技术介绍',
-    categoryEn: 'Technology Introduction',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }
-  {
-    id: '20260422-胆囊结石的成因与高危因素-rkeyln',
-    title: '# 什么是胆囊结石？',
-    titleEn: '# 什么是胆囊结石？',
-    excerpt: 'title: 胆囊结石的成因与高危因素titleEn: Gallstones: Causes and Risk Factorscategory: 胆囊结石cat',
-    excerptEn: 'title: 胆囊结石的成因与高危因素titleEn: Gallstones: Causes and Risk Factorscategory: 胆囊结石cat',
-    date: '2026-04-22',
-    category: '胆结石预防',
-    categoryEn: 'Gallstone Prevention',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }] => {
+export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[] => {
   const lowerQuery = query.toLowerCase();
   return blogPosts.filter(post => {
     const title = isEnglish ? post.titleEn.toLowerCase() : post.title.toLowerCase();
@@ -805,5 +769,3 @@ export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
            category.includes(lowerQuery);
   });
 };
-
-// 搜索文章
