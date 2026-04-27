@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260427-保胆取石后的复发预防-h7k9m2',
+    title: '保胆取石后的复发预防',
+    titleEn: 'Preventing Gallstone Recurrence After Gallbladder-Preserving Surgery',
+    excerpt: '保胆取石保留了有功能的胆囊，但术后结石复发是患者最关心的问题。本文详细解读复发率、危险因素，以及通过饮食管理、药物预防和定期随访来降低复发风险的实用方法。',
+    excerptEn: 'Gallbladder-preserving surgery retains organ function, but stone recurrence is the main concern. This article explains recurrence rates, risk factors, and practical prevention strategies including diet, medication, and follow-up.',
+    seoTitle: '保胆取石后如何预防复发？肝胆外科医生详解术后管理',
+    seoDescription: '保胆取石后结石复发怎么办？肝胆外科医生详细解读保胆术后复发率、危险因素，以及饮食调整、熊去氧胆酸药物预防和定期随访的完整方案。',
+    date: '2026-04-27',
+    category: '保胆',
+    categoryEn: 'Gallbladder Preservation',
+    imageUrl: '/images/blog/blog-20260427-保胆取石后的复发预防-h7k9m2.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260426-胆囊炎急性发作时该怎么办-boba1c',
     title: '胆囊炎急性发作时该怎么办',
     titleEn: 'What to Do When Acute Cholecystitis Strikes',
