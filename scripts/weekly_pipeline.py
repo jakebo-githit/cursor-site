@@ -90,11 +90,11 @@ CATEGORY_EN_MAP = {
     "胆囊切除术后营养": "Post-Cholecystectomy Nutrition",
 }
 IMAGE_PROMPTS = {
-    "保胆": "黑白漫画风格医学科普封面，主题为术前保胆评估与医生门诊沟通，画面干净明亮、专业可信，可出现医生与患者交流、检查资料说明、安心决策场景",
-    "胆囊炎": "黑白漫画风格医学科普封面，主题为胆囊炎恢复期饮食与日常护理，画面干净明亮、温和安心，可出现清淡家常饮食、休息恢复、轻松生活场景",
-    "胆囊结石": "黑白漫画风格医学科普封面，主题为胆囊结石患者的日常饮食管理与门诊咨询，画面干净明亮、安心专业，可出现医生沟通、健康饮食、轻松生活方式",
-    "胆囊切除术后营养": "黑白漫画风格医学科普封面，主题为胆囊切除术后饮食恢复与营养管理，画面干净明亮、安心专业，可出现均衡清淡饮食、家中恢复、散步等日常生活方式",
-    "default": "黑白漫画风格肝胆健康医学科普封面，画面干净明亮、专业可信，可出现医生沟通、健康饮食、恢复生活方式等安全场景",
+    "保胆": "彩色医学科普封面，主题为术前保胆评估与医生门诊沟通，可出现医生与患者交流、检查资料说明、安心决策与恢复规划场景",
+    "胆囊炎": "彩色医学科普封面，主题为胆囊炎恢复期饮食与日常护理，可出现清淡家常饮食、休息恢复、补水与轻松生活场景",
+    "胆囊结石": "彩色医学科普封面，主题为胆囊结石患者的日常饮食管理与门诊咨询，可出现医生沟通、健康餐桌、家庭生活方式调整场景",
+    "胆囊切除术后营养": "彩色医学营养封面，主题为胆囊切除术后饮食恢复与营养管理，可出现均衡清淡饮食、家中恢复、散步与食材准备场景",
+    "default": "彩色肝胆健康医学科普封面，可出现医生沟通、健康饮食、恢复生活方式等安全场景，整体温暖专业",
 }
 
 def is_rate_limit_error(ex: Exception):
@@ -501,7 +501,15 @@ def generate_article(topic):
     return normalize_generated_payload(payload, topic)
 
 
-def generate_image(category, slug):
+def build_weekly_image_prompt(category, title=""):
+    prompt = IMAGE_PROMPTS.get(category, IMAGE_PROMPTS["default"])
+    title_hint = re.sub(r"\s+", " ", (title or "")).strip()
+    if title_hint:
+        prompt += f"。具体聚焦《{title_hint}》"
+    return prompt
+
+
+def generate_image(category, slug, title=""):
     fallback = {
         "保胆": "/images/pocs-surgery.jpg",
         "胆囊炎": "/images/gallstone-prevention.jpg",
@@ -512,7 +520,7 @@ def generate_image(category, slug):
         slug=slug,
         images_dir=IMAGES_DIR,
         fallback_path=fallback.get(category, "/images/pocs-surgery.jpg"),
-        base_prompt=IMAGE_PROMPTS.get(category, IMAGE_PROMPTS["default"]),
+        base_prompt=build_weekly_image_prompt(category, title),
         api_key=ARK_API_KEY,
     )
 
@@ -642,7 +650,7 @@ def main():
             data = generate_article(topic)
             slug = make_slug(data["title"])
             validate_generated_entry(data, slug)
-            image_url = generate_image(data["category"], slug)
+            image_url = generate_image(data["category"], slug, data["title"])
             save_draft(slug, data, image_url, topic.get("source_url", ""), publish_dates[next_date_index])
             seo_title, seo_desc = shared_build_seo_fields(data)
             future_posts.append(

@@ -213,7 +213,7 @@ def main():
             slug=slug,
             images_dir=IMAGES_DIR,
             fallback_path="/images/dietary-guidance.jpg",
-            base_prompt="医学科普封面，主题为胆囊炎急性发作应急处理，画面展示一个人在家中出现右上腹疼痛时冷静应对的场景，干净明亮、温和安心",
+            base_prompt="彩色医学科普封面，主题为胆囊炎急性发作时的冷静应对与家庭支持，可出现家中休息、补水、及时咨询医生与温和照护场景",
             api_key=ARK_API_KEY,
         )
     except Exception as ex:

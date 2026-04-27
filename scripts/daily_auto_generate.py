@@ -142,6 +142,14 @@ SUBTOPICS = {
     ],
 }
 
+DAILY_IMAGE_PROMPTS = {
+    "保胆": "彩色医学科普封面，主题为保胆评估、术前咨询与术后恢复，可出现医生与患者沟通、检查资料讲解、安心决策与温和康复场景",
+    "胆囊炎": "彩色医学科普封面，主题为胆囊炎恢复期管理与日常照护，可出现门诊沟通、居家休息、补水、清淡饮食与规律生活场景",
+    "胆囊结石": "彩色医学科普封面，主题为胆囊结石患者的饮食管理与门诊咨询，可出现健康餐桌、医生解答、家庭生活方式调整场景",
+    "胆囊切除术后营养": "彩色医学营养封面，主题为胆囊切除术后饮食恢复与营养管理，可出现清淡家常菜、食材准备、术后散步与温和恢复场景",
+    "default": "彩色肝胆健康医学科普封面，可出现医生沟通、健康饮食、恢复生活方式等安全场景，整体专业温暖",
+}
+
 # ─────────────────────────── System Prompts ───────────────────────────
 
 # ─────────────────────────── System Prompts ───────────────────────────
@@ -768,6 +776,14 @@ def make_slug(title: str) -> str:
     return f"{today}-{clean.strip('-')}-{suffix}" if clean.strip('-') else f"{today}-post-{suffix}"
 
 
+def build_daily_image_prompt(category: str, subtopic: str, title: str) -> str:
+    prompt = DAILY_IMAGE_PROMPTS.get(category, DAILY_IMAGE_PROMPTS["default"])
+    focus = normalize_space(subtopic or title)
+    if focus:
+        prompt += f"。具体聚焦《{focus}》"
+    return prompt
+
+
 def save_markdown(slug: str, data: dict, image_url: str):
     """Save bilingual markdown files to public/blog-posts/."""
     today = datetime.now().strftime("%Y-%m-%d")
@@ -890,7 +906,7 @@ def main():
         slug=slug,
         images_dir=IMAGES_DIR,
         fallback_path="/images/pocs-surgery.jpg",
-        base_prompt=data["title"],
+        base_prompt=build_daily_image_prompt(category, subtopic, data["title"]),
         api_key=ARK_API_KEY
     )
 

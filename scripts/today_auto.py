@@ -205,7 +205,7 @@ def main():
             slug=slug,
             images_dir=IMAGES_DIR,
             fallback_path="/images/dietary-guidance.jpg",
-            base_prompt="黑白漫画风格医学科普封面，主题为胆囊切除术后饮食与牛奶乳制品摄入，画面干净明亮、温和安心、可出现牛奶、健康饮食、家中恢复场景",
+            base_prompt="彩色医学营养封面，主题为胆囊切除术后饮食与牛奶乳制品摄入，可出现早餐餐桌、牛奶替代选择、清淡饮食与居家恢复场景",
             api_key=ARK_API_KEY,
         )
     except Exception as ex:

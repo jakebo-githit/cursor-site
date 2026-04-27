@@ -93,11 +93,11 @@ BLOCK_KEYWORDS = [
 ]
 
 IMAGE_PROMPTS = {
-    "gallbladder": "黑白漫画风格医学科普封面，主题为胆囊健康、门诊沟通与日常健康管理，画面干净明亮、温和安心、适合个人医生网站文章封面",
-    "liver": "黑白漫画风格医学科普封面，主题为肝胆健康与日常保养，画面干净明亮、专业可信，可出现健康饮食与生活方式场景",
-    "longevity": "黑白漫画风格医学科普封面，主题为健康长寿与代谢管理，画面干净明亮、轻松自然，可出现步行、轻运动、规律生活",
-    "nutrition": "黑白漫画风格医学科普封面，主题为胆囊切除术后饮食恢复与营养管理，画面干净明亮、安心专业，可出现均衡清淡饮食、家中恢复与散步场景",
-    "default": "黑白漫画风格肝胆健康医学科普封面，画面干净明亮、专业可信，可出现医生沟通、健康饮食、恢复生活方式等安全场景",
+    "gallbladder": "彩色医学科普封面，主题为胆囊健康、门诊评估与日常预防，可出现医生与患者交流、超声检查资料讲解、规律饮食与轻松生活方式场景",
+    "liver": "彩色医学科普封面，主题为肝胆健康与日常保养，可出现均衡饮食、门诊沟通、体检管理与家庭健康生活场景",
+    "longevity": "彩色健康生活方式封面，主题为健康长寿与代谢管理，可出现步行、轻运动、规律作息、成熟成年人积极生活场景",
+    "nutrition": "彩色医学营养封面，主题为胆囊切除术后饮食恢复与营养管理，可出现清淡餐桌、食材准备、居家恢复与饭后散步场景",
+    "default": "彩色肝胆健康医学科普封面，可出现医生沟通、健康饮食、恢复生活方式等安全场景，整体温暖专业",
 }
 
 
@@ -445,16 +445,15 @@ def generate_post(headline: str, url: str, summary: str, max_retries: int = 4) -
 
 
 
-IMAGE_PROMPTS = {
-    "gallbladder": "黑白漫画风格医学科普封面，主题为胆囊健康、门诊沟通与日常健康管理，画面干净明亮、温和安心、适合个人医生网站文章封面",
-    "liver": "黑白漫画风格医学科普封面，主题为肝胆健康与日常保养，画面干净明亮、专业可信，可出现健康饮食与生活方式场景",
-    "longevity": "黑白漫画风格医学科普封面，主题为健康长寿与代谢管理，画面干净明亮、轻松自然，可出现步行、轻运动、规律生活",
-    "nutrition": "黑白漫画风格医学科普封面，主题为胆囊切除术后饮食恢复与营养管理，画面干净明亮、安心专业，可出现均衡清淡饮食、家中恢复与散步场景",
-    "default": "黑白漫画风格肝胆健康医学科普封面，画面干净明亮、专业可信，可出现医生沟通、健康饮食、恢复生活方式等安全场景",
-}
+def build_news_image_prompt(topic_type: str, title: str = "") -> str:
+    prompt = IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"])
+    title_hint = normalize_space(title)
+    if title_hint:
+        prompt += f"。具体聚焦文章主题《{title_hint}》"
+    return prompt
 
 
-def generate_siliconflow_image(topic_type: str, slug: str) -> str:
+def generate_siliconflow_image(topic_type: str, slug: str, title: str = "") -> str:
     fallback_map = {
         "gallbladder": "/images/gallstone-prevention.jpg",
         "liver": "/images/liver-health.jpg",
@@ -466,7 +465,7 @@ def generate_siliconflow_image(topic_type: str, slug: str) -> str:
         slug=slug,
         images_dir=IMAGES_DIR,
         fallback_path=fallback_map.get(topic_type, "/images/pocs-surgery.jpg"),
-        base_prompt=IMAGE_PROMPTS.get(topic_type, IMAGE_PROMPTS["default"]),
+        base_prompt=build_news_image_prompt(topic_type, title),
         api_key=ARK_API_KEY,
     )
 
@@ -621,7 +620,7 @@ def main():
     # 5. AIGC 生成封面图
     slug = make_slug(data["title"])
     print("[IMG] Generating AIGC cover image via SiliconFlow...")
-    image_url = generate_siliconflow_image(topic_type, slug)
+    image_url = generate_siliconflow_image(topic_type, slug, data["title"])
     print(f"[OK] Image: {image_url}")
 
     # 6. Save markdown files

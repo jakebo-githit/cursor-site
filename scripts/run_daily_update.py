@@ -203,7 +203,7 @@ def main():
     
     # Step 3: Generate cover image
     print("\n[3/6] Generating cover image...")
-    base_prompt = f"黑白漫画风格医学科普封面，主题为{data['category']}，画面干净明亮、温和安心、适合个人医生网站文章封面"
+    base_prompt = f"彩色医学科普封面，主题为{data['category']}，突出真实生活方式、门诊沟通或饮食管理场景，整体温暖专业，适合个人医生网站文章封面"
     
     category_fallbacks = {
         "保胆": "/images/pocs-surgery.jpg",
