@@ -4,10 +4,34 @@ on:
   # 已由 weekly-pipeline.yml + daily-publish.yml 替代，禁用自动触发
   workflow_dispatch:
     inputs:
+      mode:
+        description: '运行模式：generate_post 或 regenerate_covers'
+        required: false
+        default: 'generate_post'
       debug:
         description: '调试模式（不提交）'
         required: false
         default: 'false'
+      since:
+        description: '批量换图起始日期（YYYY-MM-DD）'
+        required: false
+        default: '2026-04-06'
+      until:
+        description: '批量换图结束日期（YYYY-MM-DD）'
+        required: false
+        default: '2026-04-26'
+      saturation_threshold:
+        description: '低于该饱和度视为黑白图'
+        required: false
+        default: '0.19'
+      lightness_threshold:
+        description: '高于该明度视为偏白图'
+        required: false
+        default: '0.82'
+      max_posts:
+        description: '最多替换多少篇文章的封面'
+        required: false
+        default: '20'
 
 concurrency:
   group: askdrliu-daily-blog
@@ -39,10 +63,23 @@ jobs:
           pip install -r scripts/requirements.txt
 
       - name: Generate blog post
+        if: ${{ github.event.inputs.mode != 'regenerate_covers' }}
         env:
           ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
           ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
         run: python scripts/generate_blog_auto.py
+
+      - name: Regenerate colorful covers
+        if: ${{ github.event.inputs.mode == 'regenerate_covers' }}
+        env:
+          ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
+        run: |
+          python scripts/regenerate_recent_images.py \
+            --since "${{ github.event.inputs.since }}" \
+            --until "${{ github.event.inputs.until }}" \
+            --saturation-threshold "${{ github.event.inputs.saturation_threshold }}" \
+            --lightness-threshold "${{ github.event.inputs.lightness_threshold }}" \
+            --max-posts "${{ github.event.inputs.max_posts }}"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -66,5 +103,9 @@ jobs:
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "auto: daily medical blog post [skip ci]"
+          if [ "${{ github.event.inputs.mode }}" = "regenerate_covers" ]; then
+            git commit -m "auto: regenerate colorful blog covers [skip ci]"
+          else
+            git commit -m "auto: daily medical blog post [skip ci]"
+          fi
           git push
