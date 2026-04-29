@@ -19,6 +19,20 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260429-胆囊结石患者的饮食红黑榜哪些食物该吃哪些该避-k3f7wq',
+    title: `胆囊结石患者的饮食红黑榜：哪些食物该吃、哪些该避？`,
+    titleEn: `Gallstone Diet Guide: What to Eat and What to Avoid`,
+    excerpt: `胆囊结石的形成与饮食密切相关。本文基于循证医学证据，为胆囊结石患者整理实用的饮食红黑榜，详解哪些食物有助预防结石、哪些该少吃或避免。`,
+    excerptEn: `Gallstone formation is closely linked to diet. This evidence-based guide covers which foods help prevent gallstones and which to limit or avoid.`,
+    seoTitle: `胆囊结石饮食红黑榜：该吃什么、该避什么？肝胆外科医生详解`,
+    seoDescription: `胆囊结石患者饮食指南：哪些食物能预防结石长大，哪些会加速结石形成？肝胆外科医生基于循证医学整理饮食红黑榜，附一日食谱和常见误区。`,
+    date: '2026-04-29',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260429-胆囊结石患者的饮食红黑榜哪些食物该吃哪些该避-k3f7wq.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260428-胆囊切除术后需要补充哪些维生素和微量元素-p7xk3n',
     title: `胆囊切除术后需要补充哪些维生素和微量元素`,
     titleEn: `Which Vitamins and Micronutrients to Supplement After Cholecystectomy`,
