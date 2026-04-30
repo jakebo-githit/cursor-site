@@ -33,6 +33,20 @@ export const blogPosts: BlogPost[] = [
     author: 'AskDrLiu.com'
   },
   {
+    id: '20260430-胆囊结石为什么常在夜间发作-m9x4kr',
+    title: `胆囊结石为什么常在夜间发作？`,
+    titleEn: `Why Do Gallstone Attacks Often Strike at Night?`,
+    excerpt: `很多胆囊结石患者发现疼痛总在夜间发作，这并非巧合。本文从体位变化、生理节律、晚餐延迟效应和迷走神经四个角度详解夜间发作的原因，并提供饮食管理、睡眠体位和应急处理的实用建议。`,
+    excerptEn: `Many gallstone patients notice attacks happen at night. This isn't coincidental—body position changes, circadian rhythms, late dinner effects, and vagus nerve activity all contribute. Learn evidence-based prevention and emergency management.`,
+    seoTitle: `胆囊结石为什么常在夜间发作？肝胆外科医生详解四大原因`,
+    seoDescription: `胆囊结石总在半夜疼？肝胆外科医生详解体位变化、胆囊收缩节律、晚餐延迟效应和迷走神经兴奋四大原因，附饮食管理、睡眠体位建议和夜间发作应急处理指南。`,
+    date: '2026-04-30',
+    category: '胆囊结石',
+    categoryEn: 'Gallstones',
+    imageUrl: '/images/blog/blog-20260426-胆囊炎急性发作时该怎么办-boba1c.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260428-胆囊切除术后需要补充哪些维生素和微量元素-p7xk3n',
     title: `胆囊切除术后需要补充哪些维生素和微量元素`,
     titleEn: `Which Vitamins and Micronutrients to Supplement After Cholecystectomy`,
