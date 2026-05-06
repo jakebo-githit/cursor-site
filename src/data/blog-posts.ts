@@ -800,7 +800,19 @@ export const getBlogPostsByCategory = (category: string, isEnglish: boolean): Bl
 };
 
 // 搜索文章
-export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[] => {
+export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
+  {
+    id: 'gallstones-motdf0bp',
+    title: '胆囊结石的成因诊断与综合治疗方案',
+    titleEn: '胆囊结石的成因诊断与综合治疗方案',
+    excerpt: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
+    excerptEn: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
+    date: '2026-05-06',
+    category: '胆结石专题',
+    categoryEn: 'Gallstones Topic',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  }] => {
   const lowerQuery = query.toLowerCase();
   return blogPosts.filter(post => {
     const title = isEnglish ? post.titleEn.toLowerCase() : post.title.toLowerCase();
