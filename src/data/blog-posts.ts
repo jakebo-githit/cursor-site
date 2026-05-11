@@ -19,6 +19,62 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260509-胆囊炎急性发作夜间处理指南疼痛缓解与就医时机-14xpwd',
+    title: '胆囊炎急性发作夜间处理指南：疼痛缓解与就医时机',
+    titleEn: 'Nighttime Acute Cholecystitis: Pain Relief and ER Timing',
+    excerpt: '胆囊炎急性发作时剧烈腹痛让人恐慌，本文详解急性胆囊炎的症状识别、家庭应急处理、何时必须急诊就医及后续治疗选择。',
+    excerptEn: 'Understanding the typical symptoms and emergency management of an acute gallbladder attack is crucial. This article will guide you through recognizing symptoms, home emergency measures, when to seek urgent care, and treatment options.',
+    seoTitle: '胆囊炎急性发作夜间处理指南：疼痛缓解与就医时机',
+    seoDescription: '胆囊炎急性发作时剧烈腹痛让人恐慌，本文详解急性胆囊炎的症状识别、家庭应急处理、何时必须急诊就医及后续治疗选择。',
+    date: '2026-05-09',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/blog/blog-20260509-胆囊炎急性发作夜间处理指南疼痛缓解与就医时机-14xpwd.png',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: '20260508-胆囊切除术后能喝牛奶吗-ia2lv2',
+    title: '胆囊切除术后能喝牛奶吗？',
+    titleEn: 'Can You Drink Milk After Gallbladder Removal?',
+    excerpt: '胆囊切除术后患者常有乳制品摄入疑问，涉及脂肪消化能力变化、乳糖不耐受风险、钙质补充需求等。',
+    excerptEn: 'Patients often have questions about dairy intake after gallbladder removal, including changes in fat digestion, risk of lactose intolerance, and calcium supplementation needs.',
+    seoTitle: '胆囊切除术后牛奶摄入：胆囊切除术后能喝牛奶吗？',
+    seoDescription: '胆囊切除术后牛奶摄入，胆囊切除术后患者常有乳制品摄入疑问，涉及脂肪消化能力变化、乳糖不耐受风险、钙质补充需求等。',
+    date: '2026-05-08',
+    category: '胆囊切除术后营养',
+    categoryEn: 'Post-Cholecystectomy Nutrition',
+    imageUrl: '/images/blog/blog-20260508-胆囊切除术后能喝牛奶吗-ia2lv2.png',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: '20260507-胆囊炎急性发作时该怎么办-2qox4w',
+    title: '胆囊炎急性发作时该怎么办？',
+    titleEn: 'What to Do During an Acute Cholecystitis Attack?',
+    excerpt: '胆囊炎急性发作时，了解典型症状、家庭应急措施、何时就医及治疗方案选择，有助于缓解症状并及时获得专业治疗。',
+    excerptEn: 'Understanding the typical symptoms, home emergency measures, when to seek medical help, and treatment options for acute cholecystitis can help alleviate symptoms and ensure timely professional care.',
+    seoTitle: '急性胆囊炎发作：胆囊炎急性发作时该怎么办？',
+    seoDescription: '急性胆囊炎发作，胆囊炎急性发作时，了解典型症状、家庭应急措施、何时就医及治疗方案选择，有助于缓解症状并及时获得专业治疗。',
+    date: '2026-05-07',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/blog/blog-20260507-胆囊炎急性发作时该怎么办-2qox4w.png',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: '20260506-胆囊炎急性发作时该怎么办应急处理与就医时机-ugv0va',
+    title: '胆囊炎急性发作时该怎么办？应急处理与就医时机',
+    titleEn: 'What to Do When Acute Cholecystitis Strikes: Emergency Management and When to Seek Medical Care',
+    excerpt: '胆囊炎急性发作时剧烈腹痛让人恐慌，本文详解急性胆囊炎的症状识别、家庭应急处理、何时必须急诊就医及后续治疗选择。',
+    excerptEn: 'When acute cholecystitis strikes, patients often experience severe right upper quadrant pain, nausea, and vomiting. This article will guide you on how to recognize symptoms, take emergency measures, and understand when to seek medical care.',
+    seoTitle: '胆囊炎急性发作时该怎么办？应急处理与就医时机',
+    seoDescription: '胆囊炎急性发作时剧烈腹痛让人恐慌，本文详解急性胆囊炎的症状识别、家庭应急处理、何时必须急诊就医及后续治疗选择。',
+    date: '2026-05-06',
+    category: '胆囊炎',
+    categoryEn: 'Cholecystitis',
+    imageUrl: '/images/blog/blog-20260506-胆囊炎急性发作时该怎么办应急处理与就医时机-ugv0va.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260429-胆囊结石患者的饮食红黑榜哪些食物该吃哪些该避-k3f7wq',
     title: `胆囊结石患者的饮食红黑榜：哪些食物该吃、哪些该避？`,
     titleEn: `Gallstone Diet Guide: What to Eat and What to Avoid`,
@@ -808,6 +864,18 @@ export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
     excerpt: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
     excerptEn: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
     date: '2026-05-06',
+    category: '胆结石专题',
+    categoryEn: 'Gallstones Topic',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  }
+  {
+    id: 'gallstones-mp0ia173',
+    title: '胆囊结石的成因诊断与综合治疗方案',
+    titleEn: '胆囊结石的成因诊断与综合治疗方案',
+    excerpt: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
+    excerptEn: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
+    date: '2026-05-11',
     category: '胆结石专题',
     categoryEn: 'Gallstones Topic',
     imageUrl: '/images/pocs-surgery.jpg',
