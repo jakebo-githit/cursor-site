@@ -880,6 +880,18 @@ export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
     categoryEn: 'Gallstones Topic',
     imageUrl: '/images/pocs-surgery.jpg',
     author: 'AskDrLiu.com'
+  }
+  {
+    id: 'post-cholecystectomy-mp1xucss',
+    title: '胆囊切除术后科学饮食康复方案',
+    titleEn: '胆囊切除术后科学饮食康复方案',
+    excerpt: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
+    excerptEn: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
+    date: '2026-05-12',
+    category: '饮食指导',
+    categoryEn: 'Dietary Guidance',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
   }] => {
   const lowerQuery = query.toLowerCase();
   return blogPosts.filter(post => {
