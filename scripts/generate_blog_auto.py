@@ -27,7 +27,7 @@ from queue import Queue, Empty
 
 from openai import OpenAI
 from ark_image_helper import generate_cover_image
-from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, plain_text, normalize_space, validate_reference_policy, find_title_conflict, find_similar_article
+from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, plain_text, normalize_space, validate_reference_policy, find_title_conflict, find_similar_article, extract_reference_urls
 
 # ─────────────────────────── Config ───────────────────────────
 REPO_ROOT = Path(__file__).resolve().parents[1]
