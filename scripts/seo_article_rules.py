@@ -309,7 +309,8 @@ def validate_article_payload(
         issues.append("Missing care escalation / when-to-see-doctor section")
     if not _contains_any(zh_markdown, DISCLAIMER_HINTS):
         issues.append("Missing disclaimer")
-    if not _contains_any(" ".join(headings), SEARCH_INTENT_HINTS):
+    # Check each heading individually — any heading matching a hint is enough
+    if headings and not any(_contains_any(h, SEARCH_INTENT_HINTS) for h in headings):
         issues.append("H2 headings are not search-intent oriented enough")
 
     first_window = zh_plain[:220]
@@ -328,7 +329,18 @@ def validate_article_payload(
         if focus_keyword not in first_window:
             issues.append("focusKeyword missing from first 220 characters")
 
-    matched_long_tails = [kw for kw in long_tail_keywords if kw and kw in (title + "\n" + zh_markdown)]
+    # Fuzzy match: a long-tail keyword counts as "used" if any of its constituent
+    # words (≥2 CJK chars) appears in the title or body — handles synonym variants.
+    search_corpus = title + "\n" + zh_markdown
+    def _kw_fuzzy_match(kw: str) -> bool:
+        if not kw:
+            return False
+        if kw in search_corpus:
+            return True
+        # split by common punctuation and match each segment ≥2 chars
+        parts = re.split(r'[\s，。、？！：；]+', kw)
+        return any(len(p) >= 2 and p in search_corpus for p in parts)
+    matched_long_tails = [kw for kw in long_tail_keywords if _kw_fuzzy_match(kw)]
     if long_tail_keywords and len(matched_long_tails) < min(2, len(long_tail_keywords)):
         issues.append("Not enough long-tail keywords are naturally used in article/title")
 

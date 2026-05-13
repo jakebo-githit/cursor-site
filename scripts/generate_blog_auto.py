@@ -25,7 +25,7 @@ from pathlib import Path
 import threading
 from queue import Queue, Empty
 
-from zhipuai import ZhipuAI
+from openai import OpenAI
 from ark_image_helper import generate_cover_image
 from seo_article_rules import build_seo_fields as shared_build_seo_fields, ensure_book_link as shared_ensure_book_link, validate_article_payload, plain_text, normalize_space, validate_reference_policy, find_title_conflict, find_similar_article
 
@@ -38,8 +38,9 @@ IMAGES_DIR = REPO_ROOT / "public" / "images" / "blog"
 BLOG_MD_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
-ZHIPU_API_KEY = os.getenv("ZHIPU_API_KEY", "").strip()
+TEXT_API_KEY = (os.getenv("LLM_API_KEY") or os.getenv("ZHIPU_API_KEY") or "").strip()
 ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
+LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/coding/paas/v4")
 
 MODEL = "glm-4-plus"              # 智谱清言文本模型
 API_CALL_TIMEOUT_SECONDS = 70
@@ -238,7 +239,7 @@ def is_rate_limit_error(ex: Exception) -> bool:
     return any(token in message for token in ["429", "rate limit", "too many requests", "余额不足", "无可用资源包", "频率"])
 
 
-def call_glm_with_backoff(client: ZhipuAI, *, messages: list[dict], temperature: float, max_attempts: int = 5):
+def call_glm_with_backoff(client: OpenAI, *, messages: list[dict], temperature: float, max_attempts: int = 5):
     last_error = None
     current_error = None
     for attempt in range(1, max_attempts + 1):
@@ -331,9 +332,9 @@ def _validate_references(data: dict):
 
 
 def generate_post(headline: str, url: str, summary: str) -> dict:
-    if not ZHIPU_API_KEY:
-        raise RuntimeError("Missing ZHIPU_API_KEY")
-    client = ZhipuAI(api_key=ZHIPU_API_KEY)
+    if not TEXT_API_KEY:
+        raise RuntimeError("Missing LLM_API_KEY/ZHIPU_API_KEY")
+    client = OpenAI(api_key=TEXT_API_KEY, base_url=LLM_BASE_URL)
 
     prompt = USER_PROMPT.format(
         headline=headline,
@@ -466,31 +467,33 @@ def update_blog_index(slug: str, data: dict, image_url: str):
     if title_conflict:
         raise ValueError(f"Duplicate title conflict with {title_conflict['slug']}")
 
-    esc = lambda s: (s or "").replace("'", "\\'")
-    title = esc(data.get("title", ""))
-    title_en = esc(data.get("titleEn", ""))
-    excerpt = esc(data.get("excerpt", ""))
-    excerpt_en = esc(data.get("excerptEn", ""))
-    category = esc(data.get("category", ""))
-    category_en = esc(data.get("categoryEn", ""))
+    title = json.dumps(data.get("title", "") or "", ensure_ascii=False)
+    title_en = json.dumps(data.get("titleEn", "") or "", ensure_ascii=False)
+    excerpt = json.dumps(data.get("excerpt", "") or "", ensure_ascii=False)
+    excerpt_en = json.dumps(data.get("excerptEn", "") or "", ensure_ascii=False)
+    category = json.dumps(data.get("category", "") or "", ensure_ascii=False)
+    category_en = json.dumps(data.get("categoryEn", "") or "", ensure_ascii=False)
 
     built_seo_title, built_seo_desc = shared_build_seo_fields(data)
-    seo_title = esc(built_seo_title)
-    seo_desc = esc(built_seo_desc)
+    seo_title = json.dumps(built_seo_title or "", ensure_ascii=False)
+    seo_desc = json.dumps(built_seo_desc or "", ensure_ascii=False)
+    slug_literal = json.dumps(slug, ensure_ascii=False)
+    date_literal = json.dumps(today, ensure_ascii=False)
+    image_literal = json.dumps(image_url or "", ensure_ascii=False)
 
     new_entry = f"""  {{
-    id: '{slug}',
-    title: '{title}',
-    titleEn: '{title_en}',
-    excerpt: '{excerpt}',
-    excerptEn: '{excerpt_en}',
-    seoTitle: '{seo_title}',
-    seoDescription: '{seo_desc}',
-    date: '{today}',
-    category: '{category}',
-    categoryEn: '{category_en}',
-    imageUrl: '{image_url}',
-    author: 'AskDrLiu.com'
+    id: {slug_literal},
+    title: {title},
+    titleEn: {title_en},
+    excerpt: {excerpt},
+    excerptEn: {excerpt_en},
+    seoTitle: {seo_title},
+    seoDescription: {seo_desc},
+    date: {date_literal},
+    category: {category},
+    categoryEn: {category_en},
+    imageUrl: {image_literal},
+    author: "AskDrLiu.com"
   }},"""
 
     content = BLOG_INDEX_FILE.read_text(encoding="utf-8")

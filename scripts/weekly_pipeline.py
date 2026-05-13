@@ -26,7 +26,7 @@ from queue import Queue, Empty
 
 import feedparser
 import requests
-from zhipuai import ZhipuAI
+from openai import OpenAI
 
 from ark_image_helper import generate_cover_image
 from daily_auto_generate import SUBTOPICS as CURATED_SUBTOPICS
@@ -51,8 +51,9 @@ QUEUE_FILE = REPO_ROOT / "scripts" / "queue.json"
 DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
-ZHIPU_KEY = os.getenv("ZHIPU_API_KEY", "").strip()
+TEXT_API_KEY = (os.getenv("LLM_API_KEY") or os.getenv("ZHIPU_API_KEY") or "").strip()
 ARK_API_KEY = os.getenv("ARK_API_KEY", "").strip()
+LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/coding/paas/v4")
 TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 TG_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "1094807201").strip()
 
@@ -225,10 +226,10 @@ def fetch_reddit_entries():
 
 
 def _call_glm(messages, temperature=0.3, max_attempts=4):
-    if not ZHIPU_KEY:
-        raise RuntimeError("Missing ZHIPU_API_KEY")
+    if not TEXT_API_KEY:
+        raise RuntimeError("Missing LLM_API_KEY/ZHIPU_API_KEY")
 
-    client = ZhipuAI(api_key=ZHIPU_KEY)
+    client = OpenAI(api_key=TEXT_API_KEY, base_url=LLM_BASE_URL)
     last_error = None
     for attempt in range(1, max_attempts + 1):
         for model in [GLM_MODEL, GLM_FALLBACK]:
@@ -477,6 +478,8 @@ def normalize_generated_payload(payload, source_topic):
         "titleEn": payload.get("titleEn", payload.get("title", source_topic["title_zh"])).strip(),
         "excerpt": payload.get("excerpt", "").strip(),
         "excerptEn": payload.get("excerptEn", payload.get("excerpt", "")).strip(),
+        "seoTitle": payload.get("seoTitle", "").strip(),
+        "seoDescription": payload.get("seoDescription", "").strip(),
         "category": payload.get("category", source_topic.get("category", "胆囊结石")),
         "categoryEn": payload.get("categoryEn", CATEGORY_EN_MAP.get(payload.get("category", source_topic.get("category", "胆囊结石")), "Gallstones")),
         "focusKeyword": payload.get("focusKeyword", payload.get("title", source_topic["title_zh"])).strip(),
@@ -491,7 +494,7 @@ def generate_article(topic):
         payload = generate_seed_post(topic["category"], topic["title_zh"])
     else:
         payload = generate_news_post(
-            topic["source_title"],
+            topic.get("source_title") or topic["title_zh"],
             topic.get("source_url") or "https://www.askdrliu.com/blog",
             topic.get("summary") or topic.get("reason") or topic["title_zh"],
         )

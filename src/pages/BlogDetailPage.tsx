@@ -144,9 +144,18 @@ const BlogDetailPage = () => {
         return;
       }
 
+      setLoading(true);
       try {
-        const publicPath = `/blog-posts/${article.id}.md`;
-        const response = await fetch(publicPath);
+        // Try language-specific file first (e.g. slug-en.md), fall back to base slug.md
+        const enPath = `/blog-posts/${article.id}-en.md`;
+        const zhPath = `/blog-posts/${article.id}.md`;
+        const primaryPath = isEnglish ? enPath : zhPath;
+        const fallbackPath = isEnglish ? zhPath : enPath;
+
+        let response = await fetch(primaryPath);
+        if (!response.ok) {
+          response = await fetch(fallbackPath);
+        }
 
         if (response.ok) {
           const text = await response.text();

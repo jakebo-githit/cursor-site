@@ -41,8 +41,9 @@ jobs:
       - name: Generate blog post
         env:
           ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
-        run: python scripts/generate_blog_auto.py
+        run: python scripts/daily_auto_generate.py
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
