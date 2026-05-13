@@ -29,7 +29,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-05-09',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/blog/blog-20260509-胆囊炎急性发作夜间处理指南疼痛缓解与就医时机-14xpwd.png',
+    imageUrl: '/images/blog/blog-20260509-胆囊炎急性发作夜间处理指南疼痛缓解与就医时机-14xpwd-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -43,7 +43,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-05-08',
     category: '胆囊切除术后营养',
     categoryEn: 'Post-Cholecystectomy Nutrition',
-    imageUrl: '/images/blog/blog-20260508-胆囊切除术后能喝牛奶吗-ia2lv2.png',
+    imageUrl: '/images/blog/blog-20260508-胆囊切除术后能喝牛奶吗-ia2lv2-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -57,7 +57,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-05-07',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/blog/blog-20260507-胆囊炎急性发作时该怎么办-2qox4w.png',
+    imageUrl: '/images/blog/blog-20260507-胆囊炎急性发作时该怎么办-2qox4w-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -71,7 +71,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-05-06',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/blog/blog-20260506-胆囊炎急性发作时该怎么办应急处理与就医时机-ugv0va.png',
+    imageUrl: '/images/blog/blog-20260506-胆囊炎急性发作时该怎么办应急处理与就医时机-ugv0va-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -85,7 +85,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-04-29',
     category: '胆囊结石',
     categoryEn: 'Gallstones',
-    imageUrl: '/images/blog/blog-20260429-胆囊结石患者的饮食红黑榜哪些食物该吃哪些该避-k3f7wq.png',
+    imageUrl: '/images/blog/blog-20260429-胆囊结石患者的饮食红黑榜哪些食物该吃哪些该避-k3f7wq-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -99,7 +99,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-04-30',
     category: '胆囊结石',
     categoryEn: 'Gallstones',
-    imageUrl: '/images/blog/blog-20260426-胆囊炎急性发作时该怎么办-boba1c.png',
+    imageUrl: '/images/blog/blog-20260430-胆囊结石为什么常在夜间发作-m9x4kr-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -113,7 +113,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-04-28',
     category: '胆囊切除术后营养',
     categoryEn: 'Post-Cholecystectomy Nutrition',
-    imageUrl: '/images/blog/blog-20260424-胆囊切除术后初期饮食调整与注意事项-zwdfye.png',
+    imageUrl: '/images/blog/blog-20260428-胆囊切除术后需要补充哪些维生素和微量元素-p7xk3n-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -127,7 +127,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-04-27',
     category: '保胆',
     categoryEn: 'Gallbladder Preservation',
-    imageUrl: '/images/blog/blog-20260427-保胆取石后的复发预防-h7k9m2.png',
+    imageUrl: '/images/blog/blog-20260427-保胆取石后的复发预防-h7k9m2-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -141,7 +141,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-04-26',
     category: '胆囊炎',
     categoryEn: 'Cholecystitis',
-    imageUrl: '/images/blog/blog-20260426-胆囊炎急性发作时该怎么办-boba1c.png',
+    imageUrl: '/images/blog/blog-20260426-胆囊炎急性发作时该怎么办-boba1c-color.png',
     author: 'AskDrLiu.com'
   },
   {
@@ -155,7 +155,7 @@ export const blogPosts: BlogPost[] = [
     date: '2026-04-25',
     category: '胆囊结石',
     categoryEn: 'Gallstones',
-    imageUrl: '/images/blog/blog-20260425-无症状胆囊结石需要手术吗肝胆外科医生的专业解答-jwlnxd.png',
+    imageUrl: '/images/blog/blog-20260425-无症状胆囊结石需要手术吗肝胆外科医生的专业解答-jwlnxd-color.png',
     author: 'AskDrLiu.com'
   },
   {
