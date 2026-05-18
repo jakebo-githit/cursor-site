@@ -21,13 +21,13 @@ IMAGES_DIR = REPO_ROOT / "public" / "images" / "blog"
 SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY", "").strip()
 ARK_API_KEY = os.getenv("ARK_API_KEY") or os.getenv("VOLCENGINE_API_KEY") or ""
 
-# ── Today's Topic: Acute Cholecystitis Emergency ──
+# ── Today's Topic: Post-Cholecystectomy Nutrition ──
 TOPIC = {
-    "headline": "胆囊炎急性发作时该怎么办？肝胆外科医生的应急处理与就医时机",
-    "url": "https://pubmed.ncbi.nlm.nih.gov/36623428/",
-    "summary": "胆囊炎急性发作是常见急腹症，患者常因疼痛突然加剧而恐慌。本文从循证角度，介绍急性胆囊炎的典型症状识别、家庭应急措施、何时必须急诊就医、以及后续治疗方案选择。",
-    "category": "胆囊炎",
-    "categoryEn": "Cholecystitis",
+    "headline": "胆囊切除术后外卖怎么吃？术后营养与点餐避坑指南",
+    "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gallstones/eating-diet-nutrition",
+    "summary": "胆囊切除术后很多患者需要外卖就餐。本文基于可验证指南与研究，给出术后分阶段点餐原则、食物选择、腹泻腹胀应对与复诊信号。",
+    "category": "胆囊术后",
+    "categoryEn": "Post-Cholecystectomy",
 }
 
 SYSTEM_PROMPT = """You are a senior hepatobiliary surgeon writing bilingual medical education content for AskDrLiu.com.
@@ -77,7 +77,7 @@ Headline: {headline}
 Source: {url}
 Summary: {summary}
 
-Focus: acute cholecystitis attack, gallbladder inflammation emergency, abdominal pain, when to go to ER, treatment options, gallbladder preservation vs cholecystectomy
+Focus: post-cholecystectomy nutrition, staged diet progression, fat tolerance, diarrhea and bloating management, red flags for follow-up
 
 IMPORTANT: All reference URLs must be real, accessible URLs from PubMed, NEJM, Lancet, JAMA, or similar. Do NOT fabricate DOIs or URLs.
 
@@ -162,9 +162,9 @@ def main():
     # Force category
     data["category"] = TOPIC["category"]
     data["categoryEn"] = TOPIC["categoryEn"]
-    data["focusKeyword"] = data.get("focusKeyword") or "胆囊炎急性发作"
+    data["focusKeyword"] = data.get("focusKeyword") or "胆囊切除术后营养"
     if not data.get("longTailKeywords"):
-        data["longTailKeywords"] = ["胆囊炎急性发作", "胆囊炎应急处理", "胆囊炎什么时候就医"]
+        data["longTailKeywords"] = ["胆囊切除术后吃什么", "胆囊切除术后外卖", "胆囊切除术后腹泻饮食"]
 
     # ── 2. Duplicate checks ──
     conflict = find_title_conflict(data.get("title", ""))
@@ -208,7 +208,7 @@ def main():
             slug=slug,
             images_dir=IMAGES_DIR,
             fallback_path="/images/dietary-guidance.jpg",
-            base_prompt="医学科普封面，主题为胆囊炎急性发作应急处理，画面展示一个人在家中出现右上腹疼痛时冷静应对的场景，干净明亮、温和安心",
+            base_prompt="医学科普封面，主题为胆囊切除术后营养管理，展示清淡均衡餐盘与温和就餐场景，画面明亮、干净、真实，无文字无水印",
             api_key=ARK_API_KEY,
         )
     except Exception as ex:

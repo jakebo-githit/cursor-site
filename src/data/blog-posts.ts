@@ -19,6 +19,48 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: '20260518-胆囊切除术后外卖怎么吃-nzlo7i',
+    title: '胆囊切除术后外卖怎么吃？',
+    titleEn: 'How to Eat Takeout After Gallbladder Removal: Post-Cholecystectomy Nutrition and Ordering Guide',
+    excerpt: '胆囊切除术后，患者需要特别注意饮食。本文提供术后分阶段点餐原则、食物选择、腹泻腹胀应对与复诊信号。',
+    excerptEn: 'After gallbladder removal, patients need to pay special attention to their diet. This article provides staged ordering principles, food choices, management of diarrhea and bloating, and red flags for follow-up.',
+    seoTitle: '胆囊切除术后饮食：胆囊切除术后外卖怎么吃？',
+    seoDescription: '胆囊切除术后饮食，胆囊切除术后，患者需要特别注意饮食。本文提供术后分阶段点餐原则、食物选择、腹泻腹胀应对与复诊信号。',
+    date: '2026-05-18',
+    category: '胆囊术后',
+    categoryEn: 'Post-Cholecystectomy',
+    imageUrl: '/images/blog/blog-20260518-胆囊切除术后外卖怎么吃-nzlo7i.png',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: '20260516-胆囊切除术后怎么吃分阶段营养恢复与常见误区-bnnrt3',
+    title: '胆囊切除术后怎么吃？分阶段营养恢复与常见误区',
+    titleEn: 'What to Eat After Gallbladder Removal: Staged Nutritional Recovery and Common Misconceptions',
+    excerpt: '胆囊切除术后饮食管理直接影响腹胀、腹泻与恢复速度。本文基于可验证指南与研究，提供术后分阶段饮食原则、食物选择、症状应对与复诊信号。',
+    excerptEn: 'Diet management after gallbladder removal directly impacts bloating, diarrhea, and recovery speed. This article provides staged dietary principles, food choices, symptom management, and red flags for follow-up based on verified guidelines and research.',
+    seoTitle: '胆囊切除术后饮食：胆囊切除术后怎么吃？分阶段营养恢复与常见误区',
+    seoDescription: '胆囊切除术后饮食管理直接影响腹胀、腹泻与恢复速度。本文基于可验证指南与研究，提供术后分阶段饮食原则、食物选择、症状应对与复诊信号。',
+    date: '2026-05-16',
+    category: '胆囊术后',
+    categoryEn: 'Post-Cholecystectomy',
+    imageUrl: '/images/blog/blog-20260516-胆囊切除术后怎么吃分阶段营养恢复与常见误区-bnnrt3.png',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: '20260514-胆囊切除术后怎么吃-nicik4',
+    title: '胆囊切除术后怎么吃？',
+    titleEn: 'Post-Cholecystectomy Nutrition: Staged Diet Progression and Common Misconceptions',
+    excerpt: '胆囊切除术后饮食管理直接影响腹胀、腹泻与恢复速度。本文提供术后分阶段饮食原则、食物选择、症状应对与复诊信号。',
+    excerptEn: 'Proper nutrition management after gallbladder removal is crucial for managing bloating, diarrhea, and recovery speed. This article provides staged dietary guidelines, food choices, symptom management, and red flags for follow-up.',
+    seoTitle: '胆囊切除术后饮食：胆囊切除术后怎么吃？',
+    seoDescription: '胆囊切除术后饮食管理直接影响腹胀、腹泻与恢复速度。本文提供术后分阶段饮食原则、食物选择、症状应对与复诊信号。',
+    date: '2026-05-14',
+    category: '胆囊术后',
+    categoryEn: 'Post-Cholecystectomy',
+    imageUrl: '/images/blog/blog-20260514-胆囊切除术后怎么吃-nicik4.png',
+    author: 'AskDrLiu.com'
+  },
+  {
     id: '20260509-胆囊炎急性发作夜间处理指南疼痛缓解与就医时机-14xpwd',
     title: '胆囊炎急性发作夜间处理指南：疼痛缓解与就医时机',
     titleEn: 'Nighttime Acute Cholecystitis: Pain Relief and ER Timing',
@@ -888,6 +930,18 @@ export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
     excerpt: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
     excerptEn: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
     date: '2026-05-12',
+    category: '饮食指导',
+    categoryEn: 'Dietary Guidance',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  }
+  {
+    id: 'post-cholecystectomy-mpaihsk4',
+    title: '胆囊切除术后科学饮食康复方案',
+    titleEn: '胆囊切除术后科学饮食康复方案',
+    excerpt: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
+    excerptEn: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
+    date: '2026-05-18',
     category: '饮食指导',
     categoryEn: 'Dietary Guidance',
     imageUrl: '/images/pocs-surgery.jpg',

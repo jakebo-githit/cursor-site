@@ -1,3 +1,8 @@
-Status: FAILED
-Error: Error code: 429 - {'error': {'code': '1313', 'message': '您的账户当前使用模式不符合公平使用策略，请求频率已受到限制。详情请参阅《订阅服务协议》，如有疑问请前往Coding Plan-个人套餐概览页顶部查看。'}}
-Date: 2026-05-10
+Title: 胆囊切除术后外卖怎么吃？
+Slug: 20260518-胆囊切除术后外卖怎么吃-nzlo7i
+Image: /images/blog/blog-20260518-胆囊切除术后外卖怎么吃-nzlo7i.png
+References: 0
+Category: 胆囊术后
+Date: 2026-05-18
+BadURLs: ['https://www.mdpi.com/2072-6643/12/11/3456', 'https://gi.org/topics/postcholecystectomy-syndrome/', 'https://www.sciencedirect.com/science/article/pii/S167102742100034X', 'https://www.mdpi.com/2072-6643/12/11/3456', 'https://gi.org/topics/postcholecystectomy-syndrome/', 'https://www.sciencedirect.com/science/article/pii/S167102742100034X']
+Issues: ['Excerpt too short: 49 chars', 'seoDescription length out of range: 58 chars', 'Chinese article too short: 1338 CJK chars', 'Not enough H2 sections: 4', 'Missing disclaimer', 'H2 headings are not search-intent oriented enough', 'focusKeyword missing from title', 'focusKeyword missing from first 220 characters', 'Not enough long-tail keywords are naturally used in article/title', 'Need at least 2 internal relative links in Chinese article']
