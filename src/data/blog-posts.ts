@@ -873,6 +873,54 @@ export const blogPosts: BlogPost[] = [
     categoryEn: 'Technology Introduction',
     imageUrl: '/images/pocs-surgery.jpg',
     author: 'AskDrLiu.com'
+  },
+  {
+    id: 'gallstones-motdf0bp',
+    title: '胆囊结石的成因诊断与综合治疗方案',
+    titleEn: '胆囊结石的成因诊断与综合治疗方案',
+    excerpt: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
+    excerptEn: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
+    date: '2026-05-06',
+    category: '胆结石专题',
+    categoryEn: 'Gallstones Topic',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: 'gallstones-mp0ia173',
+    title: '胆囊结石的成因诊断与综合治疗方案',
+    titleEn: '胆囊结石的成因诊断与综合治疗方案',
+    excerpt: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
+    excerptEn: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
+    date: '2026-05-11',
+    category: '胆结石专题',
+    categoryEn: 'Gallstones Topic',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: 'post-cholecystectomy-mp1xucss',
+    title: '胆囊切除术后科学饮食康复方案',
+    titleEn: '胆囊切除术后科学饮食康复方案',
+    excerpt: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
+    excerptEn: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
+    date: '2026-05-12',
+    category: '饮食指导',
+    categoryEn: 'Dietary Guidance',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
+  },
+  {
+    id: 'post-cholecystectomy-mpaihsk4',
+    title: '胆囊切除术后科学饮食康复方案',
+    titleEn: '胆囊切除术后科学饮食康复方案',
+    excerpt: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
+    excerptEn: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
+    date: '2026-05-18',
+    category: '饮食指导',
+    categoryEn: 'Dietary Guidance',
+    imageUrl: '/images/pocs-surgery.jpg',
+    author: 'AskDrLiu.com'
   }
 ];
 
@@ -898,55 +946,7 @@ export const getBlogPostsByCategory = (category: string, isEnglish: boolean): Bl
 };
 
 // 搜索文章
-export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[
-  {
-    id: 'gallstones-motdf0bp',
-    title: '胆囊结石的成因诊断与综合治疗方案',
-    titleEn: '胆囊结石的成因诊断与综合治疗方案',
-    excerpt: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
-    excerptEn: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
-    date: '2026-05-06',
-    category: '胆结石专题',
-    categoryEn: 'Gallstones Topic',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }
-  {
-    id: 'gallstones-mp0ia173',
-    title: '胆囊结石的成因诊断与综合治疗方案',
-    titleEn: '胆囊结石的成因诊断与综合治疗方案',
-    excerpt: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
-    excerptEn: '胆囊结石是常见的消化系统疾病，全球发病率约为10-15%。了解结石的形成机制、临床表现和治疗方法对临床实践具有重要意义。',
-    date: '2026-05-11',
-    category: '胆结石专题',
-    categoryEn: 'Gallstones Topic',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }
-  {
-    id: 'post-cholecystectomy-mp1xucss',
-    title: '胆囊切除术后科学饮食康复方案',
-    titleEn: '胆囊切除术后科学饮食康复方案',
-    excerpt: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
-    excerptEn: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
-    date: '2026-05-12',
-    category: '饮食指导',
-    categoryEn: 'Dietary Guidance',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }
-  {
-    id: 'post-cholecystectomy-mpaihsk4',
-    title: '胆囊切除术后科学饮食康复方案',
-    titleEn: '胆囊切除术后科学饮食康复方案',
-    excerpt: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
-    excerptEn: '胆囊切除是治疗胆囊结石和胆囊炎的常见手术，但术后科学的饮食管理对促进康复、预防并发症至关重要。本文基于临床营养学研究，提供系统化的饮食康复方案。',
-    date: '2026-05-18',
-    category: '饮食指导',
-    categoryEn: 'Dietary Guidance',
-    imageUrl: '/images/pocs-surgery.jpg',
-    author: 'AskDrLiu.com'
-  }] => {
+export const searchBlogPosts = (query: string, isEnglish: boolean): BlogPost[] => {
   const lowerQuery = query.toLowerCase();
   return blogPosts.filter(post => {
     const title = isEnglish ? post.titleEn.toLowerCase() : post.title.toLowerCase();

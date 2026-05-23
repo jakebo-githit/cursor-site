@@ -233,19 +233,29 @@ def main():
         print("[ERROR] blogPosts marker not found in blog-posts.ts")
         return False
 
-    esc = lambda s: (s or "").replace("'", "\\'")
+    title = json.dumps(data.get("title", "") or "", ensure_ascii=False)
+    title_en = json.dumps(data.get("titleEn", "") or "", ensure_ascii=False)
+    excerpt = json.dumps(data.get("excerpt", "") or "", ensure_ascii=False)
+    excerpt_en = json.dumps(data.get("excerptEn", "") or "", ensure_ascii=False)
+    seo_title = json.dumps(data.get("seoTitle", "") or "", ensure_ascii=False)
+    seo_desc = json.dumps(data.get("seoDescription", "") or "", ensure_ascii=False)
+    category = json.dumps(data.get("category", "") or "", ensure_ascii=False)
+    category_en = json.dumps(data.get("categoryEn", "") or "", ensure_ascii=False)
+    image_literal = json.dumps(image_url or "", ensure_ascii=False)
+    slug_literal = json.dumps(slug, ensure_ascii=False)
+    date_literal = json.dumps(today, ensure_ascii=False)
     new_entry = f"""  {{
-    id: '{slug}',
-    title: '{esc(data['title'])}',
-    titleEn: '{esc(data['titleEn'])}',
-    excerpt: '{esc(data['excerpt'])}',
-    excerptEn: '{esc(data.get('excerptEn', ''))}',
-    seoTitle: '{esc(data['seoTitle'])}',
-    seoDescription: '{esc(data['seoDescription'])}',
-    date: '{today}',
-    category: '{esc(data['category'])}',
-    categoryEn: '{esc(data['categoryEn'])}',
-    imageUrl: '{image_url}',
+    id: {slug_literal},
+    title: {title},
+    titleEn: {title_en},
+    excerpt: {excerpt},
+    excerptEn: {excerpt_en},
+    seoTitle: {seo_title},
+    seoDescription: {seo_desc},
+    date: {date_literal},
+    category: {category},
+    categoryEn: {category_en},
+    imageUrl: {image_literal},
     author: 'AskDrLiu.com'
   }},"""
     insert_pos = content.index(marker) + len(marker)
