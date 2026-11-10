@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="写给初到美国华人的免费指南：用大白话解释美国医疗保险术语，用具体例子算清看病花费，六步买保险，五步预约医生。">
+<link rel="canonical" href="https://www.askdrliu.com/insurance/">
+<title>初到美国怎么买医疗保险、怎么看病 | AskDrLiu</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column, like a patient handout; English terms set in mono so they match what is printed on the card and the bill. */
+:root{
+  --bg:#f5f8f7; --surface:#ffffff; --fg:#14211f; --muted:#56655f; --line:#d5dedb;
+  --accent:#0b6b5e; --accent-soft:#e1f0ec; --mark:#ffe58a; --mark-fg:#2b2300; --warn:#a4470f; --warn-soft:#fbeadd;
+  --display:"Noto Serif SC","Songti SC","SimSun",serif;
+  --body:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0e1615; --surface:#162120; --fg:#e3ebe8; --muted:#9fb0aa; --line:#2b3a37;
+  --accent:#62d1bd; --accent-soft:#16332e; --mark:#5c4d0c; --mark-fg:#fff3bf; --warn:#f0a36c; --warn-soft:#3a2416; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0e1615; --surface:#162120; --fg:#e3ebe8; --muted:#9fb0aa; --line:#2b3a37;
+  --accent:#62d1bd; --accent-soft:#16332e; --mark:#5c4d0c; --mark-fg:#fff3bf; --warn:#f0a36c; --warn-soft:#3a2416; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.75}
+.wrap{max-width:680px;margin:0 auto;padding-block:28px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(28px,7vw,38px)}
+h2{font-size:24px}
+h3{font-size:18px;font-family:var(--body);font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.en{font-family:var(--mono);font-size:.88em}
+.muted{color:var(--muted);font-size:15px}
+mark{background:var(--mark);color:var(--mark-fg);padding:0 .25em;border-radius:2px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-size:13px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+
+header .lede{font-size:18px}
+.deadline{background:var(--warn-soft);border-left:4px solid var(--warn);padding:14px 16px}
+.deadline strong{color:var(--warn)}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:999px;font-size:15px}
+
+dl{margin:0;display:flex;flex-direction:column}
+dl > div{padding:14px 0;border-top:1px solid var(--line)}
+dl > div:last-child{border-bottom:1px solid var(--line)}
+dt{font-weight:700}
+dt .en{font-weight:600;color:var(--accent);margin-left:6px}
+dd{margin:4px 0 0}
+
+.tablebox{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font-weight:700;color:var(--muted);font-size:13px}
+tbody tr:last-child td{border-bottom:0}
+
+.bill{background:var(--surface);border:1px solid var(--line);padding:18px 16px;font-family:var(--mono);font-size:14.5px;line-height:1.7}
+.bill .row{display:flex;justify-content:space-between;gap:12px}
+.bill .row span:first-child{min-width:0}
+.bill .total{border-top:1px dashed var(--muted);margin-top:8px;padding-top:8px;font-weight:600}
+.bill .cap{font-family:var(--body);font-size:14px;color:var(--muted);margin-top:8px}
+
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:16px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:10px}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-weight:600;color:var(--accent);border:1.5px solid var(--accent);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:14px;margin-top:2px}
+ol.steps li > div{min-width:0}
+
+.calc{background:var(--accent-soft);padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+.calc label{font-size:15px;font-weight:700;display:flex;flex-direction:column;gap:4px}
+.calc input,.calc select{font:inherit;padding:9px 10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:4px;width:100%}
+.calc .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.calc output{display:block;font-variant-numeric:tabular-nums}
+.calc output b{font-family:var(--mono);font-size:20px}
+
+.say{background:var(--surface);border:1px solid var(--line);padding:12px 14px}
+.say .en{display:block;font-size:15px;color:var(--fg)}
+.say small{color:var(--muted)}
+
+.doctor{background:var(--surface);border:1px solid var(--line);padding:20px 16px}
+footer{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
+footer ul{margin:6px 0 0;padding-left:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="stack">
+  <p class="eyebrow"><a href="/" style="text-decoration:none">ASKDRLIU</a> · 免费指南 · 加州版</p>
+  <h1>初到美国，怎么买医疗保险、怎么看病</h1>
+  <p class="lede">很多华人到美国的第一年，都会卡在同一个地方：保险术语看不懂，账单看不懂，连预约医生都不知道打哪个电话。这页用最简单的话，把这三件事讲清楚。</p>
+  <div class="deadline">
+    <strong>现在是开放投保期。</strong> 加州 2027 年保险的报名时间是 2026 年 11 月 1 日到 2027 年 1 月 31 日。想从 1 月 1 日起有保险，请在 <mark>12 月 31 日前</mark>办完。联邦规则仍有变数，建议不要拖到 1 月。
+  </div>
+  <nav aria-label="目录">
+    <a href="#terms">① 看懂术语</a>
+    <a href="#cost">② 要花多少钱</a>
+    <a href="#buy">③ 怎么买</a>
+    <a href="#visit">④ 怎么预约看病</a>
+    <a href="#china">⑤ 回国就医</a>
+  </nav>
+</header>
+
+<section id="terms" class="stack">
+  <p class="eyebrow">第一部分</p>
+  <h2>先看懂这 12 个词</h2>
+  <p>美国保险的钱分两种：<strong>每个月固定交的</strong>，和<strong>看病时才付的</strong>。下面的词都围绕这两种钱。</p>
+
+  <h3>关于钱</h3>
+  <dl>
+    <div><dt>月保费<span class="en">Premium</span></dt><dd>每个月交给保险公司的钱。不管看不看病都要交，像健身房会员费。</dd></div>
+    <div><dt>自付额<span class="en">Deductible</span></dt><dd>每年住院、手术这类大费用，保险开始分担之前，你要先自己付满的金额。比如自付额 $5,800，就是大账单的前 $5,800 由你出。</dd></div>
+    <div><dt>定额挂号费<span class="en">Copay</span></dt><dd>每次看诊付的固定金额，比如看家庭医生 $60。很多计划里，普通门诊不用先付满自付额，直接付这个钱就行。</dd></div>
+    <div><dt>共付比例<span class="en">Coinsurance</span></dt><dd>付满自付额之后，你和保险公司按比例分账。写 40%，就是你付四成，保险付六成。</dd></div>
+    <div><dt>年度封顶<span class="en">Out-of-Pocket Maximum</span></dt><dd>一年里你看病自己掏钱的上限（不含月保费）。到了这个数，网络内的费用保险全包。<mark>这是最重要的一个数字</mark>，它决定了生大病时你最多赔多少。</dd></div>
+    <div><dt>政府补助<span class="en">Premium Tax Credit</span></dt><dd>收入在一定范围内，政府替你付一部分月保费。申请时系统会自动算。</dd></div>
+  </dl>
+
+  <h3>关于看病规则</h3>
+  <dl>
+    <div><dt>网络内<span class="en">In-Network</span></dt><dd>和你的保险公司签了约的医生和医院。去网络外看病，可能要全额自费。看病前一定先确认。</dd></div>
+    <div><dt>家庭医生<span class="en">PCP · Primary Care Physician</span></dt><dd>你的第一站。小病找他，需要看专科也常常由他安排。</dd></div>
+    <div><dt>转诊<span class="en">Referral</span></dt><dd>家庭医生开的“介绍信”。<span class="en">HMO</span> 计划看专科一般要有转诊；<span class="en">PPO</span> 计划通常可以直接约专科，但月保费更贵。</dd></div>
+    <div><dt>事先批准<span class="en">Prior Authorization</span></dt><dd>有些检查、手术、贵的药，要保险公司先点头才报销。通常由医生办公室去申请。</dd></div>
+    <div><dt>理赔说明<span class="en">EOB · Explanation of Benefits</span></dt><dd>保险公司寄来的对账单。上面常写着 <span class="en">This is not a bill</span>，意思是这不是账单，先不要付钱。等医院寄来真正的账单再付。</dd></div>
+    <div><dt>白卡<span class="en">Medi-Cal</span></dt><dd>加州给低收入居民的免费或低价保险。申请时如果收入低于标准，系统会把你转给县政府审核。</dd></div>
+  </dl>
+</section>
+
+<section id="cost" class="stack">
+  <p class="eyebrow">第二部分</p>
+  <h2>一个具体例子：到底要付多少钱</h2>
+  <p>加州的保险按“金属”分级：铜、银、金、白金。月保费越便宜，看病时自己付得越多。下面是 2027 年标准计划的数字。</p>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>2027 标准计划</th><th>铜 Bronze 60</th><th>银 Silver 70</th><th>金 Gold 80</th><th>白金 Platinum 90</th></tr></thead>
+      <tbody>
+        <tr><td>自付额（个人）</td><td>$5,800</td><td>$4,700</td><td>$0</td><td>$0</td></tr>
+        <tr><td>看家庭医生</td><td>$60</td><td>$50</td><td>$40</td><td>$20</td></tr>
+        <tr><td>急诊诊所 Urgent Care</td><td>$60</td><td>$50</td><td>$40</td><td>$20</td></tr>
+        <tr><td>住院</td><td>自付额后 40%</td><td>自付额后 30%</td><td>见计划</td><td>见计划</td></tr>
+        <tr><td>年度封顶（个人）</td><td>$11,650</td><td>$11,650</td><td>$9,600</td><td>$5,500</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>情况一：感冒发烧，看一次家庭医生</h3>
+  <p>铜计划付 <mark>$60</mark>，银计划付 <mark>$50</mark>。不需要先付满自付额。</p>
+
+  <h3>情况二：胆结石发作，住院做手术</h3>
+  <p>假设医院和保险公司的协议总价是 $40,000（举例数字，各医院不同）。</p>
+  <div class="bill" aria-label="铜计划账单示例">
+    <div class="row"><span>协议总价</span><span>$40,000</span></div>
+    <div class="row"><span>① 你先付自付额</span><span>$5,800</span></div>
+    <div class="row"><span>② 剩余 $34,200 × 40%</span><span>$13,680</span></div>
+    <div class="row"><span>①+② 合计</span><span>$19,480</span></div>
+    <div class="row total"><span>年度封顶生效，你实际付</span><span>$11,650</span></div>
+    <p class="cap">铜计划 Bronze 60。银计划 Silver 70 算下来是 $4,700 + $10,590 = $15,290，同样封顶在 $11,650。没有保险的话，$40,000 甚至更高的原始账单要自己面对。</p>
+  </div>
+  <p>所以保险真正的作用是<strong>给大病设一个上限</strong>。选计划时，把“月保费 × 12”和“年度封顶”加在一起看。</p>
+
+  <div class="calc">
+    <h3>算一算：你一年最多花多少</h3>
+    <div class="fields">
+      <label for="prem">你的月保费（美元）
+        <input id="prem" type="number" inputmode="decimal" min="0" step="1" value="400">
+      </label>
+      <label for="tier">计划等级
+        <select id="tier">
+          <option value="11650">铜 Bronze 60（封顶 $11,650）</option>
+          <option value="11650">银 Silver 70（封顶 $11,650）</option>
+          <option value="9600">银 Silver 73（封顶 $9,600）</option>
+          <option value="4000">银 Silver 87（封顶 $4,000）</option>
+          <option value="3000">银 Silver 94（封顶 $3,000）</option>
+          <option value="9600">金 Gold 80（封顶 $9,600）</option>
+          <option value="5500">白金 Platinum 90（封顶 $5,500）</option>
+        </select>
+      </label>
+    </div>
+    <output id="out" for="prem tier"></output>
+    <p class="muted">$400 只是举例。你的真实月保费取决于年龄、邮编和收入，在 CoveredCA.com 的 Shop and Compare 里一分钟就能查到。</p>
+  </div>
+
+  <h3>收入不高？先看这张表</h3>
+  <p>收入越低，补助越多。收入在第三列以内，可以拿到“加强版银计划”（Silver 73 / 87 / 94），月保费是银的价格，封顶却低得多，通常比铜计划划算。</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>家庭人数</th><th>白卡线（成人）</th><th>Silver 87 以内</th><th>加强银计划上限</th><th>补助上限</th></tr></thead>
+      <tbody>
+        <tr><td>1 人</td><td>$22,025</td><td>$31,920</td><td>$39,900</td><td>$63,840</td></tr>
+        <tr><td>2 人</td><td>$29,864</td><td>$43,280</td><td>$54,100</td><td>$86,560</td></tr>
+        <tr><td>3 人</td><td>$37,702</td><td>$54,640</td><td>$68,300</td><td>$109,280</td></tr>
+        <tr><td>4 人</td><td>$45,540</td><td>$66,000</td><td>$82,500</td><td>$132,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">2027 年保险适用的家庭年收入。四列分别是联邦贫困线的 138%、200%、250%、400%。年收入达到或超过最后一列，就没有联邦补助，要付全价。</p>
+  <div class="deadline">
+    <strong>新移民请注意身份。</strong> 按 Covered California 官网说明，从 2027 年起，只有绿卡持有者等少数移民类别可以拿到月保费补助。其他身份能否购买、能否拿补助，请以官网或认证顾问的答复为准。如果担心影响移民申请，先问移民律师。
+  </div>
+</section>
+
+<section id="buy" class="stack">
+  <p class="eyebrow">第三部分</p>
+  <h2>怎么买：六步</h2>
+  <ol class="steps">
+    <li><div><strong>备齐材料。</strong>每位家庭成员的身份文件（绿卡、签证、护照）、社安号（有的话）、收入证明（工资单或报税表）、加州住址。</div></li>
+    <li><div><strong>先估价。</strong>打开 <a href="https://www.coveredca.com" target="_blank" rel="noopener">CoveredCA.com</a>，点 <span class="en">Shop and Compare</span>，填邮编、年龄、家庭收入，就能看到每个计划的月保费和补助。网站可以切换中文。</div></li>
+    <li><div><strong>查医生在不在网络内。</strong>如果已经有想看的医生或离家近的医院，先在保险公司网站的 <span class="en">Find a Doctor</span> 里查。这一步最容易被忽略。</div></li>
+    <li><div><strong>提交申请。</strong>如实填写收入。收入低于白卡线，系统会转给县政府审白卡；否则直接进入选计划。</div></li>
+    <li><div><strong>选计划，付第一个月保费。</strong>付了第一笔钱保险才生效。只选了计划没付款，等于没买。</div></li>
+    <li><div><strong>收卡，选家庭医生。</strong>保险卡一两周寄到。卡没到也可以用会员号看病。马上选一位家庭医生，不要等生病再选。</div></li>
+  </ol>
+  <h3>不想自己弄？有免费的人帮你</h3>
+  <p>Covered California 的认证保险经纪人和认证顾问<strong>都是免费的</strong>，他们的报酬由保险公司或政府付。官方电话 <span class="en">800-300-1506</span>，接通后说 <span class="en">Mandarin, please</span> 可以要中文服务。官网也能按邮编找讲中文的经纪人。<mark>任何人向你收“报名费”，都不要付。</mark></p>
+  <h3>错过了开放期怎么办</h3>
+  <p>刚搬到加州、失去原来的保险、结婚、生孩子，这些“人生大事”发生后通常有 60 天的特殊投保期。白卡全年都可以申请。另外，加州居民全年没有保险，报税时可能被罚款。</p>
+</section>
+
+<section id="visit" class="stack">
+  <p class="eyebrow">第四部分</p>
+  <h2>怎么预约看病</h2>
+  <ol class="steps">
+    <li><div><strong>找到预约电话。</strong>在保险卡背面，通常写着 <span class="en">Member Services</span> 或 <span class="en">Appointments</span>。Kaiser 这类保险和医院一体的公司，用它的 App 预约最快。</div></li>
+    <li><div><strong>第一次约“新病人”门诊。</strong>英文叫 <span class="en">new patient appointment</span>。等两三周很常见，所以拿到保险就约，不要等不舒服才约。</div></li>
+    <li><div><strong>要求口译。</strong>你有权要求免费的中文口译，不需要自带家人翻译。预约时就说，诊所会安排电话或视频口译。</div></li>
+    <li><div><strong>带齐东西。</strong>保险卡、带照片的证件、正在吃的药（带药瓶或拍照）、国内的检查报告，最好有一页英文病史摘要。</div></li>
+    <li><div><strong>看专科先问转诊。</strong>HMO 计划要家庭医生开转诊。自己直接去约专科，保险可能不付。</div></li>
+  </ol>
+
+  <h3>三句用得上的英文</h3>
+  <div class="say"><span class="en">I'd like to make a new patient appointment.</span><small>我想约一个新病人门诊。</small></div>
+  <div class="say"><span class="en">I need a Mandarin interpreter, please.</span><small>我需要普通话口译。</small></div>
+  <div class="say"><span class="en">Are you in-network with my insurance?</span><small>你们在我的保险网络内吗？</small></div>
+
+  <h3>不舒服时去哪里</h3>
+  <dl>
+    <div><dt>家庭医生</dt><dd>慢性病、体检、不急的问题。最便宜。</dd></div>
+    <div><dt>急诊诊所<span class="en">Urgent Care</span></dt><dd>发烧、扭伤、小伤口，今天就想看但不危及生命。不用预约，价格和看家庭医生接近。</dd></div>
+    <div><dt>医院急诊<span class="en">Emergency Room</span></dt><dd>胸痛、呼吸困难、大出血、剧烈腹痛伴高烧或皮肤发黄。打 911 或直接去。急诊最贵，铜计划要先付自付额，但真有危险时不要因为钱犹豫。</dd></div>
+  </dl>
+</section>
+
+<section id="china" class="stack">
+  <p class="eyebrow">第五部分</p>
+  <h2>计划回国治疗，或为国内家人咨询</h2>
+  <div class="doctor stack">
+    <h3>刘波 医生</h3>
+    <p>中山大学附属第三医院岭南医院普通外科主任、肝胆胰脾外科主任，中山大学附属第三医院胆石症中心主任。从事肝胆外科三十余年，曾在德国和美国耶鲁大学进修。</p>
+    <p>如果你打算回国做胆结石、胆管结石相关的检查或手术，或者想替国内的父母家人问诊，可以在<strong>抖音 · 小荷健康</strong>平台上向刘波医生发起图文问诊。问诊由国内正规互联网医疗平台提供。</p>
+    <p class="muted">入口：抖音搜索“刘波 胆石症”，进入医生主页后点“问诊”。</p>
+  </div>
+</section>
+
+<footer>
+  <p><strong>说明：</strong>本页是免费科普，不是保险销售，也不构成保险建议、法律建议或医疗建议。本页不推荐任何具体保险计划。选哪个计划，请向 Covered California 认证经纪人或顾问确认。你在美国的身体问题，请找当地持照医生；紧急情况请打 911。</p>
+  <p style="margin-top:10px">数字为 2027 年加州标准计划，核对于 2026 年 11 月 11 日。规则每年会变，以官网为准：</p>
+  <ul>
+    <li><a href="https://www.coveredca.com" target="_blank" rel="noopener">Covered California 官网</a></li>
+    <li><a href="https://www.coveredca.com/enrollment/eligibility/immigrants" target="_blank" rel="noopener">Covered California：移民身份与补助</a></li>
+    <li><a href="https://coveredca.com/consumer-protection/" target="_blank" rel="noopener">Covered California：防诈骗提示</a></li>
+    <li><a href="https://www.dhcs.ca.gov/Medi-Cal/Pages/changes.aspx" target="_blank" rel="noopener">加州卫生服务部：Medi-Cal 变化</a></li>
+  </ul>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var prem=document.getElementById('prem'), tier=document.getElementById('tier'), out=document.getElementById('out');
+  function usd(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+  function run(){
+    var p=parseFloat(prem.value); if(!(p>=0)) p=0;
+    var cap=parseFloat(tier.value), year=p*12;
+    out.innerHTML='一年不看病：<b>'+usd(year)+'</b><br>生大病的最坏情况：<b>'+usd(year+cap)+'</b>（月保费 '+usd(year)+' + 封顶 '+usd(cap)+'）';
+  }
+  prem.addEventListener('input',run); tier.addEventListener('change',run); run();
+})();
+</script>
+</body>
+</html>
