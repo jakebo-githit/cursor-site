@@ -10,6 +10,7 @@ import ScrollToTop from './components/common/ScrollToTop';
 
 // Pages
 import HomePage from './pages/HomePage';
+import OverseasCarePage from './pages/OverseasCarePage';
 import AboutPage from './pages/AboutPage';
 import TechnologyPage from './pages/TechnologyPage';
 
@@ -42,6 +43,7 @@ function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/overseas-care" element={<OverseasCarePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/technology" element={<TechnologyPage />} />
 
