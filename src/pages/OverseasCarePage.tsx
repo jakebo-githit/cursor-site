@@ -73,6 +73,33 @@ export default function OverseasCarePage() {
         </div>
       </div>
     </section>
+
+    <section id="doctor-platforms" className="py-12 md:py-16 bg-white border-y border-gray-200">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+        <p className="text-secondary-600 font-semibold">医生身份与公开信息</p>
+        <h2 className="text-2xl md:text-3xl font-serif font-semibold text-primary-900 mt-2">在这些平台核对刘医生的公开资料</h2>
+        <p className="mt-4 text-gray-700 leading-8 max-w-3xl">刘医生确认，在小荷健康、好大夫在线与百度健康均设有本人医生账号。为了方便核对信息，您可以通过平台站内搜索医生姓名及机构。不同平台的服务范围和适用地区各不相同。</p>
+        <div className="mt-8 grid md:grid-cols-3 gap-5">
+          <article className="rounded-lg bg-gray-50 border border-gray-200 p-6">
+            <h3 className="text-xl font-serif font-semibold text-primary-900">小荷健康 / 抖音</h3>
+            <p className="text-gray-700 mt-3 leading-7">在平台内搜索“微创取石刘波主任”并核对医生认证信息。</p>
+            <p className="text-sm text-gray-500 mt-4">专属主页直达地址待核实，不提供未经验证的链接。</p>
+          </article>
+          <article className="rounded-lg bg-gray-50 border border-gray-200 p-6">
+            <h3 className="text-xl font-serif font-semibold text-primary-900">好大夫在线</h3>
+            <p className="text-gray-700 mt-3 leading-7">搜索“刘波 中山大学附属第三医院”，核对专业经历和平台认证信息。</p>
+            <p className="text-sm text-gray-500 mt-4">已核实公开医生档案；诊疗服务入口与商业跳转需另行合规审核。</p>
+          </article>
+          <article className="rounded-lg bg-gray-50 border border-gray-200 p-6">
+            <h3 className="text-xl font-serif font-semibold text-primary-900">百度健康</h3>
+            <p className="text-gray-700 mt-3 leading-7">搜索“刘波主任 胆结石 中山三院”，注意核对身份与执业机构。</p>
+            <p className="text-sm text-gray-500 mt-4">待核实医生个人服务页面直达地址。</p>
+          </article>
+        </div>
+        <p className="mt-6 text-sm text-gray-600">此处仅作为身份核对与公开资料导航，不代表已获准在海外开展远程诊疗。是否存在具体咨询项目、费用和付款方式，请以平台当时公示及当地适用法规为准。</p>
+      </div>
+    </section>
+
     <section id="contact-overseas" className="py-12 md:py-16 bg-white">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl grid lg:grid-cols-2 gap-10">
         <div>
