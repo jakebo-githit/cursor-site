@@ -486,6 +486,9 @@ function generateSitemap(posts) {
   for (const post of posts) {
     urls.push(`  <url>\n    <loc>${escapeHtml(absoluteUrl(`/blog/${encodeURI(post.id)}`))}</loc>\n    <lastmod>${post.date}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`);
   }
+  // The overseas-care page is a React route. Include it in the sitemap
+  // without replacing it with renderSimplePage(), which would erase its UI.
+  urls.push(`  <url>\n    <loc>${escapeHtml(absoluteUrl('/overseas-care'))}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`);
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
 }
 
