@@ -1,6 +1,7 @@
 # AskDrLiu Website Editing Rules / 网站修改强制规范
 > **READ FIRST before reading, generating, or changing any website code.**
 > 项目所有者规则（2026-11-13）。适用于人类贡献者及所有 AI 编码助手。本文件不是部署授权。
+> **MANDATORY SPEC:** Read [SPECS.md](./SPECS.md) first. The owner-approved production baseline is the original English **green Astro** site (Vercel deployment `dpl_GN9eXverkLr9Vf7eF9XzKEgpMQHJ`), NOT the blue React site currently on this repository's `master`. Production currently serves the restored historic deployment. DO NOT rebuild or deploy this GitHub branch to production until original source is recovered and the owner approves the exact release. Default edit = a minimal new link only; any deviation from original colors/layout/fonts/hero needs multi-stage express owner confirmation.
 
 ## 0A. Primary long-term mission: worldwide visibility for AskDrLiu (2026-11-13)
 - Owner-designated priority: make Liu Bo / AskDrLiu discoverable worldwide as a **Chinese hepatobiliary surgeon** providing authoritative public education about gallbladder stones, common bile duct stones, complex intrahepatic stones, POCS and fluoroscopy-free ERCP when appropriate.

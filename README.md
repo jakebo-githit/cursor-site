@@ -1,3 +1,5 @@
+> **Original green site design is frozen.** Before edits, read [SPECS.md](./SPECS.md). The live approved baseline is the October 24 English-green Vercel snapshot; current repository source differs. Do not deploy `master` to production blindly. Only add an approved link by default; any design change requires repeated explicit owner confirmation.
+
 # AskDrLiu Website / 刘医生个人医学网站
 
 > **IMPORTANT — ALL AI AGENTS & CONTRIBUTORS MUST READ [AGENTS.md](./AGENTS.md) FIRST.**  
