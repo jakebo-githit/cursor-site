@@ -2,6 +2,17 @@
 > **READ FIRST before reading, generating, or changing any website code.**
 > 项目所有者规则（2026-11-13）。适用于人类贡献者及所有 AI 编码助手。本文件不是部署授权。
 
+## 0A. Primary long-term mission: worldwide visibility for AskDrLiu (2026-11-13)
+- Owner-designated priority: make Liu Bo / AskDrLiu discoverable worldwide as a **Chinese hepatobiliary surgeon** providing authoritative public education about gallbladder stones, common bile duct stones, complex intrahepatic stones, POCS and fluoroscopy-free ERCP when appropriate.
+- Audience: overseas Chinese primarily; medical content accurate, humanistic, evidence-based, no claim of foreign clinical licensure.
+- First priorities are **Baidu Search SEO** and **AI search visibility/citation** (ChatGPT Search, Google AI, Bing/Copilot and Chinese AI services), supported by existing physician profiles on Xiaohe Health/Douyin, Haodf and Baidu Health (identity confirmed by owner). Google organic SEO remains important.
+- Before optimizing search, verify current site availability, robots.txt, sitemap.xml, indexability, static/prerendered HTML versus SPA rendering, author credentials, canonical and language handling. Do not invent verification results.
+- Measure actual indexed pages, citation URLs, branded/nonbranded impressions, organic visitors and verified compliant enquiries. Do not claim guaranteed top rankings or AI recommendations.
+- Never pay for fake AI mentions, fake reviews, bulk low-value content or backlinks.
+- Paid medical advertising and direct fee/consultation links require separate legal review, required permissions and explicit owner approval. Personal medical education site is NOT an unauthorized medical advertising publisher.
+- Put research findings, outcomes, errors and corrected procedures into the Google Drive `AskDrLiu Website Building Skill` (v1.1+), using the Ingest → Triage → Draft → Publish → Measure → Learn loop.
+- Strategic operating rule remains: **benchmark mature sites, imitate proven patterns, then innovate**. Preserve original design system and owner approval rules below.
+
 ## 0. 审批是最高优先级 / Owner approval is mandatory
 - **未经网站所有者逐次明确同意，不得合并 PR、推送到主分支、改动线上网站或触发生产部署。**
 - Treat all changes as proposals. Work on a dedicated feature branch, open a **draft PR**, provide a preview and a list of changed files, and obtain explicit owner approval **before merge or production deploy**.
