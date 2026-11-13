@@ -503,6 +503,69 @@ function generateRss(posts) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">\n  <channel>\n    <title>AskDrLiu.com 医学博客</title>\n    <link>${SITE_URL}/blog</link>\n    <description>刘波主任关于胆囊炎、胆囊结石、保胆评估和术后营养恢复的医学博客。</description>\n    <language>zh-CN</language>\n${items}\n  </channel>\n</rss>\n`;
 }
 
+
+/**
+ * A lightweight, crawlable HTML document for a React route.
+ * The React bundle still mounts on #root and takes over when JavaScript runs;
+ * crawlers without JS can read the same core, non-personalized information.
+ * Do not replace site-wide layout or CSS.
+ */
+function renderOverseasCareSeoPage() {
+  const homepage = path.join(DIST_DIR, 'index.html');
+  if (!fs.existsSync(homepage)) return;
+  let html = fs.readFileSync(homepage, 'utf8');
+  const title = '海外华人健康与就医指南 | 胆结石、复杂胆道结石和第二意见常识 | AskDrLiu';
+  const description = '刘波主任介绍海外华人语言沟通、就医等待、胆囊结石、胆总管结石、复杂肝内胆管结石、ERCP与POCS，并解释合规第二意见及来华就医准备。';
+  const canonical = SITE_URL + '/overseas-care';
+  html = html.replace(/<title>[\s\S]*?<\/title>/, '<title>' + escapeHtml(title) + '</title>');
+  html = html.replace(/<meta name="description" content="[^"]*"\s*\/>/, '<meta name="description" content="' + escapeHtml(description) + '" />');
+  html = html.replace(/<link rel="canonical" href="[^"]*"\s*\/>/, '<link rel="canonical" href="' + canonical + '" />');
+  const pageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    name: title,
+    description,
+    url: canonical,
+    inLanguage: 'zh-CN',
+    about: [
+      { '@type': 'MedicalCondition', name: '胆囊结石' },
+      { '@type': 'MedicalCondition', name: '胆总管结石' },
+      { '@type': 'MedicalCondition', name: '肝内胆管结石' }
+    ],
+    author: {
+      '@type': 'Person',
+      name: '刘波',
+      alternateName: 'Liu Bo',
+      jobTitle: '肝胆外科主任医师',
+      affiliation: { '@type': 'Hospital', name: '中山大学附属第三医院岭南医院' }
+    }
+  };
+  html = html.replace('</head>',
+    '<script type="application/ld+json">' + JSON.stringify(pageSchema).replace(/</g, '\\u003c') + '</script>\n</head>');
+  const coreHtml = String.raw`
+    <main class="container mx-auto px-4 py-12">
+      <article lang="zh-CN">
+        <h1>海外华人健康与就医指南：身在海外，看病遇到困难怎么办？</h1>
+        <p>语言沟通困难、专科等待漫长、医疗信息复杂时，先了解可能的就医选择，并向所在地有执业资质的医生获取个体化意见。</p>
+        <h2>常见问题</h2>
+        <p>无法理解医学术语怎么办？等待专科预约时应该准备什么？如何理解检查与治疗选择？如果计划来中国就医，需要怎样准备病历、旅行与返程随访？</p>
+        <h2>刘医生的专业领域</h2>
+        <p>刘波，肝胆外科主任医师，长期关注胆囊结石、胆总管结石、复杂肝内胆管结石、经口胆道镜（POCS）以及ERCP相关技术。无射线操作只适合经临床评估的特定情形，并不意味着所有ERCP均无需透视或保证疗效。</p>
+        <h2>第二医疗意见与费用</h2>
+        <p>本站提供免费的通用医学科普和就医信息。海外就医信息导航仍在筹备中，尚未定价或开通。针对患者个人影像、病历及治疗方案的正式医疗第二意见，须由具备相应资质并符合患者所在地法规的医疗机构受理并报价。</p>
+        <h2>怎样联系及核对医生身份</h2>
+        <p>一般信息联系邮箱：<a href="mailto:askdrliu@askdrliu.com">askdrliu@askdrliu.com</a>。请勿通过普通邮箱发送敏感健康资料、检查影像或身份证件。</p>
+        <p>医生公开档案：<a href="https://www.haodf.com/doctor/242059.html" rel="noopener noreferrer">好大夫在线刘波医生主页</a>。也可在小荷健康、抖音和百度健康站内搜索刘波医生并核实认证身份。具体咨询服务、费用、是否适用于海外患者，以平台和所在地法规为准。</p>
+        <h2>来华就医准备</h2>
+        <p>先由当地医生判断是否适合长途旅行，再联系正规医疗机构了解接诊、正式收费、既往资料要求和返程后的随访计划。个人网站不保证床位、手术时间或治疗结果。</p>
+        <p>本页面仅供医学教育，不构成诊断、处方、个体化治疗建议或跨境远程医疗服务。急症请及时就近就医。</p>
+      </article>
+    </main>
+  `;
+  html = html.replace('<div id="root"></div>', '<div id="root">' + coreHtml + '</div>');
+  writeFileSyncRecursive(path.join(DIST_DIR, 'overseas-care', 'index.html'), html);
+}
+
 function patchHomeIndex() {
   const file = path.join(DIST_DIR, 'index.html');
   if (!fs.existsSync(file)) return;
@@ -540,6 +603,7 @@ function main() {
   }
 
   patchHomeIndex();
+  renderOverseasCareSeoPage();
 
   if (fs.existsSync(ROBOTS_FILE)) {
     writeFileSyncRecursive(path.join(DIST_DIR, 'robots.txt'), fs.readFileSync(ROBOTS_FILE, 'utf8'));
