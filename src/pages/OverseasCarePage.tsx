@@ -26,6 +26,7 @@ export default function OverseasCarePage() {
         <p className="max-w-3xl text-lg md:text-xl text-gray-200 mt-8 leading-relaxed">语言不通、等待时间长、医疗信息难以理解。这里用清晰的中文，帮助你认识疾病、理解医疗选择，并了解合法的第二医疗意见和来华就医路径。</p>
         <div className="mt-8 flex flex-wrap gap-3"><a href="#difficulties" className="rounded-md bg-secondary text-white font-medium hover:bg-secondary-600 px-6 py-3">先了解常见困境</a><a href="#opinions" className="rounded-md border border-white/50 text-white px-6 py-3">第二医疗意见是什么？</a></div>
         <a href="#how-to-start" className="inline-flex mt-4 rounded-md bg-white text-primary-900 font-semibold px-6 py-3 hover:bg-primary-50">了解服务、费用与联系方式 →</a>
+        <a href="#doctor-platforms" className="inline-flex ml-3 mt-4 rounded-md border border-white/60 text-white font-semibold px-6 py-3 hover:bg-primary-700">查看抖音、小荷、百度健康入口 →</a>
         <p className="mt-8 text-sm text-gray-300">医学教育信息，不替代当地医生诊疗。遇到急症，请立即联系所在地急救服务。</p>
       </div>
     </section>
