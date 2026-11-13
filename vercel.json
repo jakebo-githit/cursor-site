@@ -8,5 +8,17 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/patients",
+      "destination": "/overseas-care",
+      "permanent": true
+    },
+    {
+      "source": "/patients/",
+      "destination": "/overseas-care",
+      "permanent": true
+    }
   ]
 }
