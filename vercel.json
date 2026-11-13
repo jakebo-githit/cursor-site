@@ -13,12 +13,12 @@
     {
       "source": "/patients",
       "destination": "/overseas-care",
-      "permanent": true
+      "statusCode": 301
     },
     {
       "source": "/patients/",
       "destination": "/overseas-care",
-      "permanent": true
+      "statusCode": 301
     }
   ]
 }
