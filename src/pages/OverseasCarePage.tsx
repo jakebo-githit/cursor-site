@@ -58,8 +58,8 @@ export default function OverseasCarePage() {
             <p className="text-secondary-600 text-sm font-semibold">02 · 服务方案验证中</p>
             <h3 className="text-xl font-serif font-semibold text-primary-900 mt-2">海外就医信息导航</h3>
             <p className="mt-3 text-gray-600 leading-7">拟包括医疗制度与预约流程说明、通用医疗术语教育、来华就医准备清单。不包括个人诊断、报告判读或治疗方案制定。</p>
-            <p className="font-semibold mt-5 text-primary-800">建议测试价：¥299 / 次</p>
-            <p className="text-xs text-gray-500 mt-2">价格尚未正式启用；具体范围、付款及退款条件确认后才可提供收费服务。</p>
+            <p className="font-semibold mt-5 text-primary-800">费用：尚未定价 / 暂未开通</p>
+            <p className="text-xs text-gray-500 mt-2">服务范围、收费主体、价格、付款及退款规则确认后，才能正式开放。</p>
             <a href="#contact-overseas" className="inline-block mt-4 text-secondary-600 font-medium underline">先了解咨询方式 →</a>
           </article>
           <article className="rounded-lg bg-white border border-primary-100 p-6 shadow-soft">
@@ -87,8 +87,8 @@ export default function OverseasCarePage() {
           </article>
           <article className="rounded-lg bg-gray-50 border border-gray-200 p-6">
             <h3 className="text-xl font-serif font-semibold text-primary-900">好大夫在线</h3>
-            <p className="text-gray-700 mt-3 leading-7">搜索“刘波 中山大学附属第三医院”，核对专业经历和平台认证信息。</p>
-            <p className="text-sm text-gray-500 mt-4">已核实公开医生档案；诊疗服务入口与商业跳转需另行合规审核。</p>
+            <p className="text-gray-700 mt-3 leading-7">可在该平台核对“刘波｜中山大学附属第三医院”的医生认证和公开资料。具体咨询类别、价格与可否面向所在国家的患者提供服务，以平台和当地适用法规为准。</p>
+            <a href="https://www.haodf.com/doctor/242059.html" target="_blank" rel="noopener noreferrer" className="inline-flex mt-4 text-secondary-600 font-medium underline">查看医生公开资料 ↗</a>
           </article>
           <article className="rounded-lg bg-gray-50 border border-gray-200 p-6">
             <h3 className="text-xl font-serif font-semibold text-primary-900">百度健康</h3>
