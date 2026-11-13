@@ -26,6 +26,7 @@ export default function OverseasCarePage() {
         <p className="max-w-3xl text-lg md:text-xl text-gray-200 mt-8 leading-relaxed">语言不通、等待时间长、医疗信息难以理解。这里用清晰的中文，帮助你认识疾病、理解医疗选择，并了解合法的第二医疗意见和来华就医路径。</p>
         <div className="mt-8 flex flex-wrap gap-3"><a href="#difficulties" className="rounded-md bg-secondary text-white font-medium hover:bg-secondary-600 px-6 py-3">先了解常见困境</a><a href="#opinions" className="rounded-md border border-white/50 text-white px-6 py-3">第二医疗意见是什么？</a></div>
         <a href="#how-to-start" className="inline-flex mt-4 rounded-md bg-white text-primary-900 font-semibold px-6 py-3 hover:bg-primary-50">了解服务、费用与联系方式 →</a>
+        <a href="#doctor-platforms" className="inline-flex ml-3 mt-4 rounded-md border border-white/60 text-white font-semibold px-6 py-3 hover:bg-primary-700">查看抖音、小荷、百度健康入口 →</a>
         <p className="mt-8 text-sm text-gray-300">医学教育信息，不替代当地医生诊疗。遇到急症，请立即联系所在地急救服务。</p>
       </div>
     </section>
@@ -83,7 +84,7 @@ export default function OverseasCarePage() {
           <article className="rounded-lg bg-gray-50 border border-gray-200 p-6">
             <h3 className="text-xl font-serif font-semibold text-primary-900">小荷健康 / 抖音</h3>
             <p className="text-gray-700 mt-3 leading-7">在平台内搜索“微创取石刘波主任”并核对医生认证信息。</p>
-            <p className="text-sm text-gray-500 mt-4">专属主页直达地址待核实，不提供未经验证的链接。</p>
+            <a href="https://www.douyin.com/" target="_blank" rel="noopener noreferrer" className="inline-flex mt-4 text-secondary-600 font-medium underline">打开抖音，在应用中搜索医生 ↗</a><a href="https://www.xiaohe.cn/home/studio" target="_blank" rel="noopener noreferrer" className="block mt-3 text-secondary-600 font-medium underline">了解小荷健康医生工作室 ↗</a><p className="text-sm text-gray-500 mt-3">以上是官方平台链接，并非刘医生个人主页直达链接。进入抖音后搜索“微创取石刘波主任”，核对认证资料，再从医生主页进入小荷健康（如该入口已开放）。</p>
           </article>
           <article className="rounded-lg bg-gray-50 border border-gray-200 p-6">
             <h3 className="text-xl font-serif font-semibold text-primary-900">好大夫在线</h3>
@@ -93,7 +94,7 @@ export default function OverseasCarePage() {
           <article className="rounded-lg bg-gray-50 border border-gray-200 p-6">
             <h3 className="text-xl font-serif font-semibold text-primary-900">百度健康</h3>
             <p className="text-gray-700 mt-3 leading-7">搜索“刘波主任 胆结石 中山三院”，注意核对身份与执业机构。</p>
-            <p className="text-sm text-gray-500 mt-4">待核实医生个人服务页面直达地址。</p>
+            <a href="https://health.baidu.com/m/detail/sv_3229457928399422351" target="_blank" rel="noopener noreferrer" className="inline-flex mt-4 text-secondary-600 font-medium underline">查看刘医生发布的百度健康科普内容 ↗</a><p className="text-sm text-gray-500 mt-3">已核实作者署名为“微创取石刘波主任”。这是科普内容链接，并非个人问诊或支付入口。</p>
           </article>
         </div>
         <p className="mt-6 text-sm text-gray-600">此处仅作为身份核对与公开资料导航，不代表已获准在海外开展远程诊疗。是否存在具体咨询项目、费用和付款方式，请以平台当时公示及当地适用法规为准。</p>
