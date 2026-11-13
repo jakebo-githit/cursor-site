@@ -555,7 +555,7 @@ function renderOverseasCareSeoPage() {
         <p>本站提供免费的通用医学科普和就医信息。海外就医信息导航仍在筹备中，尚未定价或开通。针对患者个人影像、病历及治疗方案的正式医疗第二意见，须由具备相应资质并符合患者所在地法规的医疗机构受理并报价。</p>
         <h2>怎样联系及核对医生身份</h2>
         <p>一般信息联系邮箱：<a href="mailto:askdrliu@askdrliu.com">askdrliu@askdrliu.com</a>。请勿通过普通邮箱发送敏感健康资料、检查影像或身份证件。</p>
-        <p>医生公开档案：<a href="https://www.haodf.com/doctor/242059.html" rel="noopener noreferrer">好大夫在线刘波医生主页</a>。也可在小荷健康、抖音和百度健康站内搜索刘波医生并核实认证身份。具体咨询服务、费用、是否适用于海外患者，以平台和所在地法规为准。</p>
+        <p>医生公开档案：<a href="https://www.haodf.com/doctor/242059.html" rel="noopener noreferrer">好大夫在线刘波医生主页</a>。还可访问<a href="https://www.douyin.com/">抖音官方平台</a>，在应用中搜索“微创取石刘波主任”；<a href="https://www.xiaohe.cn/home/studio">小荷健康医生工作室介绍</a>（并非刘医生个人主页）；以及<a href="https://health.baidu.com/m/detail/sv_3229457928399422351">署名为“微创取石刘波主任”的百度健康科普文章</a>（并非问诊入口）。具体咨询服务、费用、是否适用于海外患者，以平台和所在地法规为准。</p>
         <h2>来华就医准备</h2>
         <p>先由当地医生判断是否适合长途旅行，再联系正规医疗机构了解接诊、正式收费、既往资料要求和返程后的随访计划。个人网站不保证床位、手术时间或治疗结果。</p>
         <p>本页面仅供医学教育，不构成诊断、处方、个体化治疗建议或跨境远程医疗服务。急症请及时就近就医。</p>
